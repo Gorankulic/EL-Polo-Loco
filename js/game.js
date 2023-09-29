@@ -52,4 +52,4 @@ window.addEventListener("keyup", (e) => {
 
 
 
-//doso sam do 14 videa drugi dio
+//doso sam do 1 videa dio matematika
