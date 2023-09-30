@@ -57,7 +57,16 @@ class MovableObject {
             this.imageCache[path] = img;
         });
     }
+    hit() {
+        this.energy -= 5;
+        if (this.energy < 0) {
+            this.energy = 0;
+        }
+    }
 
+    isDead() {
+        return this.energy == 0;
+    }
 
     playAnimation(images) {
         let i = this.currentImage % images.length;
