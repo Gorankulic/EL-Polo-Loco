@@ -1,18 +1,10 @@
-class MovableObject {
-    x = 120;
-    y = 280;
-    img;
-    height = 150;
-    width = 100;
-    imageCache = {};
-    currentImage = 0;
+class MovableObject extends DrawableObject {
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
     acceleration = 1;
     energy = 100
     lastHit = 0;
-
 
     applyGravity() {
         setInterval(() => {
@@ -26,14 +18,8 @@ class MovableObject {
         return this.y < 80;
     }
 
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
 
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    }
+
 
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken) {
@@ -51,14 +37,7 @@ class MovableObject {
             this.x < mo.x &&
             this.y < mo.y + mo.height;
     }
-    loadImages(arr) {
-        arr.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            img.style = 'transform: scaleX(-1)';
-            this.imageCache[path] = img;
-        });
-    }
+
     hit() {
         this.energy -= 5;
         if (this.energy < 0) {

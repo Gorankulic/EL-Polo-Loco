@@ -52,4 +52,4 @@ window.addEventListener("keyup", (e) => {
 
 
 
-//doso sam do 15 videa dio matematika
+//doso sam do 17 videa dio matematika
