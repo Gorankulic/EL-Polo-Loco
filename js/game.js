@@ -14,39 +14,56 @@ window.addEventListener("keydown", (e) => {
     if (e.keyCode == 37) {
         // Left arrow key (keyCode 37)
         keyboard.LEFT = true;
-    } else if (e.keyCode == 38) {
+    }
+    if (e.keyCode == 38) {
         // Up arrow key (keyCode 38)
         keyboard.UP = true;
-    } else if (e.keyCode == 39) {
+    }
+    if (e.keyCode == 39) {
         // Right arrow key (keyCode 39)
         keyboard.RIGHT = true;
-    } else if (e.keyCode == 40) {
+    }
+    if (e.keyCode == 40) {
         // Down arrow key (keyCode 40)
         keyboard.DOWN = true;
-    } else if (e.keyCode == 32) {
+    }
+    if (e.keyCode == 32) {
         // Space key (keyCode 32)
         keyboard.SPACE = true;
     }
-    console.log(e);
+    if (e.keyCode == 68) {
+        // Space key (keyCode 32)
+        keyboard.D = true;
+    }
+
 });
 
 window.addEventListener("keyup", (e) => {
     if (e.keyCode == 37) {
         // Left arrow key released
         keyboard.LEFT = false;
-    } else if (e.keyCode == 38) {
+    }
+    if (e.keyCode == 38) {
         // Up arrow key released
         keyboard.UP = false;
-    } else if (e.keyCode == 39) {
+    }
+    if (e.keyCode == 39) {
         // Right arrow key released
         keyboard.RIGHT = false;
-    } else if (e.keyCode == 40) {
+    }
+    if (e.keyCode == 40) {
         // Down arrow key released
         keyboard.DOWN = false;
-    } else if (e.keyCode == 32) {
+    }
+    if (e.keyCode == 32) {
         // Space key released
         keyboard.SPACE = false;
     }
+    if (e.keyCode == 68) {
+        // Space key (keyCode 32)
+        keyboard.D = false;
+    }
+
 });
 
 
