@@ -1,6 +1,6 @@
 class SmallChickens extends MovableObject {
 
-    y = 390;
+    y = 370;
     height = 50;
     width = 40;
 
