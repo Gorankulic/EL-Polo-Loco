@@ -34,7 +34,7 @@ class SmallChickens extends MovableObject {
 
 
         setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING);
+            this.playAnimation(this.RUNNING_IMAGES_FOR_SMALL_CHICKEN);
         }, 100);
     }
 
