@@ -1,5 +1,4 @@
 class StatusBar extends DrawableObject {
-
     IMAGES = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png',
@@ -9,22 +8,16 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png'
     ];
 
-
-
-
-
     constructor() {
         super();
         this.loadImages(this.IMAGES);
 
-        this.setPercentage(100); //this is for health
+        this.setPercentage(100); // This is for health (Das ist für die Gesundheit).
 
-        this.x = 20;
-        this.y = 5;
-        this.width = 150;
-        this.height = 50;
-
-
+        this.x = 20; // Horizontal position (Horizontale Position).
+        this.y = 5; // Vertical position (Vertikale Position).
+        this.width = 150; // Width of the status bar (Breite der Statusleiste).
+        this.height = 50; // Height of the status bar (Höhe der Statusleiste).
     }
 
     setPercentage(percentage) {
@@ -48,6 +41,4 @@ class StatusBar extends DrawableObject {
             return 0;
         }
     }
-
-
 }

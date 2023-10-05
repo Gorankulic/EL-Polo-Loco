@@ -1,9 +1,18 @@
+/* Styles for the body element (Stile für das body-Element) */
+
 body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    /* Use flexbox for layout (Flexbox für das Layout verwenden) */
+    flex-direction: column;
+    /* Arrange child elements in a column (Anordnen von Kind-Elementen in einer Spalte) */
+    align-items: center;
+    /* Center child elements horizontally (Horizontale Zentrierung der Kind-Elemente) */
 }
 
+
+/* Styles for the canvas element (Stile für das canvas-Element) */
+
 canvas {
-  background-color: black;
+    background-color: black;
+    /* Set the background color to black (Hintergrundfarbe auf Schwarz setzen) */
 }
