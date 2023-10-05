@@ -49,9 +49,13 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
+        this.bottleCount = 0; // Initialize bottle count to 0
         this.applyGravity();
 
         this.animate();
+    }
+    collectBottle() {
+        this.bottleCount++; // Increment bottle count when a bottle is collected
     }
 
     animate() {
