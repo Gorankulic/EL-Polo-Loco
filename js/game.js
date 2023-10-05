@@ -65,8 +65,3 @@ window.addEventListener("keyup", (e) => {
     }
 
 });
-
-
-
-
-//doso sam do 17 videa dio matematika

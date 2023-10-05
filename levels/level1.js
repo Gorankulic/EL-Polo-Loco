@@ -3,15 +3,11 @@ const level1 = new Level(
         new Chicken(),
         new Chicken(),
         new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
+
         new SmallChickens(),
         new SmallChickens(),
         new SmallChickens(),
-        new SmallChickens(),
-        new SmallChickens(),
-        new SmallChickens(),
+
 
         new Endboss()
 

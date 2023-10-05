@@ -39,15 +39,41 @@ class World {
     }
 
     checkCollisions() {
+        // Loop through all the enemies in the level
         this.level.enemies.forEach((enemy) => {
+            // Check if the character is colliding with an enemy
             if (this.character.isColliding(enemy)) {
+                // If a collision with an enemy occurs, the character gets hit
                 this.character.hit();
+                // Update the status bar to reflect the character's energy after being hit
                 this.statusBar.setPercentage(this.character.energy);
+            } else {
+                // If the character is not colliding with an enemy, check for collisions with coins
+                this.level.coins.forEach((coin) => {
+                    // Check if the character is colliding with a coin and their energy is less than 100
+                    if (this.character.isColliding(coin) && this.character.energy < 100) {
+                        // Increase the character's energy by 10
+                        this.character.energy += 10;
+                        // Ensure the character's energy doesn't exceed 100
+                        if (this.character.energy > 100) {
+                            this.character.energy = 100;
+                        }
+                        // Update the status bar to reflect the character's new energy
+                        this.statusBar.setPercentage(this.character.energy);
+                        // Remove the collided coin from the level's coins array
+                        const coinIndex = this.level.coins.indexOf(coin);
+                        if (coinIndex !== -1) {
+                            this.level.coins.splice(coinIndex, 1);
+                        }
+                    }
+                });
             }
         });
     }
 
-    draw() {
+
+
+    draw() { //this function draws elements from the game
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
