@@ -97,12 +97,16 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.ctx.translate(-this.camera_x, 0); //status bar rolls back, space for fixed objects
         this.addToMap(this.statusBar);
+        // Draw the bottle status bar
+        this.statusBarForBottle.draw(this.ctx);
         this.ctx.translate(this.camera_x, 0); //status bar rolls forward
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.level.coins);
+
+
 
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
