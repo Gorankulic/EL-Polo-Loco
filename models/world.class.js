@@ -93,13 +93,11 @@ class World {
 
     draw() { //this function draws elements from the game
         // Draw the health status bar at a specific position
-        this.statusBar.x = 30; // Adjust the x-coordinate as needed
-        this.statusBar.y = 0; // Adjust the y-coordinate as needed
+
         this.statusBar.draw(this.ctx);
 
         // Draw the bottle status bar at a different position
-        this.statusBarForBottle.x = 30; // Adjust the x-coordinate as needed
-        this.statusBarForBottle.y = 60; // Adjust the y-coordinate as needed
+
         this.statusBarForBottle.draw(this.ctx);
 
 
