@@ -15,15 +15,22 @@ const level1 = new Level(
 
     [
 
+        new Coins(),
+        new Coins(),
+        new Coins(),
+        new Coins(),
+        new Coins(),
+        new Coins(),
+        new Coins(),
+        new Coins(),
 
-        new Coins(),
-        new Coins(),
-        new Coins(),
-        new Coins(),
-        new Coins(),
-        new Coins(),
-        new Coins(),
-        new Coins()
+    ],
+
+    [
+        new Bottle(),
+        new Bottle(),
+        new Bottle(),
+        new Bottle()
 
     ],
 
@@ -37,7 +44,7 @@ const level1 = new Level(
         new Cloud(),
         new Cloud(),
         new Cloud(),
-        new Cloud(),
+        new Cloud()
 
     ],
 
