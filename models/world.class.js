@@ -63,14 +63,18 @@ class World {
     // Function to handle throwable objects.
     // Funktion zur Verarbeitung werfbarer Objekte.
     checkThrowableObjects() {
-        if (this.keyboard.D) { // Check if the "D" key is pressed.
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-            // Create a new ThrowableObject at a specific position relative to the character.
-            // Erstelle ein neues ThrowableObject an einer bestimmten Position relativ zum Charakter.
-            this.throwableObjects.push(bottle); // Add the created throwable object to the array.
-            // Füge das erstellte werfbare Objekt zum Array hinzu.
+        if (this.keyboard.D && this.character.bottleCount > 0) { // Check if the "D" key is pressed and character has at least one bottle.
+            for (let i = 0; i < this.character.bottleCount; i++) {
+                let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+                // Create a new ThrowableObject at a specific position relative to the character.
+                // Erstelle ein neues ThrowableObject an einer bestimmten Position relativ zum Charakter.
+                this.throwableObjects.push(bottle); // Add the created throwable object to the array.
+                // Füge das erstellte werfbare Objekt zum Array hinzu.
+            }
+            this.character.bottleCount = 0; // Reset the character's bottle count to zero after throwing all collected bottles.
         }
     }
+
 
     // Function to check collisions with enemies and update character's energy.
     // Funktion zur Überprüfung von Kollisionen mit Feinden und Aktualisierung der Energie des Charakters.
