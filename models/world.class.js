@@ -92,6 +92,17 @@ class World {
 
 
     draw() { //this function draws elements from the game
+        // Draw the health status bar at a specific position
+        this.statusBar.x = 30; // Adjust the x-coordinate as needed
+        this.statusBar.y = 0; // Adjust the y-coordinate as needed
+        this.statusBar.draw(this.ctx);
+
+        // Draw the bottle status bar at a different position
+        this.statusBarForBottle.x = 30; // Adjust the x-coordinate as needed
+        this.statusBarForBottle.y = 60; // Adjust the y-coordinate as needed
+        this.statusBarForBottle.draw(this.ctx);
+
+
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
@@ -100,6 +111,7 @@ class World {
         // Draw the bottle status bar
         this.statusBarForBottle.draw(this.ctx);
         this.ctx.translate(this.camera_x, 0); //status bar rolls forward
+
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);

@@ -28,7 +28,7 @@ class StatusBar extends DrawableObject {
         this.setPercentage(100);
         this.setPercentageForBottle(100);
         this.x = 30;
-        this.y = 0;
+        this.y = 10;
         this.width = 200;
         this.height = 60;
     }
