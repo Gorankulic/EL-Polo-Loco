@@ -11,19 +11,14 @@ class BottleBar extends DrawableObject {
 
     constructor() {
         super();
-
         this.loadImages(this.IMAGES_FOR_BOTTLE);
-        this.setPercentageForBottle(100); //this is for health 
+        this.setPercentageForBottle(0); // Initialize bottle percentage to 100 (full)
 
         this.x = 16;
         this.y = 42;
         this.width = 150;
         this.height = 50;
-
-
-
     }
-
 
     setPercentageForBottle(percentage) {
         this.percentageForBottle = percentage;
@@ -32,15 +27,15 @@ class BottleBar extends DrawableObject {
     }
 
     resolveImageIndexForBottle() {
-        if (this.percentageforbottle === 100) {
+        if (this.percentageForBottle === 100) {
             return 5;
-        } else if (this.percentageforbottle > 80) {
+        } else if (this.percentageForBottle > 80) {
             return 4;
-        } else if (this.percentageforbottle > 60) {
+        } else if (this.percentageForBottle > 60) {
             return 3;
-        } else if (this.percentageforbottle > 40) {
+        } else if (this.percentageForBottle > 40) {
             return 2;
-        } else if (this.percentageforbottle > 20) {
+        } else if (this.percentageForBottle > 20) {
             return 1;
         } else {
             return 0;

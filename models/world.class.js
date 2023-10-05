@@ -51,34 +51,33 @@ class World {
 
     // Function to check collisions with coins and update character's energy
     checkCoinCollisions() {
-            this.level.coins.forEach((coin) => {
-                if (this.character.isColliding(coin) && this.character.energy < 100) {
-                    this.character.energy += 10;
-                    if (this.character.energy > 100) {
-                        this.character.energy = 100;
-                    }
-                    this.statusBar.setPercentage(this.character.energy);
-                    const coinIndex = this.level.coins.indexOf(coin);
-                    if (coinIndex !== -1) {
-                        this.level.coins.splice(coinIndex, 1);
-                    }
-                }
-            });
-        }
-        // Function to check collisions with bottles and update character's energy and bottle count
-    checkBottleCollisions() {
-        this.level.bottle.forEach((bottle) => {
-            if (this.character.isColliding(bottle) && this.character.energy < 100) {
-                this.character.energy += 25; // Increase energy by 25 for bottles
+        this.level.coins.forEach((coin) => {
+            if (this.character.isColliding(coin) && this.character.energy < 100) {
+                this.character.energy += 10;
                 if (this.character.energy > 100) {
                     this.character.energy = 100;
                 }
                 this.statusBar.setPercentage(this.character.energy);
+                const coinIndex = this.level.coins.indexOf(coin);
+                if (coinIndex !== -1) {
+                    this.level.coins.splice(coinIndex, 1);
+                }
+            }
+        });
+    }
+    checkBottleCollisions() {
+        this.level.bottle.forEach((bottle) => { // Iterate through bottles
+            if (this.character.isColliding(bottle) && this.character.bottleCount < 100) {
+                this.character.bottleCount += 25; // Increase bottle count by 25 for each bottle collected
+                if (this.character.bottleCount > 100) {
+                    this.character.bottleCount = 100; // Limit bottle count to a maximum of 100
+                }
                 const bottleIndex = this.level.bottle.indexOf(bottle);
                 if (bottleIndex !== -1) {
-                    this.level.bottle.splice(bottleIndex, 1);
-                    this.character.collectBottle(); // Call collectBottle to increment bottle count
+                    this.level.bottle.splice(bottleIndex, 1); // Remove the collected bottle from the array
                 }
+                // Update the bottle status bar here
+                this.statusBarForBottle.setPercentageForBottle(this.character.bottleCount);
             }
         });
     }
@@ -87,6 +86,7 @@ class World {
     checkCollisions() {
         this.checkEnemyCollisions();
         this.checkCoinCollisions();
+        this.checkBottleCollisions();
     }
 
 
