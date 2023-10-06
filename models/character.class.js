@@ -52,6 +52,7 @@ class Character extends MovableObject {
     // Constructor function for creating instances of the Character class.
     // Konstruktorfunktion zur Erstellung von Instanzen der Klasse Character.
     constructor() {
+
         super(); // Call the constructor of the parent class.
 
         // Load the initial image for the character.
