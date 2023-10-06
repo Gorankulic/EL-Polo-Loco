@@ -124,15 +124,34 @@ class World {
     // Function to check collisions with enemies and update character's energy.
     // Funktion zur Überprüfung von Kollisionen mit Feinden und Aktualisierung der Energie des Charakters.
     checkEnemyCollisions() {
+            // Iterate through the enemies in the level.
+            // Iteriere durch die Feinde im Level.
+            this.level.enemies.forEach((enemy) => {
+                // Check if the character is colliding with an enemy.
+                // Überprüfe, ob der Charakter mit einem Feind kollidiert.
+                if (this.character.isColliding(enemy)) {
+                    // Call the character's hit function to handle the collision.
+                    // Rufe die Trefferfunktion des Charakters auf, um die Kollision zu behandeln.
+                    this.character.hit();
+
+                    // Update the health status bar with the character's energy level.
+                    // Aktualisiere die Gesundheitsstatusleiste mit dem Energiepegel des Charakters.
+                    this.statusBar.setPercentage(this.character.energy);
+                }
+            });
+        }
+        // Function to check collisions with enemies and update character's energy.
+        // Funktion zur Überprüfung von Kollisionen mit Feinden und Aktualisierung der Energie des Charakters.
+    checkEnemyCollisionsOnYAxis() { //////////////////////////////////////////////////important////////////////////////////////
         // Iterate through the enemies in the level.
         // Iteriere durch die Feinde im Level.
         this.level.enemies.forEach((enemy) => {
             // Check if the character is colliding with an enemy.
             // Überprüfe, ob der Charakter mit einem Feind kollidiert.
-            if (this.character.isColliding(enemy)) {
+            if (this.character.isCollidingOnYAxis(enemy)) {
                 // Call the character's hit function to handle the collision.
                 // Rufe die Trefferfunktion des Charakters auf, um die Kollision zu behandeln.
-                this.character.hit();
+
 
                 // Update the health status bar with the character's energy level.
                 // Aktualisiere die Gesundheitsstatusleiste mit dem Energiepegel des Charakters.
@@ -207,6 +226,36 @@ class World {
         });
     }
 
+
+    // Function to check if a thrown bottle has hit a chicken.
+    checkBottleChickenCollision() {
+        // Iterate through the throwable objects (bottles).
+        for (let i = 0; i < this.throwableObjects.length; i++) {
+            const bottle = this.throwableObjects[i];
+
+            // Iterate through both big and small chickens.
+            for (let j = 0; j < this.level.enemies.length; j++) {
+                const chicken = this.level.enemies[j];
+
+                // Check if the bottle has hit the chicken on both x and y axes.
+                const xCollision = bottle.x + bottle.width >= chicken.x && bottle.x <= chicken.x + chicken.width;
+                const yCollision = bottle.y + bottle.height >= chicken.y && bottle.y <= chicken.y + chicken.height;
+
+                if (xCollision && yCollision) {
+                    // Remove the bottle from the throwable objects array.
+                    this.throwableObjects.splice(i, 1);
+                    i--; // Decrement i to account for the removed bottle.
+
+                    // Remove the chicken from the enemies array.
+                    this.level.enemies.splice(j, 1);
+                    j--; // Decrement j to account for the removed chicken.
+                }
+            }
+        }
+    }
+
+
+
     // Function to perform collision checks.
     // Funktion zur Durchführung von Kollisionsüberprüfungen.
     checkCollisions() {
@@ -221,6 +270,7 @@ class World {
         // Check collisions with bottles.
         // Überprüfe Kollisionen mit Flaschen.
         this.checkBottleCollisions();
+        this.checkBottleChickenCollision();
     }
 
     // Function to draw elements of the game.

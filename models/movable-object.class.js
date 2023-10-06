@@ -27,10 +27,19 @@ class MovableObject extends DrawableObject {
 
     // Method to check if the object is colliding with another object
     isColliding(mo) {
+            return (
+                this.x + this.width > mo.x &&
+                this.y + this.height > mo.y &&
+                this.x < mo.x + mo.width &&
+                this.y < mo.y + mo.height
+            );
+        }
+        // Method to check if the object is colliding with another object
+    isCollidingOnYAxis(mo) { ///////////////////////////////////////////////////////////important////////////////////////////////
         return (
-            this.x + this.width > mo.x &&
+
             this.y + this.height > mo.y &&
-            this.x < mo.x + mo.width &&
+
             this.y < mo.y + mo.height
         );
     }
