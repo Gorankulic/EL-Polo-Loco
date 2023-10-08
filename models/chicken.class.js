@@ -7,6 +7,8 @@ class Chicken extends MovableObject {
     height = 50;
     width = 40;
 
+
+
     // Define an array of image paths for the walking animation of the chicken.
     // Definiere ein Array von Bildpfaden für die Laufanimation des Huhns.
     IMAGES_WALKING = [

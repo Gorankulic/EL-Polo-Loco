@@ -2,6 +2,10 @@ class SmallChickens extends MovableObject {
     y = 370; // Initial vertical position (Anfangsvertikale Position).
     height = 50; // Height of the small chicken (Höhe des kleinen Huhns).
     width = 40; // Width of the small chicken (Breite des kleinen Huhns).
+    offset = {
+        right: 5,
+        left: 5,
+    }
 
     // Array of images for the running animation of the small chicken (Array von Bildern für die Laufanimation des kleinen Huhns).
     RUNNING_IMAGES_FOR_SMALL_CHICKEN = [

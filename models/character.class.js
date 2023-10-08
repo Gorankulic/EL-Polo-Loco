@@ -8,9 +8,9 @@ class Character extends MovableObject {
     y = 80;
     speed = 10;
     offset = {
-        right: 10,
-        left: 10,
-        bottom: 5
+        right: 47,
+        left: 47,
+        bottom: 25
     }
 
     // Define arrays of image paths for different character animations.

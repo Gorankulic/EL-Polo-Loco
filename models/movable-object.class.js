@@ -34,7 +34,7 @@ class MovableObject extends DrawableObject {
     // Method to check if the object is colliding with another object
     isColliding(mo) {
         return (
-            this.x + this.width > mo.x && this.x < mo.x + mo.width //////////////code baustelle////////////////////////////////
+            this.x + this.width - this.offset.right > mo.x && this.x + this.offset.left < mo.x + mo.width - mo.offset.right
 
         );
     }
