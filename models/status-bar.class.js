@@ -12,12 +12,12 @@ class StatusBar extends DrawableObject {
         super();
         this.loadImages(this.IMAGES);
 
-        this.setPercentage(100); // This is for health (Das ist für die Gesundheit).
+        this.setPercentage(100);
 
-        this.x = 20; // Horizontal position (Horizontale Position).
-        this.y = 5; // Vertical position (Vertikale Position).
-        this.width = 150; // Width of the status bar (Breite der Statusleiste).
-        this.height = 50; // Height of the status bar (Höhe der Statusleiste).
+        this.x = 20;
+        this.y = 5;
+        this.width = 150;
+        this.height = 50;
     }
 
     setPercentage(percentage) {
