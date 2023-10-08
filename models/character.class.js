@@ -7,6 +7,11 @@ class Character extends MovableObject {
     width = 150;
     y = 80;
     speed = 10;
+    offset = {
+        right: 10,
+        left: 10,
+        bottom: 5
+    }
 
     // Define arrays of image paths for different character animations.
     // Definiere Arrays von Bildpfaden für verschiedene Charakteranimationen.

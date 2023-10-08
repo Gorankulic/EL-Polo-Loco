@@ -15,6 +15,12 @@ class MovableObject extends DrawableObject {
             }
         }, 1000 / 25);
     }
+    offset = {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+    }
 
     // Method to check if the object is above the ground (used for jumping)
     isAboveGround() {
@@ -28,10 +34,8 @@ class MovableObject extends DrawableObject {
     // Method to check if the object is colliding with another object
     isColliding(mo) {
         return (
-            this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x + mo.width &&
-            this.y < mo.y + mo.height
+            this.x + this.width > mo.x && this.x < mo.x + mo.width //////////////code baustelle////////////////////////////////
+
         );
     }
 
@@ -42,6 +46,7 @@ class MovableObject extends DrawableObject {
             this.energy = 0;
         } else {
             this.lastHit = new Date().getTime();
+
         }
     }
 

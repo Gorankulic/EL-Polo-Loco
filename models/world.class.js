@@ -84,7 +84,7 @@ class World {
             // Call the checkCollisions function to detect collisions.
             // Rufe die Funktion checkCollisions auf, um Kollisionen zu erkennen.
             this.checkCollisions();
-            this.checkEnemyCollisionsOnYAxis();
+
 
 
             // Call the checkThrowableObjects function to handle throwable objects.
@@ -123,41 +123,32 @@ class World {
         }
     }
 
-    // Function to check collisions with enemies and update character's energy.
     // Funktion zur Überprüfung von Kollisionen mit Feinden und Aktualisierung der Energie des Charakters.
     checkEnemyCollisions() {
-        // Iterate through the enemies in the level.
-        // Iteriere durch die Feinde im Level.
-        this.level.enemies.forEach((enemy) => {
-            // Check if the character is colliding with an enemy.
+        // We will use a standard for loop so we can modify the array while iterating
+        for (let i = 0; i < this.level.enemies.length; i++) {
+            const enemy = this.level.enemies[i];
+
             // Überprüfe, ob der Charakter mit einem Feind kollidiert.
             if (this.character.isColliding(enemy)) {
-                // Call the character's hit function to handle the collision.
                 // Rufe die Trefferfunktion des Charakters auf, um die Kollision zu behandeln.
                 this.character.hit();
 
-                // Update the health status bar with the character's energy level.
                 // Aktualisiere die Gesundheitsstatusleiste mit dem Energiepegel des Charakters.
                 this.statusBar.setPercentage(this.character.energy);
+
+                // Assuming you want to remove the enemy upon collision
+                this.level.enemies.splice(i, 1);
+                i--; // Decrement i to account for the removed enemy.
+
             }
-        });
-    }
-
-
-    checkEnemyCollisionsOnYAxis() { ///////////////////fehler könnte hier liegen/////////////////
-        // Check if there are enemies in the level.
-        if (this.level.enemies.length > 0) {
-            // Iterate through the enemies in the level.
-            this.level.enemies.forEach((enemy, index) => {
-                // Check if the character is colliding with an enemy on the Y-axis.
-                if (this.character.y + this.character.height >= enemy.y &&
-                    this.character.y <= enemy.y + enemy.height) {
-                    // Remove the enemy from the enemies array.
-                    this.level.enemies.splice(index, 1);
-                }
-            });
+            // If you had logic to remove enemies when there's no collision, it would go here.
+            // However, it's unusual to remove enemies simply because they aren't colliding with the character.
         }
     }
+
+
+
 
     // Function to check collisions with coins and update character's energy.
     // Funktion zur Überprüfung von Kollisionen mit Münzen und Aktualisierung der Energie des Charakters.
@@ -261,7 +252,7 @@ class World {
         // Check collisions with enemies.
         // Überprüfe Kollisionen mit Feinden.
         this.checkEnemyCollisions();
-        this.checkEnemyCollisionsOnYAxis();
+
 
         // Check collisions with coins.
         // Überprüfe Kollisionen mit Münzen.
