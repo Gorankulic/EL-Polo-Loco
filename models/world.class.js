@@ -49,13 +49,14 @@ class World {
     checkEnemyCollisions() {
         for (let i = 0; i < this.level.enemies.length; i++) {
             const enemy = this.level.enemies[i];
-            if (this.character.isColliding(enemy)) { // Check for horizontal collision
+            if (this.character.isColliding(enemy) && this.character.speed > 0) { // Check for horizontal collision
                 this.character.hit(); // Character gets hit
                 this.statusBar.setPercentage(this.character.energy); // Update character's health display
 
                 if (this.character.speedY <= 0) { // Check if character is moving downwards
-                    if (this.character.isAboveGround(enemy) && !this.character.isCollidingY(enemy)) { // Check for vertical collision
+                    if (this.character.isAboveGround(enemy) && !this.character.isCollidingY(enemy) && this.character.speedY < 0) { // Check for vertical collision
                         if (i >= 0 && i < this.level.enemies.length) {
+
                             this.level.enemies.splice(i, 1);
                             i--; // Decrement i to account for the removed enemy
                         }
