@@ -52,12 +52,16 @@ class World {
                 this.character.hit(); // Character gets hit
                 this.statusBar.setPercentage(this.character.energy); // Update character's health display
 
-                if (this.character.isCollidingY(enemy) || this.character.speedY < 0) { // Check for vertical collision or character moving upwards
-                    if (i >= 0 && i < this.level.enemies.length) {
+                if (this.character.isAboveGround(enemy)) { // Check for vertical collision or character moving upwards
+
+                    if (i >= 0 && i < this.level.enemies.length && this.character.y < 80) {
+
                         this.character.secondJump(enemy);
                         this.level.enemies.splice(i, 1);
                         i--; // Decrement i to account for the removed enemy
                     }
+
+
                 }
             }
         });
