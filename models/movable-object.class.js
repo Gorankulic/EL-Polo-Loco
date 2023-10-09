@@ -34,6 +34,7 @@ class MovableObject extends DrawableObject {
         return (
             this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
             this.x + this.offset.left < mo.x + mo.width - mo.offset.right);
+
     }
     isCollidingY(mo) {
         return (

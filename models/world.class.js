@@ -26,7 +26,7 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowableObjects();
-        }, 200);
+        }, 1000 / 30);
     }
 
     checkThrowableObjects() {
@@ -53,15 +53,16 @@ class World {
                 this.character.hit(); // Character gets hit
                 this.statusBar.setPercentage(this.character.energy); // Update character's health display
 
-                if (this.character.speedY <= 0) { // Check if character is moving downwards
-                    if (this.character.isAboveGround(enemy) && !this.character.isCollidingY(enemy) && this.character.speedY < 0) { // Check for vertical collision
-                        if (i >= 0 && i < this.level.enemies.length) {
 
-                            this.level.enemies.splice(i, 1);
-                            i--; // Decrement i to account for the removed enemy
-                        }
+                if (this.character.isAboveGround(enemy) && !this.character.isCollidingY(enemy) && this.character.speedY < 0) { // Check for vertical collision
+                    if (i >= 0 && i < this.level.enemies.length) {
+                        this.character.secondJump();
+                        this.level.enemies.splice(i, 1);
+                        i--; // Decrement i to account for the removed enemy
+
                     }
                 }
+
             }
         }
     }
