@@ -49,20 +49,23 @@ class World {
     checkEnemyCollisions() {
         this.level.enemies.forEach((enemy, i) => {
             if (this.character.isColliding(enemy)) {
-                this.character.hit(); // Character gets hit
-                this.statusBar.setPercentage(this.character.energy); // Update character's health display
+                this.character.hit(); // Charakter wird getroffen
+                this.statusBar.setPercentage(this.character.energy); // Aktualisiere die Anzeige der Charaktergesundheit
 
-                // Remove the enemy from the array
+                // Entferne den Feind aus dem Array
                 this.level.enemies.splice(i, 1);
-                i--; // Decrement i to account for the removed enemy
+                i--; // Verringere i, um den entfernten Feind zu berücksichtigen
             }
 
-            if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY < 10) {
-                this.character.secondJump(); // Call the secondJump function
+            if (this.character.isColliding(enemy) && this.character.isAboveGround()) {
 
-                // Remove the enemy from the array
+                this.character.secondJump(this.character); // Rufe die Funktion "secondJump" auf
+
+
+
+                // Entferne den Feind aus dem Array
                 this.level.enemy.splice(i, 1);
-                i--; // Decrement i to account for the removed enemy
+                i--; // Verringere i, um den entfernten Feind zu berücksichtigen
             }
         });
     }
@@ -72,7 +75,7 @@ class World {
 
     checkCoinCollisions() {
         this.level.coins.forEach((coin) => {
-            if (this.character.isColliding(coin) && this.character.energy < 100) {
+            if (this.character.isColliding(coin) && this.character.energy < 100 && this.character.y == 80) {
                 this.character.energy += 10;
                 if (this.character.energy > 100) {
                     this.character.energy = 100;
