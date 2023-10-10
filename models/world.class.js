@@ -45,22 +45,31 @@ class World {
             this.statusBarForBottle.setPercentageForBottle(this.character.bottleCount);
         }
     }
-
     checkEnemyCollisions() {
         this.level.enemies.forEach((enemy, i) => {
             if (this.character.isColliding(enemy)) {
                 if (!this.character.isAboveGround()) {
-                    this.character.hit(); // Character gets hit only if not above the ground
+                    // Character gets hit only if not above the ground
+                    this.character.hit();
                     this.statusBar.setPercentage(this.character.energy); // Update character's health display
-                }
+                } else {
+                    // Remove the enemy from the array
+                    this.level.enemies.splice(i, 1);
+                    i--; // Decrement i to account for the removed enemy
 
-                // Remove the enemy from the array
-                this.level.enemies.splice(i, 1);
-                i--; // Decrement i to account for the removed enemy
-                this.character.secondJump(); //
+                    if (this.character.energy < 100) {
+                        this.character.energy += 25; // Add 25 points to character's health
+                        this.statusBar.setPercentage(this.character.energy); // Update character's health display
+                        // Perform a second jump
+                        this.character.secondJump();
+                    }
+
+
+                }
             }
         });
     }
+
 
 
 
@@ -76,6 +85,7 @@ class World {
                 const coinIndex = this.level.coins.indexOf(coin);
                 if (coinIndex !== -1) {
                     this.level.coins.splice(coinIndex, 1);
+                    this.statusBar.setPercentage(this.character.energy);
                 }
             }
         });
