@@ -5,7 +5,7 @@ class SmallChickens extends MovableObject {
     offset = {
         right: 5,
         left: 5,
-        top: 5
+        top: 150
     }
 
     RUNNING_IMAGES_FOR_SMALL_CHICKEN = [

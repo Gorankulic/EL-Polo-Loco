@@ -52,17 +52,17 @@ class World {
                 this.character.hit(); // Character gets hit
                 this.statusBar.setPercentage(this.character.energy); // Update character's health display
 
-                if (this.character.isAboveGround(enemy)) { // Check for vertical collision or character moving upwards
+                // Remove the enemy from the array
+                this.level.enemies.splice(i, 1);
+                i--; // Decrement i to account for the removed enemy
+            }
 
-                    if (i >= 0 && i < this.level.enemies.length && this.character.y < 80) {
+            if (this.character.isColliding(enemy) && this.character.isAboveGround() && this.character.speedY < 10) {
+                this.character.secondJump(); // Call the secondJump function
 
-                        this.character.secondJump(enemy);
-                        this.level.enemies.splice(i, 1);
-                        i--; // Decrement i to account for the removed enemy
-                    }
-
-
-                }
+                // Remove the enemy from the array
+                this.level.enemy.splice(i, 1);
+                i--; // Decrement i to account for the removed enemy
             }
         });
     }
