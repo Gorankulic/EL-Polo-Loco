@@ -49,17 +49,15 @@ class World {
     checkEnemyCollisions() {
         this.level.enemies.forEach((enemy, i) => {
             if (this.character.isColliding(enemy)) {
-                this.character.hit(); // Charakter wird getroffen
-                this.statusBar.setPercentage(this.character.energy); // Aktualisiere die Anzeige der Charaktergesundheit
-                // Entferne den Feind aus dem Array
+                if (!this.character.isAboveGround()) {
+                    this.character.hit(); // Character gets hit only if not above the ground
+                    this.statusBar.setPercentage(this.character.energy); // Update character's health display
+                }
+
+                // Remove the enemy from the array
                 this.level.enemies.splice(i, 1);
-                i--; // Verringere i, um den entfernten Feind zu berücksichtigen
-            }
-            if (this.character.isColliding(enemy) && this.character.isAboveGround()) {
-                this.character.secondJump(this.character); // Rufe die Funktion "secondJump" auf
-                // Entferne den Feind aus dem Array
-                this.level.enemy.splice(i, 1);
-                i--; // Verringere i, um den entfernten Feind zu berücksichtigen
+                i--; // Decrement i to account for the removed enemy
+                this.character.secondJump(); //
             }
         });
     }
