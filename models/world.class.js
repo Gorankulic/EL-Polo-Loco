@@ -51,18 +51,12 @@ class World {
             if (this.character.isColliding(enemy)) {
                 this.character.hit(); // Charakter wird getroffen
                 this.statusBar.setPercentage(this.character.energy); // Aktualisiere die Anzeige der Charaktergesundheit
-
                 // Entferne den Feind aus dem Array
                 this.level.enemies.splice(i, 1);
                 i--; // Verringere i, um den entfernten Feind zu berücksichtigen
             }
-
             if (this.character.isColliding(enemy) && this.character.isAboveGround()) {
-
                 this.character.secondJump(this.character); // Rufe die Funktion "secondJump" auf
-
-
-
                 // Entferne den Feind aus dem Array
                 this.level.enemy.splice(i, 1);
                 i--; // Verringere i, um den entfernten Feind zu berücksichtigen
