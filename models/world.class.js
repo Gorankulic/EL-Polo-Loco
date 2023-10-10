@@ -58,7 +58,7 @@ class World {
                     i--; // Decrement i to account for the removed enemy
 
                     if (this.character.energy < 100) {
-                        this.character.energy += 25; // Add 25 points to character's health
+                        this.character.energy += 10; // Add 10 points to character's health
                         this.statusBar.setPercentage(this.character.energy); // Update character's health display
                         // Perform a second jump
                         this.character.secondJump();
@@ -76,7 +76,7 @@ class World {
 
     checkCoinCollisions() {
         this.level.coins.forEach((coin) => {
-            if (this.character.isColliding(coin) && this.character.energy < 100 && this.character.y == 80) {
+            if (this.character.isColliding(coin) && this.character.energy < 100) {
                 this.character.energy += 10;
                 if (this.character.energy > 100) {
                     this.character.energy = 100;
@@ -85,7 +85,7 @@ class World {
                 const coinIndex = this.level.coins.indexOf(coin);
                 if (coinIndex !== -1) {
                     this.level.coins.splice(coinIndex, 1);
-                    this.statusBar.setPercentage(this.character.energy);
+
                 }
             }
         });
