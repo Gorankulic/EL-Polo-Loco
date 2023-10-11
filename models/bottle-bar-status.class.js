@@ -1,5 +1,4 @@
 class BottleBar extends DrawableObject {
-
     IMAGES_FOR_BOTTLE = [
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png',
