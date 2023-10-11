@@ -38,25 +38,6 @@ class MovableObject extends DrawableObject {
             this.y < mo.y + mo.height;
     }
 
-
-
-
-
-    // isColliding(mo) { 1 try
-    // return (
-    //  this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-    // this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
-    //this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
-    //this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
-
-    // new stuff  bottle.x + bottle.width >= chicken.x && bottle.x <= chicken.x + chicken.width &&
-    // new stuff   bottle.y + bottle.height >= chicken.y && bottle.y <= chicken.y + chicken.height
-    //  );
-    //}
-
-
-
-
     hit() {
         this.energy -= 5;
         if (this.energy < 0) {

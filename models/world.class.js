@@ -43,6 +43,8 @@ class World {
             }
 
             this.statusBarForBottle.setPercentageForBottle(this.character.bottleCount);
+
+
         }
     }
 
