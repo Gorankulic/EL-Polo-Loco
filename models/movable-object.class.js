@@ -31,21 +31,30 @@ class MovableObject extends DrawableObject {
     }
 
 
-
-
-    isCollidingX(mo) {
-        let leftEdgeWithin = this.x + this.offset.left < mo.x + mo.width - mo.offset.right;
-        let rightEdgeWithin = this.x + this.width - this.offset.right > mo.x + mo.offset.left;
-
-        return leftEdgeWithin && rightEdgeWithin;
+    isColliding(mo) {
+        return this.x + this.width > mo.x &&
+            this.y + this.height > mo.y &&
+            this.x < mo.x &&
+            this.y < mo.y + mo.height;
     }
 
-    isCollidingY(mo) {
-        let topEdgeWithin = this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
-        let bottomEdgeWithin = this.y + this.height - this.offset.bottom > mo.y + mo.offset.top;
 
-        return topEdgeWithin && bottomEdgeWithin;
-    }
+
+
+
+    // isColliding(mo) { 1 try
+    // return (
+    //  this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+    // this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+    //this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+    //this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
+
+    // new stuff  bottle.x + bottle.width >= chicken.x && bottle.x <= chicken.x + chicken.width &&
+    // new stuff   bottle.y + bottle.height >= chicken.y && bottle.y <= chicken.y + chicken.height
+    //  );
+    //}
+
+
 
 
     hit() {

@@ -45,42 +45,39 @@ class World {
             this.statusBarForBottle.setPercentageForBottle(this.character.bottleCount);
         }
     }
+
+
+
     checkEnemyCollisions() {
         this.level.enemies.forEach((enemy, i) => {
+            if (this.character.isColliding(enemy)) {
 
-            // Check if the character is colliding with the enemy on the x-axis.
-            if (this.character.isCollidingX(enemy)) {
+                this.character.hit(); // Character gets hit only if not above the ground
+                this.statusBar.setPercentage(this.character.energy); // Update character's health display
 
-                // Check if the character is above the enemy and moving downwards.
-                if (this.character.isCollidingY(enemy) && this.character.isAboveGround() && this.character.speedY < 0) {
-                    // Remove the enemy from the array because the character "eliminated" it.
+                if (this.character.isAboveGround()) {
+
+
+                    // Remove the enemy from the array
                     this.level.enemies.splice(i, 1);
-                    i--; // Decrement i to account for the removed enemy
 
-                    // Add energy to the character if it's less than 100.
+                    // Decrement i to account for the removed enemy
+                    i--;
+                    this.character.secondJump();
+
                     if (this.character.energy < 100) {
-                        this.character.energy += 10;
+                        this.character.energy += 10; // Add 25 points to character's health
                         this.statusBar.setPercentage(this.character.energy); // Update character's health display
-                        this.character.secondJump(); // Perform a second jump
                     }
-                }
-                // The character collided with the enemy from the side.
-                else if (!this.character.isCollidingY(enemy)) {
-                    this.character.hit();
-                    this.statusBar.setPercentage(this.character.energy); // Update character's health display
                 }
             }
         });
     }
 
 
-
-
-
-
     checkCoinCollisions() {
         this.level.coins.forEach((coin) => {
-            if (this.character.isCollidingX(coin) && this.character.energy < 100) {
+            if (this.character.isColliding(coin) && this.character.energy < 100) {
                 this.character.energy += 10;
                 if (this.character.energy > 100) {
                     this.character.energy = 100;
@@ -97,7 +94,7 @@ class World {
 
     checkBottleCollisions() {
         this.level.bottle.forEach((bottle) => {
-            if (this.character.isCollidingX(bottle) && this.character.bottleCount < 100) {
+            if (this.character.isColliding(bottle) && this.character.bottleCount < 100) {
                 this.character.bottleCount += 25;
                 if (this.character.bottleCount > 100) {
                     this.character.bottleCount = 100;
