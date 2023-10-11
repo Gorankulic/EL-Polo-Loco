@@ -61,6 +61,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_HURT);
 
         this.bottleCount = 0;
+        this.coinCount = 0;
         this.applyGravity();
 
         this.animate();

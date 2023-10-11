@@ -75,20 +75,15 @@ class World {
 
     checkCoinCollisions() {
         this.level.coins.forEach((coin) => {
-            if (this.character.isColliding(coin) && this.character.energy < 100) {
-                this.character.energy += 10;
-                if (this.character.energy > 100) {
-                    this.character.energy = 100;
-                }
-                this.statusBar.setPercentage(this.character.energy);
+            if (this.character.isColliding(coin)) {
+                this.character.coinCount += 25;
                 const coinIndex = this.level.coins.indexOf(coin);
-                if (coinIndex !== -1) {
-                    this.level.coins.splice(coinIndex, 1);
-
-                }
+                this.level.coins.splice(coinIndex, 1);
+                this.coinBar.setPercentageForCoins(this.character.coinCount);
             }
         });
     }
+
 
     checkBottleCollisions() {
         this.level.bottle.forEach((bottle) => {

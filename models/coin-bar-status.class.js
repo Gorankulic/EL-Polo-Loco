@@ -25,7 +25,7 @@ class CoinBar extends DrawableObject {
     }
 
     resolveImageIndexForCoins() {
-        if (this.percentageForCoins === 100) {
+        if (this.percentageForCoins === 100 || this.percentageForCoins >= 100) {
             return 5;
 
         } else if (this.percentageForCoins > 80) {
