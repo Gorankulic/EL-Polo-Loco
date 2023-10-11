@@ -1,5 +1,3 @@
-// Define a class named Bottle that extends the MovableObject class.
-// Definiere eine Klasse namens Bottle, die die Klasse MovableObject erweitert.
 class Bottle extends MovableObject {
 
     y = 370;

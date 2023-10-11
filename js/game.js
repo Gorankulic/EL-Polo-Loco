@@ -26,7 +26,7 @@ window.addEventListener("keydown", (e) => {
     if (e.keyCode == 68) {
         setTimeout(() => {
             keyboard.D = true;
-        }, 1000);
+        }, 500);
 
     }
 });
@@ -50,5 +50,5 @@ window.addEventListener("keyup", (e) => {
     if (e.keyCode == 68) {}
     setTimeout(() => {
         keyboard.D = false;
-    }, 1000);
+    }, 500);
 });

@@ -7,6 +7,7 @@ class World {
     camera_x = 0;
     statusBar = new StatusBar();
     statusBarForBottle = new BottleBar();
+
     throwableObjects = [];
 
     constructor(canvas, keyboard) {
@@ -25,8 +26,11 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisions();
+
+        }, 1000 / 60);
+        setInterval(() => {
             this.checkThrowableObjects();
-        }, 1000 / 30);
+        }, 1000 / 10);
     }
 
     checkThrowableObjects() {
