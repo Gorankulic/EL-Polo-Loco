@@ -2,8 +2,17 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    background-size: cover;
+    margin: 0;
+    /* margin-right: 0; */
 }
 
 canvas {
     background-color: black;
+}
+
+.game-div {
+    position: absolute;
+    text-align: center;
 }
