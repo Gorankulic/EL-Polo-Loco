@@ -3,9 +3,22 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-size: cover;
+    background-size: contain;
     margin: 0;
     /* margin-right: 0; */
+    height: 100vh;
+    /* Set the body height to 100% of the viewport height */
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* object-fit: cover; */
+    /* z-index: -1; */
+    /* Remove or set z-index to 0 or greater */
 }
 
 canvas {
@@ -13,6 +26,7 @@ canvas {
 }
 
 .game-div {
-    position: absolute;
+    position: relative;
+    /* To position this relative to the body */
     text-align: center;
 }
