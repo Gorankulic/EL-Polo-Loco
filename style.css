@@ -41,25 +41,65 @@ canvas {
     margin-top: -70px;
 }
 
+
+/* Right Button */
+
 .right-button {
     transform: rotate(360deg);
     width: 60px;
     opacity: 0.5;
+    cursor: pointer;
+    transition: border-color 0.2s;
 }
+
+.right-button:hover {
+    /* Add hover styles here */
+    opacity: 1;
+}
+
+
+/* Left Button */
 
 .left-button {
     transform: rotate(180deg);
     width: 60px;
     opacity: 0.5;
+    cursor: pointer;
+    transition: border-color 0.2s;
 }
+
+.left-button:hover {
+    /* Add hover styles here */
+    opacity: 1;
+}
+
+
+/* Jump Button */
 
 .jump-button {
     transform: rotate(-90deg);
     width: 60px;
     opacity: 0.5;
+    cursor: pointer;
+    transition: border-color 0.2s;
 }
+
+.jump-button:hover {
+    /* Add hover styles here */
+    opacity: 1;
+}
+
+
+/* Throw Button */
 
 .throw-button {
     width: 60px;
     opacity: 0.5;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.throw-button:hover {
+    /* Add hover styles here */
+    opacity: 1;
 }
