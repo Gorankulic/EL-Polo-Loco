@@ -27,6 +27,39 @@ canvas {
 
 .game-div {
     position: relative;
-    /* To position this relative to the body */
     text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.bottom-control-bar {
+    display: flex;
+    /* flex-direction: column; */
+    width: 100%;
+    justify-content: space-around;
+    margin-top: -70px;
+}
+
+.right-button {
+    transform: rotate(360deg);
+    width: 60px;
+    opacity: 0.5;
+}
+
+.left-button {
+    transform: rotate(180deg);
+    width: 60px;
+    opacity: 0.5;
+}
+
+.jump-button {
+    transform: rotate(-90deg);
+    width: 60px;
+    opacity: 0.5;
+}
+
+.throw-button {
+    width: 60px;
+    opacity: 0.5;
 }
