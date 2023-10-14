@@ -14,98 +14,97 @@ class Keyboard {
     }
 
     bindBtsPressEvents() {
+        // For the Left button
         document.getElementById('btnLeft').addEventListener('touchstart', (e) => {
             e.preventDefault();
             this.LEFT = true;
         });
-
         document.getElementById('btnLeft').addEventListener('touchend', (e) => {
             e.preventDefault();
             this.LEFT = false;
-        })
+        });
+
+        // For the Right button
         document.getElementById('btnRight').addEventListener('touchstart', (e) => {
             e.preventDefault();
             this.RIGHT = true;
         });
-
         document.getElementById('btnRight').addEventListener('touchend', (e) => {
             e.preventDefault();
             this.RIGHT = false;
-        })
-
-        document.getElementById('btnJump').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.SPACE = true;
         });
 
+        // For the Jump button
+        document.getElementById('btnJump').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            this.SPACE = true; // Assuming SPACE is used for jump in keyboard controls
+        });
         document.getElementById('btnJump').addEventListener('touchend', (e) => {
             e.preventDefault();
             this.SPACE = false;
-        })
-
-        document.getElementById('btnThrow').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.D = true;
         });
 
+        // For the Throw button
+        document.getElementById('btnThrow').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            this.D = true; // Assuming D is used for throw in keyboard controls
+        });
         document.getElementById('btnThrow').addEventListener('touchend', (e) => {
             e.preventDefault();
             this.D = false;
-        })
-
+        });
     }
 
     bindKeyPressEvents() {
-
-
+        // Keyboard controls
         window.addEventListener("keydown", (e) => {
-            if (e.keyCode == 37) {
-                keyboard.LEFT = true;
-            }
-            if (e.keyCode == 38) {
-                keyboard.UP = true;
-            }
-            if (e.keyCode == 39) {
-                keyboard.RIGHT = true;
-            }
-            if (e.keyCode == 40) {
-                keyboard.DOWN = true;
-            }
-            if (e.keyCode == 32) {
-                keyboard.SPACE = true;
-            }
-            if (e.keyCode == 68) {
-                setTimeout(() => {
-                    keyboard.D = true;
-                }, 500);
-
+            switch (e.keyCode) {
+                case 37:
+                    this.LEFT = true;
+                    break;
+                case 38:
+                    this.UP = true;
+                    break;
+                case 39:
+                    this.RIGHT = true;
+                    break;
+                case 40:
+                    this.DOWN = true;
+                    break;
+                case 32:
+                    this.SPACE = true;
+                    break;
+                case 68:
+                    setTimeout(() => {
+                        this.D = true;
+                    }, 500);
+                    break;
             }
         });
 
         window.addEventListener("keyup", (e) => {
-            if (e.keyCode == 37) {
-                keyboard.LEFT = false;
+            switch (e.keyCode) {
+                case 37:
+                    this.LEFT = false;
+                    break;
+                case 38:
+                    this.UP = false;
+                    break;
+                case 39:
+                    this.RIGHT = false;
+                    break;
+                case 40:
+                    this.DOWN = false;
+                    break;
+                case 32:
+                    this.SPACE = false;
+                    break;
+                case 68:
+                    setTimeout(() => {
+                        this.D = false;
+                    }, 500);
+                    break;
             }
-            if (e.keyCode == 38) {
-                keyboard.UP = false;
-            }
-            if (e.keyCode == 39) {
-                keyboard.RIGHT = false;
-            }
-            if (e.keyCode == 40) {
-                keyboard.DOWN = false;
-            }
-            if (e.keyCode == 32) {
-                keyboard.SPACE = false;
-            }
-            if (e.keyCode == 68) {}
-            setTimeout(() => {
-                keyboard.D = false;
-            }, 500);
         });
-
     }
-
-
-
 }
