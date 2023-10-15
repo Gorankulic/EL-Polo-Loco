@@ -87,11 +87,12 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_IDLE);
+        this.loadImages(this.IMAGES_SLEEPING);
 
         this.bottleCount = 0;
         this.coinCount = 0;
         this.applyGravity();
-
+        this.lastMovedTimestamp = new Date().getTime(); // Set the initial timestamp
         this.animate();
     }
 
@@ -101,6 +102,7 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => {
+            // Handle movement and sound effects
             this.walking_sound.pause();
 
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -111,8 +113,8 @@ class Character extends MovableObject {
             }
 
             if (this.world.keyboard.LEFT && this.x > 0) {
-                this.walking_sound.play();
                 this.moveLeft();
+                this.walking_sound.play();
                 this.otherDirection = true;
                 this.lastMovedTimestamp = new Date().getTime();
             }
@@ -126,42 +128,26 @@ class Character extends MovableObject {
         }, 1000 / 60);
 
         setInterval(() => {
+            // Handle animation states
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
-            } else {
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimation(this.IMAGES_WALKING);
-                }
-            }
-        }, 50);
-
-        // Separated setInterval for idle animation with a slower rate
-        setInterval(() => {
-            if (this.isBored()) {
-                this.playAnimation(this.IMAGES_IDLE);
-            }
-        }, 5000); // You can adjust this value (200ms) to make the idle animation even slower.
-
-        setInterval(() => {
-            if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
+            } else if (this.isSleeping()) {
+                this.playAnimation(this.IMAGES_SLEEPING);
             } else if (this.isBored()) {
                 this.playAnimation(this.IMAGES_IDLE);
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-            } else if (this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMPING);
             } else {
+                // Default walking animation if character is moving left or right
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     this.playAnimation(this.IMAGES_WALKING);
                 }
             }
         }, 50);
     }
+
 
     jump() {
         this.speedY = 16;
@@ -172,6 +158,10 @@ class Character extends MovableObject {
     isBored() {
         const currentTime = new Date().getTime();
         return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 3000;
+    }
+    isSleeping() {
+        const currentTime = new Date().getTime();
+        return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 5000;
     }
 
 }
