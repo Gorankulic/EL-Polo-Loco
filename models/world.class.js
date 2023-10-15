@@ -17,6 +17,9 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        // Bind fullscreen toggle to button click
+        const btn = document.querySelector('.full-screen-button');
+        btn.addEventListener('click', this.toggleFullScreen.bind(this));
     }
 
     setWorld() {
@@ -174,6 +177,31 @@ class World {
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
+    }
+    toggleFullScreen() {
+        if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+            // Enter fullscreen mode
+            if (this.canvas.requestFullscreen) {
+                this.canvas.requestFullscreen();
+            } else if (this.canvas.msRequestFullscreen) {
+                this.canvas.msRequestFullscreen();
+            } else if (this.canvas.mozRequestFullScreen) {
+                this.canvas.mozRequestFullScreen();
+            } else if (this.canvas.webkitRequestFullscreen) {
+                this.canvas.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+        } else {
+            // Exit fullscreen mode
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
     }
 
 

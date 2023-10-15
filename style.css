@@ -17,6 +17,10 @@ body {
     object-fit: cover;
 }
 
+d-none {
+    display: none;
+}
+
 canvas {
     background-color: black;
 }
@@ -57,6 +61,7 @@ canvas {
     display: flex;
     width: 100%;
     justify-content: space-around;
+    display: none;
 }
 
 .on-display-icons {
@@ -175,7 +180,7 @@ canvas {
         text-align: center;
         display: flex;
         flex-direction: column;
-        width: 100vw;
+        /* width: 100vw; */
         /* height: 100vh; */
     }
     .background {
