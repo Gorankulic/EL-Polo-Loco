@@ -158,7 +158,7 @@ class Character extends MovableObject {
     }
     isBored() {
         const currentTime = new Date().getTime();
-        return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 3000;
+        return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 500;
     }
     isSleeping() {
             const currentTime = new Date().getTime();
