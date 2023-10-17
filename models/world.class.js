@@ -39,7 +39,7 @@ class World {
     checkThrowableObjects() {
         if (this.keyboard.D && this.character.bottleCount > 0) {
             for (let i = 0; i < this.character.bottleCount; i++) {
-                let xOffset = this.character.lastDirection === 'right' ? 100 : 0;
+                let xOffset = this.character.lastDirection === 'right' ? 100 : 0; // Choose the right offset based on direction
                 let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 100, this.character.lastDirection);
                 this.throwableObjects.push(bottle);
             }
@@ -125,28 +125,32 @@ class World {
     }
 
     draw() {
-        this.statusBar.draw(this.ctx);
-        this.statusBarForBottle.draw(this.ctx);
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Translate once for drawing objects relative to the camera
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
-        this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.statusBar);
-        this.statusBarForBottle.draw(this.ctx);
-        this.coinBar.draw(this.ctx);
-        this.ctx.translate(this.camera_x, 0);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.throwableObjects);
+
+        // Translate back to original position
         this.ctx.translate(-this.camera_x, 0);
+
+        // Drawing the bars after all other objects to ensure they appear in front
+        this.statusBar.draw(this.ctx);
+        this.statusBarForBottle.draw(this.ctx);
+        this.coinBar.draw(this.ctx);
+
         let self = this;
         requestAnimationFrame(function() {
             self.draw();
         });
     }
+
 
     addObjectsToMap(objects) {
         objects.forEach(o => {
