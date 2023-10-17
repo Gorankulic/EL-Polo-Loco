@@ -100,6 +100,7 @@ class Character extends MovableObject {
         this.bottleCount++;
     }
 
+
     animate() {
         setInterval(() => {
             // Handle movement and sound effects
@@ -160,8 +161,19 @@ class Character extends MovableObject {
         return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 3000;
     }
     isSleeping() {
-        const currentTime = new Date().getTime();
-        return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 5000;
+            const currentTime = new Date().getTime();
+            return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 5000;
+        }
+        // Inside your Character class:
+    moveLeft() {
+        this.x -= this.speed;
+        this.lastDirection = 'left';
     }
+
+    moveRight() {
+        this.x += this.speed;
+        this.lastDirection = 'right';
+    }
+
 
 }

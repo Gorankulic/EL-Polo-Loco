@@ -39,7 +39,10 @@ class World {
     checkThrowableObjects() {
         if (this.keyboard.D && this.character.bottleCount > 0) {
             for (let i = 0; i < this.character.bottleCount; i++) {
-                let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+                let xOffset = this.character.lastDirection === 'right' ? 100 : 0;
+
+
+                let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 100, this.character.lastDirection);
                 this.throwableObjects.push(bottle);
             }
 
@@ -50,11 +53,8 @@ class World {
             }
 
             this.statusBarForBottle.setPercentageForBottle(this.character.bottleCount);
-
-
         }
     }
-
     checkEnemyCollisions() {
         this.level.enemies.forEach((enemy, i) => {
             if (this.character.isColliding(enemy)) {
