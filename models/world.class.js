@@ -20,6 +20,9 @@ class World {
         // Bind fullscreen toggle to button click
         const btn = document.querySelector('.full-screen-button');
         btn.addEventListener('click', this.toggleFullScreen.bind(this));
+
+
+
     }
 
     setWorld() {
@@ -180,31 +183,40 @@ class World {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
+
+
     toggleFullScreen() {
-        if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
-            // Enter fullscreen mode
-            if (this.canvas.requestFullscreen) {
-                this.canvas.requestFullscreen();
-            } else if (this.canvas.msRequestFullscreen) {
-                this.canvas.msRequestFullscreen();
-            } else if (this.canvas.mozRequestFullScreen) {
-                this.canvas.mozRequestFullScreen();
-            } else if (this.canvas.webkitRequestFullscreen) {
-                this.canvas.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+        let gameDiv = document.querySelector('.game-div'); // Changed from getElementById to querySelector
+
+        if (!document.fullscreenElement) {
+            // Enter fullscreen
+            if (gameDiv.requestFullscreen) {
+                gameDiv.requestFullscreen();
+            } else if (gameDiv.mozRequestFullScreen) { /* Firefox */
+                gameDiv.mozRequestFullScreen();
+            } else if (gameDiv.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                gameDiv.webkitRequestFullscreen();
+            } else if (gameDiv.msRequestFullscreen) { /* IE/Edge */
+                gameDiv.msRequestFullscreen();
             }
         } else {
-            // Exit fullscreen mode
+            // Exit fullscreen
             if (document.exitFullscreen) {
                 document.exitFullscreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-            } else if (document.mozCancelFullScreen) {
+            } else if (document.mozCancelFullScreen) { /* Firefox */
                 document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) {
+            } else if (document.webkitExitFullscreen) { /* Chrome, Safari & Opera */
                 document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE/Edge */
+                document.msExitFullscreen();
             }
         }
     }
+
+
+
+
+
 
 
 }

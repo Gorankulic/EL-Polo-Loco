@@ -15,6 +15,35 @@ canvas {
     background-color: black;
 }
 
+
+/* Styles for .game-div when it's in fullscreen */
+
+.game-div:fullscreen {
+    height: 100vh;
+    /* 100% of the viewport height */
+    position: fixed;
+    /* Optional, to ensure it covers the entire screen */
+    top: 0;
+    left: 0;
+}
+
+.game-div:fullscreen canvas {
+    height: 100%;
+}
+
+
+/* Styles for .on-display-icons when .game-div is in fullscreen */
+
+.game-div:fullscreen .on-display-icons {
+    width: 95%;
+    height: 95%;
+    position: absolute;
+    align-items: center;
+    bottom: 0;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .game-div {
     position: relative;
     text-align: center;
@@ -51,7 +80,6 @@ canvas {
     display: flex;
     width: 100%;
     justify-content: space-around;
-    display: none;
 }
 
 .on-display-icons {
