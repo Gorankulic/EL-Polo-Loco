@@ -14,49 +14,51 @@ class Keyboard {
     }
 
     bindBtsPressEvents() {
-        // For the Left button
-        document.getElementById('btnLeft').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.LEFT = true;
-        });
-        document.getElementById('btnLeft').addEventListener('touchend', (e) => {
-            e.preventDefault();
-            this.LEFT = false;
-        });
+        // Common function to handle both touch and mouse events
+        const handleStart = (buttonFlag) => {
+            return (e) => {
+                e.preventDefault();
+                this[buttonFlag] = true;
+            };
+        };
 
-        // For the Right button
-        document.getElementById('btnRight').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.RIGHT = true;
-        });
-        document.getElementById('btnRight').addEventListener('touchend', (e) => {
-            e.preventDefault();
-            this.RIGHT = false;
-        });
+        const handleEnd = (buttonFlag) => {
+            return (e) => {
+                e.preventDefault();
+                this[buttonFlag] = false;
+            };
+        };
 
-        // For the Jump button
-        document.getElementById('btnJump').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.SPACE = true; // Assuming SPACE is used for jump in keyboard controls
-        });
-        document.getElementById('btnJump').addEventListener('touchend', (e) => {
-            e.preventDefault();
-            this.SPACE = false;
-        });
+        // Bind for Left button
+        const btnLeft = document.getElementById('btnLeft');
+        btnLeft.addEventListener('touchstart', handleStart('LEFT'));
+        btnLeft.addEventListener('touchend', handleEnd('LEFT'));
+        btnLeft.addEventListener('mousedown', handleStart('LEFT'));
+        btnLeft.addEventListener('mouseup', handleEnd('LEFT'));
 
-        // For the Throw button
-        document.getElementById('btnThrow').addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.D = true; // Assuming D is used for throw in keyboard controls
-        });
-        document.getElementById('btnThrow').addEventListener('touchend', (e) => {
-            e.preventDefault();
-            this.D = false;
-        });
+        // Bind for Right button
+        const btnRight = document.getElementById('btnRight');
+        btnRight.addEventListener('touchstart', handleStart('RIGHT'));
+        btnRight.addEventListener('touchend', handleEnd('RIGHT'));
+        btnRight.addEventListener('mousedown', handleStart('RIGHT'));
+        btnRight.addEventListener('mouseup', handleEnd('RIGHT'));
+
+        // Bind for Jump button
+        const btnJump = document.getElementById('btnJump');
+        btnJump.addEventListener('touchstart', handleStart('SPACE'));
+        btnJump.addEventListener('touchend', handleEnd('SPACE'));
+        btnJump.addEventListener('mousedown', handleStart('SPACE'));
+        btnJump.addEventListener('mouseup', handleEnd('SPACE'));
+
+        // Bind for Throw button
+        const btnThrow = document.getElementById('btnThrow');
+        btnThrow.addEventListener('touchstart', handleStart('D'));
+        btnThrow.addEventListener('touchend', handleEnd('D'));
+        btnThrow.addEventListener('mousedown', handleStart('D'));
+        btnThrow.addEventListener('mouseup', handleEnd('D'));
     }
 
     bindKeyPressEvents() {
-        // Keyboard controls
         window.addEventListener("keydown", (e) => {
             switch (e.keyCode) {
                 case 37:
@@ -75,9 +77,7 @@ class Keyboard {
                     this.SPACE = true;
                     break;
                 case 68:
-                    setTimeout(() => {
-                        this.D = true;
-                    }, 500);
+                    this.D = true;
                     break;
             }
         });
@@ -100,9 +100,7 @@ class Keyboard {
                     this.SPACE = false;
                     break;
                 case 68:
-                    setTimeout(() => {
-                        this.D = false;
-                    }, 500);
+                    this.D = false;
                     break;
             }
         });
