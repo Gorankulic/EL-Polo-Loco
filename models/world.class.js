@@ -63,10 +63,16 @@ class World {
                     this.character.secondJump();
                     this.level.enemies.splice(i, 1);
                     i--;
+
                     if (this.character.energy < 100) {
                         this.character.energy += 10;
                         this.statusBar.setPercentage(this.character.energy);
                     }
+
+
+
+
+
                 } else {
                     this.character.hit();
                     this.statusBar.setPercentage(this.character.energy);
