@@ -8,6 +8,10 @@ class SmallChickens extends MovableObject {
         top: 0,
         bottom: 0
     }
+    ELIMINATED_CHICKEN_WIDTH = 50;
+    ELIMINATED_CHICKEN_HEIGHT = 40;
+    isBeingEliminated = false; // New property indicating elimination status
+
 
     RUNNING_IMAGES_FOR_SMALL_CHICKEN = [
         'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
@@ -22,7 +26,7 @@ class SmallChickens extends MovableObject {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
 
         this.loadImages(this.RUNNING_IMAGES_FOR_SMALL_CHICKEN);
-        this.loadImage(this.ELIMINATED_CHICKEN_IMAGES);
+        this.loadImages(this.ELIMINATED_CHICKEN_IMAGES);
 
         this.x = 300 + Math.random() * 2200;
         this.speed = 0.15 + Math.random() * 0.25;
@@ -34,12 +38,23 @@ class SmallChickens extends MovableObject {
         }, 1000 / 60);
         setInterval(() => {
             this.playAnimation(this.RUNNING_IMAGES_FOR_SMALL_CHICKEN);
-        }, 100);
+        }, 100 / 60);
+
 
     }
-
-    chickenIsEliminatedAnimation() { //////////// PROBLEM FUNCTION ////////////
-        this.playAnimation(this.ELIMINATED_CHICKEN_IMAGES);
+    chickenIsEliminatedAnimation() {
+        if (!this.isBeingEliminated) {
+            this.isBeingEliminated = true; // Flag that elimination is in process
+            this.loadImage(this.ELIMINATED_CHICKEN_IMAGES[0]); // Load the eliminated image
+            setTimeout(() => {
+                this.isBeingEliminated = false; // Reset flag after 1.5 seconds
+                // Call a method to remove the chicken from the game, e.g., removeFromArray()
+            }, 1500);
+        }
     }
+
+
+
+
 
 }

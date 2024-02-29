@@ -9,6 +9,7 @@ class World {
     statusBarForBottle = new BottleBar();
     coinBar = new CoinBar();
     throwableObjects = [];
+    isBeingEliminated = false; // New property indicating elimination status
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -17,6 +18,7 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+
         // Bind fullscreen toggle to button click
         const btn = document.querySelector('.full-screen-button');
         btn.addEventListener('click', this.toggleFullScreen.bind(this));
@@ -61,8 +63,15 @@ class World {
             if (this.character.isColliding(enemy)) {
                 if (this.character.isAboveGround()) {
                     this.character.secondJump();
+
+                    //////////////////////// F E H L E R ////////////////////////////////
+                    this.chickenIsEliminatedAnimation();
+
+
+
                     this.level.enemies.splice(i, 1);
                     i--;
+
 
                     if (this.character.energy < 100) {
                         this.character.energy += 10;
