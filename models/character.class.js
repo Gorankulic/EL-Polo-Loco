@@ -155,6 +155,7 @@ class Character extends MovableObject {
     }
     secondJump() {
         this.speedY = 4;
+
     }
     isBored() {
         const currentTime = new Date().getTime();

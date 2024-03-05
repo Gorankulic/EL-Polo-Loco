@@ -9,7 +9,7 @@ class World {
     statusBarForBottle = new BottleBar();
     coinBar = new CoinBar();
     throwableObjects = [];
-    isBeingEliminated = false; // New property indicating elimination status
+    characterEnemyCollision = false; //this is the boolean that if is true trigger death chicken animation, now is false
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -22,8 +22,6 @@ class World {
         // Bind fullscreen toggle to button click
         const btn = document.querySelector('.full-screen-button');
         btn.addEventListener('click', this.toggleFullScreen.bind(this));
-
-
 
     }
 
@@ -42,46 +40,48 @@ class World {
     }
 
     checkThrowableObjects() {
-        if (this.keyboard.D && this.character.bottleCount > 0) {
-            for (let i = 0; i < this.character.bottleCount; i++) {
-                let xOffset = this.character.lastDirection === 'right' ? 100 : 0; // Choose the right offset based on direction
-                let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 100, this.character.lastDirection);
-                this.throwableObjects.push(bottle);
+            if (this.keyboard.D && this.character.bottleCount > 0) {
+                for (let i = 0; i < this.character.bottleCount; i++) {
+                    let xOffset = this.character.lastDirection === 'right' ? 100 : 0; // Choose the right offset based on direction
+                    let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 100, this.character.lastDirection);
+                    this.throwableObjects.push(bottle);
+                }
+
+                this.character.bottleCount -= 25;
+
+                if (this.character.bottleCount < 0) {
+                    this.character.bottleCount = 0;
+                }
+
+                this.statusBarForBottle.setPercentageForBottle(this.character.bottleCount);
             }
-
-            this.character.bottleCount -= 25;
-
-            if (this.character.bottleCount < 0) {
-                this.character.bottleCount = 0;
-            }
-
-            this.statusBarForBottle.setPercentageForBottle(this.character.bottleCount);
         }
-    }
+        // Innerhalb der World-Klasse
+        // First, mark chickens for removal without immediately removing them.
     checkEnemyCollisions() {
-        this.level.enemies.forEach((enemy, i) => {
+        this.level.enemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy)) {
                 if (this.character.isAboveGround()) {
                     this.character.secondJump();
+                    enemy.characterEnemyCollision = true; // Trigger death animation
 
-                    //////////////////////// F E H L E R ////////////////////////////////
-                    this.chickenIsEliminatedAnimation();
-
-
-
-                    this.level.enemies.splice(i, 1);
-                    i--;
-
+                    // Schedule the removal of the enemy after the animation
+                    setTimeout(() => {
+                        // Ensure the enemy wasn't already removed
+                        if (this.level.enemies.includes(enemy)) {
+                            // Find current index of the enemy to remove
+                            const currentIndex = this.level.enemies.indexOf(enemy);
+                            if (currentIndex !== -1) {
+                                this.level.enemies.splice(currentIndex, 1);
+                                console.log('splice');
+                            }
+                        }
+                    }, 1000); // Wait for 1 second (1000 milliseconds)
 
                     if (this.character.energy < 100) {
                         this.character.energy += 10;
                         this.statusBar.setPercentage(this.character.energy);
                     }
-
-
-
-
-
                 } else {
                     this.character.hit();
                     this.statusBar.setPercentage(this.character.energy);
@@ -89,6 +89,9 @@ class World {
             }
         });
     }
+
+
+
 
     checkCoinCollisions() {
         this.level.coins.forEach((coin) => {
@@ -100,8 +103,6 @@ class World {
             }
         });
     }
-
-
     checkBottleCollisions() {
         this.level.bottle.forEach((bottle) => {
             if (this.character.isColliding(bottle) && this.character.bottleCount < 100) {
