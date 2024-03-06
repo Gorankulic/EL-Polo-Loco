@@ -61,15 +61,18 @@ class Keyboard {
     bindKeyPressEvents() {
         window.addEventListener("keydown", (e) => {
             switch (e.keyCode) {
-                case 37:
+                case 37: // Left arrow key
                     this.LEFT = true;
+                    this.lastKeyPressed = 'LEFT';
                     break;
-                case 38:
                     this.UP = true;
                     break;
-                case 39:
+                case 39: // Right arrow key
                     this.RIGHT = true;
+                    this.lastKeyPressed = 'RIGHT';
                     break;
+                    // Add cases for UP, DOWN, SPACE, D as needed
+
                 case 40:
                     this.DOWN = true;
                     break;
@@ -84,15 +87,18 @@ class Keyboard {
 
         window.addEventListener("keyup", (e) => {
             switch (e.keyCode) {
-                case 37:
+                case 37: // Left arrow key
                     this.LEFT = false;
+                    this.simulateAdditionalMovement('LEFT');
                     break;
                 case 38:
                     this.UP = false;
                     break;
-                case 39:
+                case 39: // Right arrow key
                     this.RIGHT = false;
+                    this.simulateAdditionalMovement('RIGHT');
                     break;
+                    // Add cases for UP, DOWN, SPACE, D as needed
                 case 40:
                     this.DOWN = false;
                     break;
@@ -105,4 +111,16 @@ class Keyboard {
             }
         });
     }
+    simulateAdditionalMovement(direction) {
+        // Ensure the direction is either LEFT or RIGHT to proceed
+        if (direction === 'LEFT' || direction === 'RIGHT') {
+            setTimeout(() => {
+                this[direction] = true;
+                setTimeout(() => {
+                    this[direction] = false;
+                }, 150); // Continue movement for 150 ms
+            }, 0); // Immediate timeout to allow for the keyup event to process
+        }
+    }
+
 }

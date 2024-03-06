@@ -148,13 +148,11 @@ class Character extends MovableObject {
             }
         }, 50);
     }
-
-
     jump() {
         this.speedY = 16;
     }
     secondJump() {
-        this.speedY = 4;
+        this.speedY = 15; // Initial jump boost
 
     }
     isBored() {
