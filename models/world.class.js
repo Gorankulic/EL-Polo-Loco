@@ -66,9 +66,6 @@ class World {
                     if (!enemy.characterEnemyCollision) {
                         enemy.characterEnemyCollision = true; // Trigger death animation
                         enemy.stopMovementX();
-
-
-
                         // Schedule the removal of the enemy after the animation
                         setTimeout(() => {
                             // Ensure the enemy wasn't already removed
@@ -80,7 +77,7 @@ class World {
                                     console.log('splice');
                                 }
                             }
-                        }, 500); // Wait for 1 second (1000 milliseconds)
+                        }, 500); // Wait for 1 second (500 milliseconds)
                     }
                     if (this.character.energy < 100) {
                         this.character.energy += 10;

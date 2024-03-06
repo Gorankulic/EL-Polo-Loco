@@ -58,10 +58,18 @@ class MovableObject extends DrawableObject {
     }
 
     playAnimation(images) {
-        let i = this.currentImage % images.length;
-        let path = images[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        if (!images || images.length === 0) return; // Exit if images is undefined or empty
+
+        if (images.length === 1) {
+            // If there's only one image, simply use it without needing the modulus operation
+            this.img = this.imageCache[images[0]];
+        } else {
+            // Original logic for cycling through multiple images
+            let i = this.currentImage % images.length;
+            let path = images[i];
+            this.img = this.imageCache[path];
+            this.currentImage++;
+        }
     }
 
     moveRight() {
