@@ -63,21 +63,25 @@ class World {
             if (this.character.isColliding(enemy)) {
                 if (this.character.isAboveGround()) {
                     this.character.secondJump();
-                    enemy.characterEnemyCollision = true; // Trigger death animation
+                    if (!enemy.characterEnemyCollision) {
+                        enemy.characterEnemyCollision = true; // Trigger death animation
+                        enemy.stopMovementX();
 
-                    // Schedule the removal of the enemy after the animation
-                    setTimeout(() => {
-                        // Ensure the enemy wasn't already removed
-                        if (this.level.enemies.includes(enemy)) {
-                            // Find current index of the enemy to remove
-                            const currentIndex = this.level.enemies.indexOf(enemy);
-                            if (currentIndex !== -1) {
-                                this.level.enemies.splice(currentIndex, 1);
-                                console.log('splice');
+
+
+                        // Schedule the removal of the enemy after the animation
+                        setTimeout(() => {
+                            // Ensure the enemy wasn't already removed
+                            if (this.level.enemies.includes(enemy)) {
+                                // Find current index of the enemy to remove
+                                const currentIndex = this.level.enemies.indexOf(enemy);
+                                if (currentIndex !== -1) {
+                                    this.level.enemies.splice(currentIndex, 1);
+                                    console.log('splice');
+                                }
                             }
-                        }
-                    }, 1000); // Wait for 1 second (1000 milliseconds)
-
+                        }, 500); // Wait for 1 second (1000 milliseconds)
+                    }
                     if (this.character.energy < 100) {
                         this.character.energy += 10;
                         this.statusBar.setPercentage(this.character.energy);

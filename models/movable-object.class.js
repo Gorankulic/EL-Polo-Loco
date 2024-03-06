@@ -73,6 +73,10 @@ class MovableObject extends DrawableObject {
     }
 
     jump() {
-        this.speedY = 12;
+            this.speedY = 12;
+        }
+        // Method to stop the object's movement on the x-axis
+    stopMovementX() {
+        this.speed = 0;
     }
 }
