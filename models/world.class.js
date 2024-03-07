@@ -119,7 +119,6 @@ class World {
             }
         });
     }
-
     checkBottleChickenCollision() {
         for (let i = 0; i < this.throwableObjects.length; i++) {
             const bottle = this.throwableObjects[i];
@@ -128,14 +127,31 @@ class World {
                 const xCollision = bottle.x + bottle.width >= chicken.x && bottle.x <= chicken.x + chicken.width;
                 const yCollision = bottle.y + bottle.height >= chicken.y && bottle.y <= chicken.y + chicken.height;
                 if (xCollision && yCollision) {
+                    // Remove the bottle upon collision
                     this.throwableObjects.splice(i, 1);
                     i--;
-                    this.level.enemies.splice(j, 1);
-                    j--;
+
+                    // Only proceed if chicken is not already in the death animation state
+                    if (!chicken.characterEnemyCollision) {
+                        chicken.characterEnemyCollision = true; // Trigger death animation
+                        chicken.stopMovementX(); // Stop chicken's movement
+
+                        // Wait for the death animation to complete before removing the chicken
+                        setTimeout(() => {
+                            const currentChickenIndex = this.level.enemies.indexOf(chicken);
+                            if (currentChickenIndex !== -1) {
+                                this.level.enemies.splice(currentChickenIndex, 1); // Remove the chicken
+                                console.log('splice');
+                            }
+                            // Reset characterEnemyCollision to allow for proper game state management
+                            chicken.characterEnemyCollision = false;
+                        }, 500); // 500 milliseconds for the death animation
+                    }
                 }
             }
         }
     }
+
 
     checkCollisions() {
         this.checkEnemyCollisions();

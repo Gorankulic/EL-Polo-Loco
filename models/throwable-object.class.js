@@ -12,6 +12,7 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png',
     ];
     thrownBottle = false;
+    activateBottleSplashAnimation = false;
 
     constructor(x, y, direction = 'right') {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
@@ -39,6 +40,8 @@ class ThrowableObject extends MovableObject {
                 }
 
             }, 5);
+
+
         }
         ///////////////////////////////////////////////////////////////////////////////////////
     animate() {
@@ -46,20 +49,9 @@ class ThrowableObject extends MovableObject {
         setInterval(() => {
             // Handle animation states
             if (this.thrownBottle == true) {
-                this.playAnimation(this.FLYING_BOTTLE_IMAGES);
-            } else if (this.isHurt()) {
+                this.playAnimation(this.FLYING_BOTTLE_IMAGES); /////////////
+            } else if (this.this.y >= 380) {
                 this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
-            } else if (this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_JUMPING);
-            } else if (this.isSleeping()) {
-                this.playAnimation(this.IMAGES_SLEEPING);
-            } else if (this.isBored()) {
-                this.playAnimation(this.IMAGES_IDLE);
-            } else {
-                // Default walking animation if character is moving left or right
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimation(this.IMAGES_WALKING);
-                }
             }
         }, 50);
     }
