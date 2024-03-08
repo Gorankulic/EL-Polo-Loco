@@ -124,28 +124,33 @@ class World {
             const bottle = this.throwableObjects[i];
             for (let j = 0; j < this.level.enemies.length; j++) {
                 const chicken = this.level.enemies[j];
+                // Calculate if there's a collision based on the positions and sizes of the bottle and chicken
                 const xCollision = bottle.x + bottle.width >= chicken.x && bottle.x <= chicken.x + chicken.width;
                 const yCollision = bottle.y + bottle.height >= chicken.y && bottle.y <= chicken.y + chicken.height;
                 if (xCollision && yCollision) {
-                    // Remove the bottle upon collision
-                    this.throwableObjects.splice(i, 1);
-                    i--;
+                    setTimeout(() => {
 
-                    // Only proceed if chicken is not already in the death animation state
+                        this.throwableObjects.splice(i, 1);
+                        i--;
+                    }, 100);
+
+
+                    // Only proceed if the chicken is not already in a death animation state
                     if (!chicken.characterEnemyCollision) {
-                        chicken.characterEnemyCollision = true; // Trigger death animation
-                        chicken.stopMovementX(); // Stop chicken's movement
-
-                        // Wait for the death animation to complete before removing the chicken
+                        // Trigger the chicken's death animation
+                        chicken.characterEnemyCollision = true;
+                        // Stop the chicken's movement
+                        chicken.stopMovementX();
+                        // After a delay (for the death animation to complete), remove the chicken from the game
                         setTimeout(() => {
                             const currentChickenIndex = this.level.enemies.indexOf(chicken);
                             if (currentChickenIndex !== -1) {
                                 this.level.enemies.splice(currentChickenIndex, 1); // Remove the chicken
-                                console.log('splice');
+                                console.log('Chicken eliminated');
                             }
-                            // Reset characterEnemyCollision to allow for proper game state management
+                            // Reset the death animation flag to handle future collisions properly
                             chicken.characterEnemyCollision = false;
-                        }, 500); // 500 milliseconds for the death animation
+                        }, 500); // Delay in milliseconds
                     }
                 }
             }

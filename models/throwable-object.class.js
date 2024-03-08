@@ -3,13 +3,13 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png',
-        'img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png',
+        'img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png'
     ];
     BOTTLE_SPLASH_IMAGES = [
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png',
-        'img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png',
+        'img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png'
     ];
     thrownBottle = false;
     activateBottleSplashAnimation = false;
@@ -42,44 +42,35 @@ class ThrowableObject extends MovableObject {
             }, 5);
 
 
+
         }
         ///////////////////////////////////////////////////////////////////////////////////////
     animate() {
-
         setInterval(() => {
-            // Handle animation states
+            // Handle animation states for flying bottles
             if (this.thrownBottle == true) {
-                this.playAnimation(this.FLYING_BOTTLE_IMAGES); /////////////
-            } else if (this.this.y >= 380) {
-                this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
+                if (this.y > 379) {
+                    this.y = 380;
+                    this.ThrowableObject.stopMovementX();
+                    this.acceleration = 0;
+                }
+                // Adjust position to ensure it's on the floor
+
+                this.playAnimation(this.FLYING_BOTTLE_IMAGES);
+
+                setTimeout(() => {
+                    this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
+                    i--;
+                }, 600);
+
             }
-        }, 50);
-    }
-    jump() {
-        this.speedY = 16;
-    }
-    secondJump() {
-        this.speedY = 15; // Initial jump boost
 
-    }
-    isBored() {
-        const currentTime = new Date().getTime();
-        return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 500;
-    }
-    isSleeping() {
-            const currentTime = new Date().getTime();
-            return this.lastMovedTimestamp && (currentTime - this.lastMovedTimestamp) > 5000;
-        }
-        // Inside your Character class:
-    moveLeft() {
-        this.x -= this.speed;
-        this.lastDirection = 'left';
+
+
+        }, 1000 / 60);
     }
 
-    moveRight() {
-        this.x += this.speed;
-        this.lastDirection = 'right';
-    }
+
 
 
 }
