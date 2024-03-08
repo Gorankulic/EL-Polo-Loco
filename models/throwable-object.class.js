@@ -51,18 +51,15 @@ class ThrowableObject extends MovableObject {
             if (this.thrownBottle == true) {
                 if (this.y > 379) {
                     this.y = 380;
-                    this.ThrowableObject.stopMovementX();
-                    this.acceleration = 0;
+                    this.acceleration = -1;
+                    this.speedX = 0;
+                    this.speedY = 0;
                 }
-                // Adjust position to ensure it's on the floor
-
                 this.playAnimation(this.FLYING_BOTTLE_IMAGES);
-
                 setTimeout(() => {
                     this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
-                    i--;
-                }, 600);
 
+                }, 600);
             }
 
 

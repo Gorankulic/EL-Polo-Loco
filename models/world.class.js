@@ -129,34 +129,25 @@ class World {
                 const yCollision = bottle.y + bottle.height >= chicken.y && bottle.y <= chicken.y + chicken.height;
                 if (xCollision && yCollision) {
                     setTimeout(() => {
-
                         this.throwableObjects.splice(i, 1);
                         i--;
                     }, 100);
-
-
-                    // Only proceed if the chicken is not already in a death animation state
                     if (!chicken.characterEnemyCollision) {
-                        // Trigger the chicken's death animation
                         chicken.characterEnemyCollision = true;
-                        // Stop the chicken's movement
                         chicken.stopMovementX();
-                        // After a delay (for the death animation to complete), remove the chicken from the game
                         setTimeout(() => {
                             const currentChickenIndex = this.level.enemies.indexOf(chicken);
                             if (currentChickenIndex !== -1) {
-                                this.level.enemies.splice(currentChickenIndex, 1); // Remove the chicken
+                                this.level.enemies.splice(currentChickenIndex, 1);
                                 console.log('Chicken eliminated');
                             }
-                            // Reset the death animation flag to handle future collisions properly
                             chicken.characterEnemyCollision = false;
-                        }, 500); // Delay in milliseconds
+                        }, 500);
                     }
                 }
             }
         }
     }
-
 
     checkCollisions() {
         this.checkEnemyCollisions();
