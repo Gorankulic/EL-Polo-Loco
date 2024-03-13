@@ -13,6 +13,7 @@ class ThrowableObject extends MovableObject {
     ];
     thrownBottle = false;
     activateBottleSplashAnimation = false;
+    accelerationX = 0;
 
     constructor(x, y, direction = 'right') {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
@@ -24,49 +25,48 @@ class ThrowableObject extends MovableObject {
         this.height = 60;
         this.width = 50;
         this.throw(direction);
-        this.animate();
+
     }
 
     throw (direction) {
             this.thrownBottle = true;
-            this.speedY = 15;
             this.applyGravity();
+            this.speedY = 15;
+
+
             setInterval(() => {
 
                 if (direction === 'right') {
                     this.x += 2;
+                    this.playAnimation(this.FLYING_BOTTLE_IMAGES);
                 } else {
                     this.x -= 2;
+                    this.playAnimation(this.FLYING_BOTTLE_IMAGES);
+                }
+                if (this.y > 379) {
+                    this.y = 380;
+                    this.stopMovementX();
+                    this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
+                    this.speedY = 0;
                 }
 
-            }, 5);
+
+            }, 1000 / 60);
 
 
 
         }
         ///////////////////////////////////////////////////////////////////////////////////////
-    animate() {
+
+    stopMovementX() {
         setInterval(() => {
-            // Handle animation states for flying bottles
-            if (this.thrownBottle == true) {
-                if (this.y > 379) {
-                    this.y = 380;
-                    this.acceleration = -1;
-                    this.speedX = 0;
-                    this.speedY = 0;
-                }
-                this.playAnimation(this.FLYING_BOTTLE_IMAGES);
-                setTimeout(() => {
-                    this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
-
-                }, 600);
+            if (this.speedY == 0) {
+                this.x -= this.speedX;
+                this.speedX -= this.accelerationX;
             }
-
-
-
         }, 1000 / 60);
-    }
 
+    }
 
 
 

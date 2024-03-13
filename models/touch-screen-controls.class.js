@@ -46,9 +46,4 @@ class TouchScreenControls extends drawableObject {
         }
     }
 
-
-
-
-
-
 }
