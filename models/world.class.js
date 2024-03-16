@@ -130,8 +130,9 @@ class World {
                 if (xCollision && yCollision) {
                     setTimeout(() => {
                         this.throwableObjects.splice(i, 1);
+
                         i--;
-                    }, 100);
+                    }, 1000 / 60);
                     if (!chicken.characterEnemyCollision) {
                         chicken.characterEnemyCollision = true;
                         chicken.stopMovementX();
@@ -139,10 +140,9 @@ class World {
                             const currentChickenIndex = this.level.enemies.indexOf(chicken);
                             if (currentChickenIndex !== -1) {
                                 this.level.enemies.splice(currentChickenIndex, 1);
-                                console.log('Chicken eliminated');
                             }
                             chicken.characterEnemyCollision = false;
-                        }, 500);
+                        }, 1000 / 60);
                     }
                 }
             }

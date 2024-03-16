@@ -29,44 +29,42 @@ class ThrowableObject extends MovableObject {
     }
 
     throw (direction) {
-            this.thrownBottle = true;
-            this.applyGravity();
-            this.speedY = 15;
+        this.thrownBottle = true;
+        this.applyGravity();
+        this.speedY = 15;
 
+        setInterval(() => {
+            this.playAnimation(this.FLYING_BOTTLE_IMAGES);
+            if (direction === 'right') {
+                this.x += 2;
+            } else {
+                this.x -= 2;
+            }
+            if (this.y > 379) {
+                this.y = 380;
+                this.stopMovementX();
+                this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
+                this.speedY = 0;
+            }
+        }, 1000 / 60);
 
-            setInterval(() => {
-
-                if (direction === 'right') {
-                    this.x += 2;
-                    this.playAnimation(this.FLYING_BOTTLE_IMAGES);
-                } else {
-                    this.x -= 2;
-                    this.playAnimation(this.FLYING_BOTTLE_IMAGES);
-                }
-                if (this.y > 379) {
-                    this.y = 380;
-                    this.stopMovementX();
-                    this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
-                    this.speedY = 0;
-                }
-
-
-            }, 1000 / 60);
-
-
-
-        }
-        ///////////////////////////////////////////////////////////////////////////////////////
+    }
 
     stopMovementX() {
-        setInterval(() => {
+        // Assign the interval ID to a property for later reference
+        this.movementInterval = setInterval(() => {
             if (this.speedY == 0) {
                 this.x -= this.speedX;
                 this.speedX -= this.accelerationX;
             }
         }, 1000 / 60);
 
+        // Use setTimeout to clear the interval after a delay
+        setTimeout(() => {
+            clearInterval(this.movementInterval);
+        }, 250);
     }
+
 
 
 
