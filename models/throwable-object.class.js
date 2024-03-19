@@ -14,6 +14,7 @@ class ThrowableObject extends MovableObject {
     thrownBottle = false;
     activateBottleSplashAnimation = false;
     accelerationX = 0;
+    throwInterval = null;
 
     constructor(x, y, direction = 'right') {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
@@ -25,7 +26,6 @@ class ThrowableObject extends MovableObject {
         this.height = 60;
         this.width = 50;
         this.throw(direction);
-
     }
 
     throw (direction) {
@@ -33,7 +33,8 @@ class ThrowableObject extends MovableObject {
         this.applyGravity();
         this.speedY = 15;
 
-        setInterval(() => {
+        // Store the interval ID in the class property
+        this.throwInterval = setInterval(() => {
             this.playAnimation(this.FLYING_BOTTLE_IMAGES);
             if (direction === 'right') {
                 this.x += 2;
@@ -45,27 +46,22 @@ class ThrowableObject extends MovableObject {
                 this.stopMovementX();
                 this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
                 this.speedY = 0;
+
+                clearInterval(this.throwInterval);
             }
         }, 1000 / 60);
-
     }
 
     stopMovementX() {
-        // Assign the interval ID to a property for later reference
         this.movementInterval = setInterval(() => {
-            if (this.speedY == 0) {
+            if (this.speedY < 15) {
                 this.x -= this.speedX;
                 this.speedX -= this.accelerationX;
             }
-        }, 1000 / 60);
+        }, 1000 / 120);
 
-        // Use setTimeout to clear the interval after a delay
         setTimeout(() => {
             clearInterval(this.movementInterval);
-        }, 250);
+        }, 500);
     }
-
-
-
-
 }
