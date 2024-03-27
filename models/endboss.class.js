@@ -62,12 +62,12 @@ class Endboss extends MovableObject {
         this.x = 2500;
         this.animate();
         this.moveLeft();
-        this.endBossStartsMoving();
+
         this.speed = 7 + Math.random() * 0.25;
     }
     animate() {
         setInterval(() => {
-            if (this.endBossMovesLeft) {
+            if (this.endBossMovesLeft == true) {
                 this.moveLeft();
                 this.playAnimation(this.IMAGES_ENDBOSS_RUNNING);
             }
@@ -77,16 +77,6 @@ class Endboss extends MovableObject {
     // The endBossStartsMoving method might not be necessary if we are directly changing
     // the endBossMovesLeft flag in the World class and handling the movement in animate.
 
-    endBossStartsMoving() {
-        setInterval(() => {
-            if (this.x > 1500) {
-                this.endBossMovesLeft = true;
-            }
-        }, 80);
 
-        this.moveLeft();
-        this.playAnimation(this.IMAGES_ENDBOSS_RUNNING);
-
-    }
 
 }

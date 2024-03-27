@@ -9,6 +9,7 @@ class World {
     statusBarForBottle = new BottleBar();
     coinBar = new CoinBar();
     throwableObjects = [];
+    endBossMovesLeft = false;
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -32,6 +33,8 @@ class World {
             this.checkCollisions();
             // Additional logic to handle throwable objects, etc.
             this.checkThrowableObjects();
+            this.checkCharacterXPosition();
+
         }, 1000 / 60);
     }
 
@@ -209,6 +212,18 @@ class World {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
+    checkCharacterXPosition() {
+        // Assuming Endboss is part of the enemies array
+        this.level.enemies.forEach(enemy => {
+            if (enemy instanceof Endboss && this.character.x > 1500) {
+                enemy.endBossMovesLeft = true;
+            }
+        });
+    }
+
+
+
+
 
 
     toggleFullScreen() {
