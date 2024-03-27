@@ -9,8 +9,6 @@ class World {
     statusBarForBottle = new BottleBar();
     coinBar = new CoinBar();
     throwableObjects = [];
-    characterEnemyCollision = false; //this is the boolean that if is true trigger death chicken animation, now is false
-
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -34,12 +32,6 @@ class World {
             this.checkCollisions();
             // Additional logic to handle throwable objects, etc.
             this.checkThrowableObjects();
-
-            // Check character's position and trigger Endboss movement
-            if (this.character.x > 1500) {
-                this.level.endBoss.endBossMovesLeft = true; // Assuming endBoss is accessible via this.level
-            }
-
         }, 1000 / 60);
     }
 

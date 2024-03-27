@@ -87,9 +87,6 @@ class Endboss extends MovableObject {
         this.moveLeft();
         this.playAnimation(this.IMAGES_ENDBOSS_RUNNING);
 
-
-
-
     }
 
 }
