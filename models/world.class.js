@@ -32,12 +32,17 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisions();
+            // Additional logic to handle throwable objects, etc.
+            this.checkThrowableObjects();
+
+            // Check character's position and trigger Endboss movement
+            if (this.character.x > 1500) {
+                this.level.endBoss.endBossMovesLeft = true; // Assuming endBoss is accessible via this.level
+            }
 
         }, 1000 / 60);
-        setInterval(() => {
-            this.checkThrowableObjects();
-        }, 1000 / 10);
     }
+
 
     checkThrowableObjects() {
             if (this.keyboard.D && this.character.bottleCount > 0) {

@@ -1,7 +1,8 @@
 class Endboss extends MovableObject {
-    height = 400;
-    width = 250;
-    y = 60;
+    height = 200;
+    width = 150;
+    y = 230;
+    endBossMovesLeft = false;
 
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -60,14 +61,35 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_BOSS_ELIMINATED);
         this.x = 2500;
         this.animate();
+        this.moveLeft();
+        this.endBossStartsMoving();
         this.speed = 7 + Math.random() * 0.25;
     }
-
     animate() {
         setInterval(() => {
-            this.moveLeft();
-            this.playAnimation(this.IMAGES_ENDBOSS_RUNNING);
-
+            if (this.endBossMovesLeft) {
+                this.moveLeft();
+                this.playAnimation(this.IMAGES_ENDBOSS_RUNNING);
+            }
         }, 80);
     }
+
+    // The endBossStartsMoving method might not be necessary if we are directly changing
+    // the endBossMovesLeft flag in the World class and handling the movement in animate.
+
+    endBossStartsMoving() {
+        setInterval(() => {
+            if (this.x > 1500) {
+                this.endBossMovesLeft = true;
+            }
+        }, 80);
+
+        this.moveLeft();
+        this.playAnimation(this.IMAGES_ENDBOSS_RUNNING);
+
+
+
+
+    }
+
 }
