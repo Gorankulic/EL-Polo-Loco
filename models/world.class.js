@@ -10,6 +10,7 @@ class World {
     coinBar = new CoinBar();
     throwableObjects = [];
     endBossMovesLeft = false;
+    endBossAttacking = false;
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -31,7 +32,6 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisions();
-            // Additional logic to handle throwable objects, etc.
             this.checkThrowableObjects();
             this.checkCharacterXPosition();
 
@@ -61,6 +61,9 @@ class World {
     checkEnemyCollisions() {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy)) {
+                if (enemy instanceof Endboss) {
+                    enemy.endBossAttacks();
+                }
                 if (this.character.isAboveGround()) {
                     this.character.secondJump();
                     if (!enemy.characterEnemyCollision) {
@@ -90,10 +93,6 @@ class World {
             }
         });
     }
-
-
-
-
     checkCoinCollisions() {
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin)) {
