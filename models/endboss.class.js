@@ -68,7 +68,6 @@ class Endboss extends MovableObject {
     }
     animate() {
         setInterval(() => {
-            console.log('Animating:', 'Moves Left:', this.endBossMovesLeft, 'Attacking:', this.endBossAttacking);
             if (this.endBossMovesLeft) {
                 this.moveLeft();
                 this.playAnimation(this.IMAGES_ENDBOSS_RUNNING);

@@ -59,9 +59,7 @@ class World {
                 if (this.character.bottleCount < 0) {
                     this.character.bottleCount = 0;
                 }
-
                 this.statusBarForBottle.setPercentageForBottle(this.character.bottleCount);
-
                 // Set a timeout to end the cooldown after 500 milliseconds
                 setTimeout(() => {
                     this.character.throwCooldown = false; // Deactivate cooldown
@@ -74,10 +72,8 @@ class World {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy)) {
                 if (enemy instanceof Endboss) {
-                    console.log('Endboss attacking set to true');
                     enemy.endBossAttacking = true;
                 }
-
                 if (this.character.isAboveGround()) {
                     this.character.secondJump();
                     if (!enemy.characterEnemyCollision) {
@@ -91,7 +87,6 @@ class World {
                                 const currentIndex = this.level.enemies.indexOf(enemy);
                                 if (currentIndex !== -1) {
                                     this.level.enemies.splice(currentIndex, 1);
-                                    console.log('splice');
                                 }
                             }
                         }, 500); // Wait for 1 second (500 milliseconds)
@@ -233,11 +228,6 @@ class World {
             }
         });
     }
-
-
-
-
-
 
     toggleFullScreen() {
         let gameDiv = document.querySelector('.game-div'); // Changed from getElementById to querySelector
