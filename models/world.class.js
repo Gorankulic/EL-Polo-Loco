@@ -11,6 +11,7 @@ class World {
     throwableObjects = [];
     endBossMovesLeft = false;
     endBossAttacking = false;
+    endBossGotHit = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -127,35 +128,42 @@ class World {
             }
         });
     }
-    checkBottleChickenCollision() {
+    checkBottleChickenCollision() { //ovaj dio treba popravljanje
         for (let i = 0; i < this.throwableObjects.length; i++) {
             const bottle = this.throwableObjects[i];
             for (let j = 0; j < this.level.enemies.length; j++) {
-                const chicken = this.level.enemies[j];
-                // Calculate if there's a collision based on the positions and sizes of the bottle and chicken
-                const xCollision = bottle.x + bottle.width >= chicken.x && bottle.x <= chicken.x + chicken.width;
-                const yCollision = bottle.y + bottle.height >= chicken.y && bottle.y <= chicken.y + chicken.height;
+                const enemy = this.level.enemies[j]; // Use 'enemy' for clarity
+                // Calculate if there's a collision
+                const xCollision = bottle.x + bottle.width >= enemy.x && bottle.x <= enemy.x + enemy.width;
+                const yCollision = bottle.y + bottle.height >= enemy.y && bottle.y <= enemy.y + enemy.height;
                 if (xCollision && yCollision) {
+                    // Correctly reference the enemy and check if it's an Endboss
+
                     setTimeout(() => {
                         this.throwableObjects.splice(i, 1);
-
                         i--;
                     }, 1000 / 60);
-                    if (!chicken.characterEnemyCollision) {
-                        chicken.characterEnemyCollision = true;
-                        chicken.stopMovementX();
+                    if (!enemy.characterEnemyCollision) { // Assuming this is meant to apply generally
+                        enemy.characterEnemyCollision = true;
+                        enemy.stopMovementX();
+                        if (enemy instanceof Endboss) {
+                            console.log('Setting endBossGotHit to true');
+                            enemy.endBossGotHit = true;
+                        }
+
                         setTimeout(() => {
-                            const currentChickenIndex = this.level.enemies.indexOf(chicken);
-                            if (currentChickenIndex !== -1) {
-                                this.level.enemies.splice(currentChickenIndex, 1);
+                            const currentIndex = this.level.enemies.indexOf(enemy);
+                            if (currentIndex !== -1) {
+                                this.level.enemies.splice(currentIndex, 1);
                             }
-                            chicken.characterEnemyCollision = false;
+                            enemy.characterEnemyCollision = false; // Reset for possible reuse
                         }, 1000 / 60);
                     }
                 }
             }
         }
     }
+
 
     checkCollisions() {
         this.checkEnemyCollisions();

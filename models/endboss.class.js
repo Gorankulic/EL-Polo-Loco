@@ -4,6 +4,7 @@ class Endboss extends MovableObject {
     y = 230;
     endBossMovesLeft = false;
     endBossAttacking = false;
+    endBossGotHit = false;
 
 
     IMAGES_WALKING = [
@@ -66,14 +67,24 @@ class Endboss extends MovableObject {
 
         this.speed = 7 + Math.random() * 0.25;
     }
-    animate() {
+    animate() { //ovaj dio treba popravljanje
         setInterval(() => {
-            if (this.endBossMovesLeft) {
-                this.moveLeft();
-                this.playAnimation(this.IMAGES_ENDBOSS_RUNNING);
-            }
-            if (this.endBossAttacking) {
+            if (this.endBossGotHit) {
+                this.playAnimation(this.IMAGES_ENDBOSS_HIT);
+                console.log("Hit animation should play");
+                this.speed = 0;
+
+                setTimeout(() => {
+
+                    this.speed = 7 + Math.random() * 0.25; // Reset speed
+                    this.moveLeft(); // Resume movement
+                    this.endBossGotHit = false;
+                    console.log('Setting endBossGotHit to false');
+                }, 500);
+
+            } else if (this.endBossAttacking) {
                 this.playAnimation(this.IMAGES_ENDBOSS_ATTACKING);
+                console.log("ENDBOSS IS ATTACKING");
                 this.jump();
                 this.speed = 0;
                 setTimeout(() => {
@@ -81,6 +92,11 @@ class Endboss extends MovableObject {
                     this.speed = 7 + Math.random() * 0.25;
                     this.moveLeft(); // Allow some time for the animation to play
                 }, 500);
+            } else
+            if (this.endBossMovesLeft) {
+                this.moveLeft();
+                this.playAnimation(this.IMAGES_ENDBOSS_RUNNING);
+                console.log("RUNNING ANIMATION");
             }
         }, 80);
     }
