@@ -11,6 +11,7 @@ class World {
     throwableObjects = [];
     endBossMovesLeft = false;
     endBossAttacking = false;
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -18,6 +19,8 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.throwCooldown = false; // Add this line
+
 
         // Bind fullscreen toggle to button click
         const btn = document.querySelector('.full-screen-button');
@@ -40,7 +43,11 @@ class World {
 
 
     checkThrowableObjects() {
-            if (this.keyboard.D && this.character.bottleCount > 0) {
+        if (this.keyboard.D && this.character.bottleCount > 0) {
+            if (!this.character.throwCooldown) { // Check if cooldown is not active
+                this.character.throwCooldown = true; // Activate cooldown
+
+                // Existing code for throwing bottles remains unchanged
                 for (let i = 0; i < this.character.bottleCount; i++) {
                     let xOffset = this.character.lastDirection === 'right' ? 100 : 0; // Choose the right offset based on direction
                     let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 100, this.character.lastDirection);
@@ -54,10 +61,15 @@ class World {
                 }
 
                 this.statusBarForBottle.setPercentageForBottle(this.character.bottleCount);
+
+                // Set a timeout to end the cooldown after 500 milliseconds
+                setTimeout(() => {
+                    this.character.throwCooldown = false; // Deactivate cooldown
+                }, 500);
             }
         }
-        // Innerhalb der World-Klasse
-        // First, mark chickens for removal without immediately removing them.
+    }
+
     checkEnemyCollisions() {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy)) {
