@@ -75,8 +75,11 @@ class Endboss extends MovableObject {
             }
             if (this.endBossAttacking) {
                 this.playAnimation(this.IMAGES_ENDBOSS_ATTACKING);
+                this.jump();
+                this.speed = 0;
                 setTimeout(() => {
                     this.endBossAttacking = false;
+                    this.speed = 7 + Math.random() * 0.25;
                     this.moveLeft(); // Allow some time for the animation to play
                 }, 500);
             }
