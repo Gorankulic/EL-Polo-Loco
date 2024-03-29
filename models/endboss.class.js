@@ -5,6 +5,7 @@ class Endboss extends MovableObject {
     endBossMovesLeft = false;
     endBossAttacking = false;
 
+
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -41,7 +42,7 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/3_attack/G19.png',
         'img/4_enemie_boss_chicken/3_attack/G20.png'
     ];
-    IAMGES_ENDBOSS_HIT = [
+    IMAGES_ENDBOSS_HIT = [
         'img/4_enemie_boss_chicken/4_hurt/G21.png',
         'img/4_enemie_boss_chicken/4_hurt/G22.png',
         'img/4_enemie_boss_chicken/4_hurt/G230.png'
@@ -55,10 +56,9 @@ class Endboss extends MovableObject {
     ];
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
-
         this.loadImages(this.IMAGES_ENDBOSS_RUNNING);
         this.loadImages(this.IMAGES_ENDBOSS_ATTACKING);
-        this.loadImages(this.IAMGES_ENDBOSS_HIT);
+        this.loadImages(this.IMAGES_ENDBOSS_HIT);
         this.loadImages(this.IMAGES_BOSS_ELIMINATED);
         this.x = 2500;
         this.animate();
@@ -68,20 +68,22 @@ class Endboss extends MovableObject {
     }
     animate() {
         setInterval(() => {
-            if (this.endBossMovesLeft == true) { //enboss moves left
+            console.log('Animating:', 'Moves Left:', this.endBossMovesLeft, 'Attacking:', this.endBossAttacking);
+            if (this.endBossMovesLeft) {
                 this.moveLeft();
                 this.playAnimation(this.IMAGES_ENDBOSS_RUNNING);
             }
+            if (this.endBossAttacking) {
+                this.playAnimation(this.IMAGES_ENDBOSS_ATTACKING);
+                setTimeout(() => {
+                    this.endBossAttacking = false;
+                    this.moveLeft(); // Allow some time for the animation to play
+                }, 500);
+            }
         }, 80);
     }
-    endBossAttacks() {
-        // Immediately play the attack animation
-        this.playAnimation(this.IMAGES_ENDBOSS_ATTACKING);
 
-        // After 500 milliseconds, switch back to the running animation
-        setTimeout(() => {
-            this.playAnimation(this.IMAGES_ENDBOSS_RUNNING);
-        }, 500);
-    }
+
+
 
 }

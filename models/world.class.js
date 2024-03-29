@@ -62,8 +62,10 @@ class World {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isColliding(enemy)) {
                 if (enemy instanceof Endboss) {
-                    enemy.endBossAttacks();
+                    console.log('Endboss attacking set to true');
+                    enemy.endBossAttacking = true;
                 }
+
                 if (this.character.isAboveGround()) {
                     this.character.secondJump();
                     if (!enemy.characterEnemyCollision) {
