@@ -146,15 +146,19 @@ class World {
                     if (!enemy.characterEnemyCollision) { // Assuming this is meant to apply generally
                         enemy.characterEnemyCollision = true;
                         enemy.stopMovementX();
-                        if (enemy instanceof Endboss) {
-                            console.log('Setting endBossGotHit to true');
-                            enemy.endBossGotHit = true;
-                        }
+
 
                         setTimeout(() => {
                             const currentIndex = this.level.enemies.indexOf(enemy);
                             if (currentIndex !== -1) {
-                                this.level.enemies.splice(currentIndex, 1);
+                                if (enemy instanceof Endboss) {
+                                    console.log('Setting endBossGotHit to true');
+                                    enemy.endBossGotHit = true;
+                                }
+                                setTimeout(() => {
+                                    this.level.enemies.splice(currentIndex, 1);
+                                }, 1000);
+
                             }
                             enemy.characterEnemyCollision = false; // Reset for possible reuse
                         }, 1000 / 60);

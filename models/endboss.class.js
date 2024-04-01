@@ -69,37 +69,34 @@ class Endboss extends MovableObject {
     }
     animate() { //ovaj dio treba popravljanje
         setInterval(() => {
-            if (this.endBossGotHit) {
-                this.playAnimation(this.IMAGES_ENDBOSS_HIT);
-                console.log("Hit animation should play");
-                this.speed = 0;
+            if (this.endBossGotHit) { //wenn das huhn getroffen ist
+                this.playAnimation(this.IMAGES_ENDBOSS_HIT); //
+                console.log("Hit animation should play"); //console log statement
+                this.speed = 0; //huhn speed = 0
+                this.speed = 7 + Math.random() * 0.25; // endboss bekommt neuer speed
+                this.moveLeft(); // Resume movement
+                this.endBossGotHit = false; //wenn das endboss nicht getroffen ist
+                console.log('Setting endBossGotHit to false'); //console log statement
 
-                setTimeout(() => {
 
-                    this.speed = 7 + Math.random() * 0.25; // Reset speed
-                    this.moveLeft(); // Resume movement
-                    this.endBossGotHit = false;
-                    console.log('Setting endBossGotHit to false');
-                }, 500);
-
-            } else if (this.endBossAttacking) {
-                this.playAnimation(this.IMAGES_ENDBOSS_ATTACKING);
-                console.log("ENDBOSS IS ATTACKING");
-                this.jump();
-                this.speed = 0;
+            } else if (this.endBossAttacking) { //when enboss is attacking  
+                this.playAnimation(this.IMAGES_ENDBOSS_ATTACKING); //play animation 
+                console.log("ENDBOSS IS ATTACKING"); //console log 
+                this.jump(); //huhn spring ins luft
+                this.speed = 0; //huhn speed is 0
                 setTimeout(() => {
                     this.endBossAttacking = false;
                     this.speed = 7 + Math.random() * 0.25;
                     this.moveLeft(); // Allow some time for the animation to play
                 }, 500);
-            } else
-            if (this.endBossMovesLeft) {
+            } else if (this.endBossMovesLeft && this.endBossGotHit == false) {
                 this.moveLeft();
                 this.playAnimation(this.IMAGES_ENDBOSS_RUNNING);
                 console.log("RUNNING ANIMATION");
             }
         }, 80);
     }
+
 
 
 
