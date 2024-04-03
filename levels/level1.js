@@ -26,6 +26,14 @@ const level1 = new Level(
         new Bottle(),
         new Bottle(),
         new Bottle(),
+        new Bottle(),
+        new Bottle(),
+        new Bottle(),
+        new Bottle(),
+        new Bottle(),
+        new Bottle(),
+        new Bottle(),
+        new Bottle(),
         new Bottle()
     ],
 
