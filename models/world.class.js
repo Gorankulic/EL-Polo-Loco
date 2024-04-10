@@ -166,7 +166,7 @@ class World {
                                 }, 1000);
 
                             }
-                            enemy.characterEnemyCollision = false; // Reset for possible reuse
+                     
                         }, 1000 / 60);
                     }
                 }
