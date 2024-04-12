@@ -8,6 +8,7 @@ class World {
     statusBar = new StatusBar();
     statusBarForBottle = new BottleBar();
     coinBar = new CoinBar();
+    enbossHealthBar= new EndBossHealtBar(); //ovdje sam stao///////////////////////////////////////////////////
     throwableObjects = [];
     endBossMovesLeft = false;
     endBossAttacking = false;
@@ -202,6 +203,8 @@ class World {
         this.statusBar.draw(this.ctx);
         this.statusBarForBottle.draw(this.ctx);
         this.coinBar.draw(this.ctx);
+        this.enbossHealthBar.draw(this.ctx);
+        
 
         let self = this;
         requestAnimationFrame(function() {
