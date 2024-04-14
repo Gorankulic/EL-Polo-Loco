@@ -8,7 +8,7 @@ class World {
     statusBar = new StatusBar();
     statusBarForBottle = new BottleBar();
     coinBar = new CoinBar();
-    enbossHealthBar= new EndBossHealtBar(); //ovdje sam stao///////////////////////////////////////////////////
+    endbossHealthBar = new EndBossHealtBar(); //ovdje sam stao///////////////////////////////////////////////////
     throwableObjects = [];
     endBossMovesLeft = false;
     endBossAttacking = false;
@@ -167,7 +167,7 @@ class World {
                                 }, 1000);
 
                             }
-                     
+
                         }, 1000 / 60);
                     }
                 }
@@ -195,7 +195,7 @@ class World {
         this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.throwableObjects);
-        this.enbossHealthBar.draw(this.ctx);
+        this.endbossHealthBar.draw(this.ctx);
 
         // Translate back to original position
         this.ctx.translate(-this.camera_x, 0);
@@ -204,8 +204,8 @@ class World {
         this.statusBar.draw(this.ctx);
         this.statusBarForBottle.draw(this.ctx);
         this.coinBar.draw(this.ctx);
-        
-        
+
+
 
         let self = this;
         requestAnimationFrame(function() {

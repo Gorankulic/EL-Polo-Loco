@@ -19,7 +19,7 @@ class EndBossHealtBar extends DrawableObject {
         this.y = 180;
         this.width = 150;
         this.height = 50;
-        this.speed = 7 + Math.random() * 0.25;
+        this.speed = 140 + Math.random() * 0.25;
         this.animate();
     }
 
@@ -62,7 +62,9 @@ class EndBossHealtBar extends DrawableObject {
     }
     moveLeft() {
         this.x -= this.speed;
-
+    }
+    stopMovingEndBossHealthBar() {
+        this.speed = 0;
     }
 
 
