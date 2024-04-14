@@ -14,8 +14,8 @@ class EndBossHealtBar extends DrawableObject {
 
         this.setPercentageForEndBoss(100);
 
-        this.x = 250;
-        this.y = 250;
+        this.x = 2500;
+        this.y = 180;
         this.width = 150;
         this.height = 50;
     }

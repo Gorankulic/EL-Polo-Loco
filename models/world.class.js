@@ -195,6 +195,7 @@ class World {
         this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.throwableObjects);
+        this.enbossHealthBar.draw(this.ctx);
 
         // Translate back to original position
         this.ctx.translate(-this.camera_x, 0);
@@ -203,7 +204,7 @@ class World {
         this.statusBar.draw(this.ctx);
         this.statusBarForBottle.draw(this.ctx);
         this.coinBar.draw(this.ctx);
-        this.enbossHealthBar.draw(this.ctx);
+        
         
 
         let self = this;
