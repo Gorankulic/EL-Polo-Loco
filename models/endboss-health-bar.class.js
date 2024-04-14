@@ -1,5 +1,5 @@
 class EndBossHealtBar extends DrawableObject {
-    IMAGES_ENDBOSS_HEALTH_BAR= [
+    IMAGES_ENDBOSS_HEALTH_BAR = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/40.png',
@@ -14,10 +14,13 @@ class EndBossHealtBar extends DrawableObject {
 
         this.setPercentageForEndBoss(100);
 
+
         this.x = 2500;
         this.y = 180;
         this.width = 150;
         this.height = 50;
+        this.speed = 7 + Math.random() * 0.25;
+        this.animate();
     }
 
     setPercentageForEndBoss(percentage) {
@@ -47,6 +50,21 @@ class EndBossHealtBar extends DrawableObject {
 
         }
     }
+
+    animate() {
+        setInterval(() => {
+
+            this.moveLeft();
+
+
+        }, 80);
+
+    }
+    moveLeft() {
+        this.x -= this.speed;
+
+    }
+
 
 
 }
