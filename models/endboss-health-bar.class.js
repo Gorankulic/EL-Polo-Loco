@@ -15,8 +15,8 @@ class EndBossHealtBar extends DrawableObject {
         this.setPercentageForEndBoss(100);
 
 
-        this.x = 2500;
-        this.y = 180;
+        this.x = 500;
+        this.y = 80;
         this.width = 150;
         this.height = 50;
         this.speed = 140 + Math.random() * 0.25;
@@ -54,18 +54,17 @@ class EndBossHealtBar extends DrawableObject {
     animate() {
         setInterval(() => {
 
-            this.moveLeft();
-
-
         }, 80);
 
     }
-    moveLeft() {
-        this.x -= this.speed;
+    show() {
+        this.visible = true; // Assuming there is a 'visible' property controlling the draw
     }
-    stopMovingEndBossHealthBar() {
-        this.speed = 0;
+
+    hide() {
+        this.visible = false;
     }
+
 
 
 

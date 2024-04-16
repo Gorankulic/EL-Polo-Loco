@@ -195,7 +195,7 @@ class World {
         this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.throwableObjects);
-        this.endbossHealthBar.draw(this.ctx);
+
 
         // Translate back to original position
         this.ctx.translate(-this.camera_x, 0);
@@ -204,6 +204,15 @@ class World {
         this.statusBar.draw(this.ctx);
         this.statusBarForBottle.draw(this.ctx);
         this.coinBar.draw(this.ctx);
+        // Manage the visibility of the EndBossHealthBar
+        if (this.character.x > 1500) {
+            this.endbossHealthBar.show();
+        }
+
+        // Draw the EndBossHealthBar if it's visible
+        if (this.endbossHealthBar.visible) {
+            this.endbossHealthBar.draw(this.ctx);
+        }
 
 
 
