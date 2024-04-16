@@ -8,7 +8,7 @@ class World {
     statusBar = new StatusBar();
     statusBarForBottle = new BottleBar();
     coinBar = new CoinBar();
-    endbossHealthBar = new EndBossHealtBar(); //ovdje sam stao///////////////////////////////////////////////////
+    endbossHealthBar = new EndBossHealthBar();
     throwableObjects = [];
     endBossMovesLeft = false;
     endBossAttacking = false;
