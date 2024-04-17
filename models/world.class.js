@@ -135,7 +135,7 @@ class World {
             }
         });
     }
-    checkBottleChickenCollision() { //ovaj dio treba popravljanje
+    checkBottleChickenCollision() {
         for (let i = 0; i < this.throwableObjects.length; i++) {
             const bottle = this.throwableObjects[i];
             for (let j = 0; j < this.level.enemies.length; j++) {
@@ -144,36 +144,34 @@ class World {
                 const xCollision = bottle.x + bottle.width >= enemy.x && bottle.x <= enemy.x + enemy.width;
                 const yCollision = bottle.y + bottle.height >= enemy.y && bottle.y <= enemy.y + enemy.height;
                 if (xCollision && yCollision) {
-                    // Correctly reference the enemy and check if it's an Endboss
-
+                    // Remove the throwable object
                     setTimeout(() => {
                         this.throwableObjects.splice(i, 1);
                         i--;
                     }, 1000 / 60);
-                    if (!enemy.characterEnemyCollision) { // Assuming this is meant to apply generally
+
+                    if (!enemy.characterEnemyCollision) {
                         enemy.characterEnemyCollision = true;
                         enemy.stopMovementX();
-
-
-                        setTimeout(() => {
-                            const currentIndex = this.level.enemies.indexOf(enemy);
-                            if (currentIndex !== -1) {
-                                if (enemy instanceof Endboss) {
-                                    console.log('Setting endBossGotHit to true');
-                                    enemy.endBossGotHit = true;
-                                }
-                                setTimeout(() => {
+                        if (enemy instanceof Endboss) {
+                            // Specific actions for Endboss hit
+                            console.log('Setting endBossGotHit to true');
+                            enemy.endBossGotHit = true;
+                        } else {
+                            // Remove other enemies
+                            setTimeout(() => {
+                                const currentIndex = this.level.enemies.indexOf(enemy);
+                                if (currentIndex !== -1) {
                                     this.level.enemies.splice(currentIndex, 1);
-                                }, 1000);
-
-                            }
-
-                        }, 1000 / 60);
+                                }
+                            }, 1000);
+                        }
                     }
                 }
             }
         }
     }
+
 
 
     checkCollisions() {
