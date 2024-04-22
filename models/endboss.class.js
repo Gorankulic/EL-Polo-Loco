@@ -63,38 +63,60 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_BOSS_ELIMINATED);
         this.x = 2500;
         this.animate();
+        this.lastMovedTimestamp = new Date().getTime(); // Set the initial timestamp
 
 
         this.speed = 7 + Math.random() * 0.25;
     }
-    animate() { //ovaj dio treba popravljanje
+    animate() {
         setInterval(() => {
-            if (this.endBossGotHit) { //wenn das huhn getroffen ist
-                this.playAnimation(this.IMAGES_ENDBOSS_HIT); //
-                console.log("Hit animation should play"); //console log statement
-                this.speed = 0; //huhn speed = 0
-                this.speed = 7 + Math.random() * 0.25; // endboss bekommt neuer speed
-                this.moveLeft(); // Resume movement
-                this.endBossGotHit = false; //wenn das endboss nicht getroffen ist
-                console.log('Setting endBossGotHit to false'); //console log statement
-
-
-            } else if (this.endBossAttacking) { //when enboss is attacking  
-                this.playAnimation(this.IMAGES_ENDBOSS_ATTACKING); //play animation 
-                console.log("ENDBOSS IS ATTACKING"); //console log 
-                this.jump(); //huhn spring ins luft
-                this.speed = 0; //huhn speed is 0
-                setTimeout(() => {
-                    this.endBossAttacking = false;
-                    this.speed = 7 + Math.random() * 0.25;
-                    this.moveLeft(); // Allow some time for the animation to play
-                }, 500);
-            } else if (this.endBossMovesLeft && this.endBossGotHit == false) {
-                this.moveLeft();
-                this.playAnimation(this.IMAGES_ENDBOSS_RUNNING);
-                console.log("RUNNING ANIMATION");
+            if (this.isDead()) {
+                this.endBossIsEliminatedAnimation();
+            } else if (this.endBossGotHit) {
+                this.endBossGotHitAnimation();
+            } else if (this.endBossAttacking) {
+                this.endBossAttackingAnimation();
+            } else if (this.endBossMovesLeft && !this.endBossGotHit) {
+                this.endBossRunningAnimation();
             }
-        }, 80);
+        }, 80); // The interval at which the animations are checked and updated
     }
+
+
+    endBossGotHitAnimation() {
+        if (this.endBossGotHit == true) {
+            this.playAnimation(this.IMAGES_ENDBOSS_HIT);
+            console.log("Endboss got hit. Hit animation playing.");
+            setTimeout(() => {
+                this.endBossGotHit = false; // Reset hit flag after animation
+                this.speed = 7 + Math.random() * 0.25; // Reset speed after hit
+                console.log('Hit animation ended. Resuming normal behavior.');
+            }, 500); // Delay matches the length of the hit animation
+        }
+
+    }
+
+    endBossIsEliminatedAnimation() {
+        this.playAnimation(this.IMAGES_BOSS_ELIMINATED);
+        console.log("Endboss is dead. Elimination animation playing.");
+    }
+
+    endBossAttackingAnimation() {
+        this.playAnimation(this.IMAGES_ENDBOSS_ATTACKING);
+        console.log("Endboss is attacking. Attack animation playing.");
+        this.jump(); // Endboss jumps during attack
+        setTimeout(() => {
+            this.endBossAttacking = false;
+            this.speed = 7 + Math.random() * 0.25; // Reset speed post-attack
+            console.log('Attack animation ended. Resuming movement.');
+        }, 500); // Delay after attack animation
+    }
+
+    endBossRunningAnimation() {
+        this.moveLeft(); // Move the endboss left
+        this.playAnimation(this.IMAGES_ENDBOSS_RUNNING); // Play the running animation
+        console.log("Endboss is moving left. Running animation playing.");
+    }
+
 
 }

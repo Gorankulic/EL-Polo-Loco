@@ -71,7 +71,7 @@ class World {
     }
 
     checkEnemyCollisions() {
-        this.level.enemies.forEach((enemy, index) => {
+        this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 if (enemy instanceof Endboss) {
                     enemy.endBossAttacking = true;
@@ -139,26 +139,21 @@ class World {
         for (let i = 0; i < this.throwableObjects.length; i++) {
             const bottle = this.throwableObjects[i];
             for (let j = 0; j < this.level.enemies.length; j++) {
-                const enemy = this.level.enemies[j]; // Use 'enemy' for clarity
-                // Calculate if there's a collision
+                const enemy = this.level.enemies[j];
                 const xCollision = bottle.x + bottle.width >= enemy.x && bottle.x <= enemy.x + enemy.width;
                 const yCollision = bottle.y + bottle.height >= enemy.y && bottle.y <= enemy.y + enemy.height;
                 if (xCollision && yCollision) {
-                    // Remove the throwable object
-                    setTimeout(() => {
-                        this.throwableObjects.splice(i, 1);
-                        i--;
-                    }, 1000 / 60);
-
                     if (!enemy.characterEnemyCollision) {
                         enemy.characterEnemyCollision = true;
                         enemy.stopMovementX();
                         if (enemy instanceof Endboss) {
-                            // Specific actions for Endboss hit
-                            console.log('Setting endBossGotHit to true');
+                            console.log('Endboss hit detected.');
                             enemy.endBossGotHit = true;
+                            enemy.characterEnemyCollision = false;
+                            setTimeout(() => {
+                                enemy.endBossGotHit = false;
+                            }, 500);
                         } else {
-                            // Remove other enemies
                             setTimeout(() => {
                                 const currentIndex = this.level.enemies.indexOf(enemy);
                                 if (currentIndex !== -1) {
@@ -167,10 +162,15 @@ class World {
                             }, 1000);
                         }
                     }
+                    setTimeout(() => {
+                        this.throwableObjects.splice(i, 1);
+                        i--;
+                    }, 1000 / 60);
                 }
             }
         }
     }
+
 
 
 
