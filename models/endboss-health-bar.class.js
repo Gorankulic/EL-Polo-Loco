@@ -31,16 +31,16 @@ class EndBossHealthBar extends DrawableObject {
         if (this.percentageForEndBoss === 100) {
             return 5;
 
-        } else if (this.percentageForEndBoss == 80) {
+        } else if (this.percentageForEndBoss > 80) {
             return 4;
 
-        } else if (this.percentageForEndBoss == 60) {
+        } else if (this.percentageForEndBoss > 60) {
             return 3;
 
-        } else if (this.percentageForEndBoss == 40) {
+        } else if (this.percentageForEndBoss > 40) {
             return 2;
 
-        } else if (this.percentageForEndBoss == 20) {
+        } else if (this.percentageForEndBoss > 20) {
             return 1;
 
         } else {

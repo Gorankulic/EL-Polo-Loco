@@ -1,7 +1,7 @@
 class Endboss extends MovableObject {
-    height = 200;
-    width = 150;
-    y = 230;
+    height = 400;
+    width = 300;
+    y = 70;
     endBossMovesLeft = false;
     endBossAttacking = false;
     endBossGotHit = false;
@@ -63,14 +63,11 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_BOSS_ELIMINATED);
         this.x = 2500;
         this.animate();
-        this.lastMovedTimestamp = new Date().getTime(); // Set the initial timestamp
-
-
         this.speed = 7 + Math.random() * 0.25;
     }
     animate() {
         setInterval(() => {
-            if (this.isDead()) {
+            if (this.endBossIsDead()) {
                 this.endBossIsEliminatedAnimation();
             } else if (this.endBossGotHit) {
                 this.endBossGotHitAnimation();
@@ -97,6 +94,7 @@ class Endboss extends MovableObject {
     }
 
     endBossIsEliminatedAnimation() {
+        this.speed=0;
         this.playAnimation(this.IMAGES_BOSS_ELIMINATED);
         console.log("Endboss is dead. Elimination animation playing.");
     }

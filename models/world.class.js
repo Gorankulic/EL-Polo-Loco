@@ -8,11 +8,14 @@ class World {
     statusBar = new StatusBar();
     statusBarForBottle = new BottleBar();
     coinBar = new CoinBar();
-    endbossHealthBar = new EndBossHealthBar();
+
     throwableObjects = [];
     endBossMovesLeft = false;
     endBossAttacking = false;
     endBossGotHit = false;
+    endBoss= new Endboss();
+    endbossHealthBar = new EndBossHealthBar();
+
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -22,7 +25,7 @@ class World {
         this.setWorld();
         this.run();
         this.throwCooldown = false; // Add this line
-
+  
 
         // Bind fullscreen toggle to button click
         const btn = document.querySelector('.full-screen-button');
@@ -147,11 +150,14 @@ class World {
                         enemy.characterEnemyCollision = true;
                         enemy.stopMovementX();
                         if (enemy instanceof Endboss) {
-                            console.log('Endboss hit detected.');
                             enemy.endBossGotHit = true;
-                            enemy.characterEnemyCollision = false;
+                            console.log(`Endboss health before hit: ${enemy.endBossEnergy}`); // Log the Endboss health before hit
                             setTimeout(() => {
+                                enemy.endBossEnergy -= 25;  // Reduce health by 25
+                                this.endbossHealthBar.setPercentageForEndBoss(enemy.endBossEnergy); // Update health bar
+                                console.log(`Endboss health after hit: ${enemy.endBossEnergy}`); // Log the Endboss health after hit
                                 enemy.endBossGotHit = false;
+                                enemy.characterEnemyCollision = false;
                             }, 500);
                         } else {
                             setTimeout(() => {
@@ -170,6 +176,7 @@ class World {
             }
         }
     }
+    
 
 
 
