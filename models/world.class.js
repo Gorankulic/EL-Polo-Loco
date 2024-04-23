@@ -160,14 +160,14 @@ class World {
             enemy.characterEnemyCollision = true;
             enemy.stopMovementX();
             if (enemy instanceof Endboss) {
-                this.handleEndbossCollision(enemy);
+                this.handleEndbossBottleCollision(enemy);
             } else {
                 this.removeEnemy(enemy);
             }
         }
     }
     
-    handleEndbossCollision(endboss) {
+    handleEndbossBottleCollision(endboss) {
         endboss.endBossGotHit = true;
         setTimeout(() => {
             endboss.endBossEnergy -= 25;
@@ -190,10 +190,6 @@ class World {
         }, 1000 / 60);
     }
     
-    
-
-
-
 
     checkCollisions() {
         this.checkEnemyCollisions();
