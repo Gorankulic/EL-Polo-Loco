@@ -5,6 +5,12 @@ class Endboss extends MovableObject {
     endBossMovesLeft = false;
     endBossAttacking = false;
     endBossGotHit = false;
+    offset = {
+        right: 55,
+        left: 35,
+        bottom: 30,
+        top: 45
+    };
 
 
     IMAGES_WALKING = [
