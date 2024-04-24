@@ -8,6 +8,7 @@ class World {
     statusBar = new StatusBar();
     statusBarForBottle = new BottleBar();
     coinBar = new CoinBar();
+    bottleCount=0;
 
     throwableObjects = [];
     endBossMovesLeft = false;
@@ -59,7 +60,7 @@ class World {
                     this.throwableObjects.push(bottle);
                 }
 
-                this.character.bottleCount -= 25;
+                this.character.bottleCount -= 20;
 
                 if (this.character.bottleCount < 0) {
                     this.character.bottleCount = 0;
@@ -126,7 +127,7 @@ class World {
     checkBottleCollisions() {
         this.level.bottle.forEach((bottle) => {
             if (this.character.isColliding(bottle) && this.character.bottleCount < 100) {
-                this.character.bottleCount += 25;
+                this.character.bottleCount += 20;
                 if (this.character.bottleCount > 100) {
                     this.character.bottleCount = 100;
                 }

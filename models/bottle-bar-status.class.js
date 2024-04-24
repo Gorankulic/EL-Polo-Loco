@@ -28,16 +28,16 @@ class BottleBar extends DrawableObject {
         if (this.percentageForBottle === 100) {
             return 5;
 
-        } else if (this.percentageForBottle > 80) {
+        } else if (this.percentageForBottle === 80) {
             return 4;
 
-        } else if (this.percentageForBottle > 60) {
+        } else if (this.percentageForBottle === 60) {
             return 3;
 
-        } else if (this.percentageForBottle > 40) {
+        } else if (this.percentageForBottle === 40) {
             return 2;
 
-        } else if (this.percentageForBottle > 20) {
+        } else if (this.percentageForBottle === 20) {
             return 1;
 
         } else {
