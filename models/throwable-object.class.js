@@ -32,8 +32,7 @@ class ThrowableObject extends MovableObject {
         this.thrownBottle = true;
         this.applyGravity();
         this.speedY = 15;
-
-        // Store the interval ID in the class property
+    
         this.throwInterval = setInterval(() => {
             this.playAnimation(this.FLYING_BOTTLE_IMAGES);
             if (direction === 'right') {
@@ -41,17 +40,19 @@ class ThrowableObject extends MovableObject {
             } else {
                 this.x -= 2;
             }
-            if (this.y > 379) {
-                this.y = 380;
-                this.stopMovementX();
-                this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
+            if (this.y >= 379) {
+                this.y = 380; // Ensure it doesn't go below the specified coordinate
                 this.speedY = 0;
-
+                this.stopMovementX();
+                this.triggerSplash(); // Trigger splash animation
                 clearInterval(this.throwInterval);
             }
         }, 1000 / 60);
     }
-
+    
+    triggerSplash() {
+        this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
+    }
     stopMovementX() {
         this.movementInterval = setInterval(() => {
             if (this.speedY < 15) {

@@ -143,11 +143,17 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (this.isCollision(bottle, enemy)) {
                     this.handleCollision(bottle, enemy);
+                    bottle.triggerSplash(); // Trigger splash animation upon collision
                     this.removeThrowableObject(i);
                 }
             });
+            if (bottle.y >= 379) { // Check if the bottle hits the ground
+                bottle.triggerSplash(); // Trigger splash animation
+                this.removeThrowableObject(i);
+            }
         });
     }
+    
     
     isCollision(bottle, enemy) {
         const xCollision = bottle.x + bottle.width >= enemy.x && bottle.x <= enemy.x + enemy.width;
