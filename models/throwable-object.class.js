@@ -31,7 +31,8 @@ class ThrowableObject extends MovableObject {
     throw (direction) {
         this.thrownBottle = true;
         this.applyGravity();
-        this.speedY = 15;
+        this.speedY = 10;
+        this.acceleration = 0.5;
     
         this.throwInterval = setInterval(() => {
             this.playAnimation(this.FLYING_BOTTLE_IMAGES);
@@ -47,7 +48,7 @@ class ThrowableObject extends MovableObject {
                 this.triggerSplash(); // Trigger splash animation
                 clearInterval(this.throwInterval);
             }
-        }, 1000 / 60);
+        }, 1000 / 120);
     }
     
     triggerSplash() {
@@ -59,10 +60,10 @@ class ThrowableObject extends MovableObject {
                 this.x -= this.speedX;
                 this.speedX -= this.accelerationX;
             }
-        }, 1000 / 120);
+        }, 20);
 
         setTimeout(() => {
             clearInterval(this.movementInterval);
-        }, 500);
+        }, 50);
     }
 }
