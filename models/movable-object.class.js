@@ -40,13 +40,16 @@ class MovableObject extends DrawableObject {
     }
 
     hit() {
-        this.energy -= 5;
-        if (this.energy < 0) {
-            this.energy = 0;
+        this.energy -= 1;  // Deduct a small amount of energy on each hit
+        if (this.energy <= 0) {
+            this.energy = 0;  // Ensure energy doesn't go negative
+            console.log("Character is dead! Energy: ", this.energy);  // Log when the character is dead
         } else {
-            this.lastHit = new Date().getTime();
+            console.log("Current Energy: ", this.energy);  // Log the current energy level after each hit
         }
+        this.lastHit = new Date().getTime();  // Update the time of the last hit
     }
+    
 
     isDead() {
         return this.energy === 0;

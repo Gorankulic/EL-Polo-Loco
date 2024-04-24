@@ -95,7 +95,7 @@ class World {
                                     this.level.enemies.splice(currentIndex, 1);
                                 }
                             }
-                        }, 500); // Wait for 1 second (500 milliseconds)
+                        }, 1000); // Wait for 1 second (1000 milliseconds)
                     }
                     if (this.character.energy < 100) {
                         this.character.energy += 10;
