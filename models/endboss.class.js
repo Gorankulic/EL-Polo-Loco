@@ -1,7 +1,7 @@
 class Endboss extends MovableObject {
     height = 400;
     width = 300;
-    y = 70;
+    y = 40;
     endBossMovesLeft = false;
     endBossAttacking = false;
     endBossGotHit = false;
