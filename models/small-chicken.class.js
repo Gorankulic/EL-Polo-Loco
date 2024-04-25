@@ -1,7 +1,7 @@
 class SmallChickens extends MovableObject {
-    y = 360;
-    height = 50;
-    width = 40;
+    y = 355;
+    height = 60;
+    width = 50;
     offset = {
         right: 5,
         left: 5,
@@ -45,7 +45,7 @@ class SmallChickens extends MovableObject {
                 // Ansonsten spiele die Laufanimation
                 this.playAnimation(this.RUNNING_IMAGES_FOR_SMALL_CHICKEN);
             }
-        }, 1000 / 60);
+        }, 1000 / 20);
     }
     isCharacterColliding() {
         return this.characterEnemyCollision;

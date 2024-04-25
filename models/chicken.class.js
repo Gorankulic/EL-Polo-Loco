@@ -1,7 +1,7 @@
 class Chicken extends MovableObject {
-    y = 360;
-    height = 50;
-    width = 40;
+    y = 335;
+    height = 80;
+    width = 70;
     offset = {
         right: 5,
         left: 5,
@@ -45,7 +45,7 @@ class Chicken extends MovableObject {
                 // Ansonsten spiele die Laufanimation
                 this.playAnimation(this.IMAGES_WALKING);
             }
-        }, 1000 / 60);
+        }, 1000 / 25);
     }
     isCharacterColliding() {
         return this.characterEnemyCollision;
