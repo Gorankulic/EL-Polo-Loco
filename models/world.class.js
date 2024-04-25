@@ -187,7 +187,10 @@ class World {
     removeEnemy(enemy) {
         const currentIndex = this.level.enemies.indexOf(enemy);
         if (currentIndex !== -1) {
-            this.level.enemies.splice(currentIndex, 1);
+            setInterval(() => {
+                this.level.enemies.splice(currentIndex, 1);
+            }, 500);
+         
         }
     }
     
