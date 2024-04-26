@@ -75,21 +75,17 @@ class Character extends MovableObject {
 
     world;
     walking_sound = new Audio('audio/walking.mp3');
-    pepe_jump= new Audio('audio/');
+    pepe_jump= new Audio('audio/pepe jump.mp3');
 
     constructor() {
-
         super();
-
         this.loadImage('img/2_character_pepe/2_walk/W-21.png');
-
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_SLEEPING);
-
         this.bottleCount = 0;
         this.coinCount = 0;
         this.applyGravity();
@@ -101,11 +97,11 @@ class Character extends MovableObject {
         this.bottleCount++;
     }
 
-
     animate() {
         setInterval(() => {
             // Handle movement and sound effects
             this.walking_sound.pause();
+            this.pepe_jump.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.walking_sound.play();
@@ -122,6 +118,7 @@ class Character extends MovableObject {
 
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
+                this.pepe_jump.play();
                 this.lastMovedTimestamp = new Date().getTime();
             }
 
