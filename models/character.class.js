@@ -76,6 +76,7 @@ class Character extends MovableObject {
     world;
     walking_sound = new Audio('audio/walking.mp3');
     pepe_jump= new Audio('audio/pepe jump.mp3');
+    pepe_hurt= new Audio('audio/pepe hurt.mp3');
 
     constructor() {
         super();
@@ -102,6 +103,7 @@ class Character extends MovableObject {
             // Handle movement and sound effects
             this.walking_sound.pause();
             this.pepe_jump.pause();
+            this.pepe_hurt.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.walking_sound.play();

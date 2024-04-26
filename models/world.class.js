@@ -16,6 +16,7 @@ class World {
     endBossGotHit = false;
     endBoss= new Endboss();
     endbossHealthBar = new EndBossHealthBar();
+    pepe_hurt= new Audio('audio/pepe hurt.mp3');
 
 
     constructor(canvas, keyboard) {
@@ -77,9 +78,13 @@ class World {
     checkEnemyCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                if (enemy instanceof Endboss) {
-                    enemy.endBossAttacking = true;
-                }
+                this.pepe_hurt.play();
+                setTimeout(() => {
+                    if (enemy instanceof Endboss) {
+                        enemy.endBossAttacking = true;
+                    }
+                }, 500);
+               
                 if (this.character.isAboveGround()) {
                     this.character.secondJump();
                     if (!enemy.characterEnemyCollision) {
