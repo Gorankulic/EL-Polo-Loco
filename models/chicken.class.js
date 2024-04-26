@@ -45,7 +45,7 @@ class Chicken extends MovableObject {
                 // Ansonsten spiele die Laufanimation
                 this.playAnimation(this.IMAGES_WALKING);
             }
-        }, 1000 / 25);
+        }, 1000 / 20);
     }
     isCharacterColliding() {
         return this.characterEnemyCollision;
