@@ -17,7 +17,8 @@ class World {
     endBoss= new Endboss();
     endbossHealthBar = new EndBossHealthBar();
     pepe_hurt= new Audio('audio/pepe hurt.mp3');
-    pepe_throw = new Audio('audio/throw sound.mp3'); ///////////////////////ovde sam stao
+    pepe_throw = new Audio('audio/throw sound.mp3');
+    coin_sound= new Audio('audio/coin.mp3');
 
 
     constructor(canvas, keyboard) {
@@ -30,6 +31,7 @@ class World {
         this.throwCooldown = false; // Add this line
         this.pepe_hurt.pause();
         this.pepe_throw.pause();
+        this.coin_sound.pause();
   
 
         // Bind fullscreen toggle to button click
@@ -81,7 +83,7 @@ this.pepe_throw.play();
     checkEnemyCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                this.pepe_hurt.play();
+            //    this.pepe_hurt.play();
                 setTimeout(() => {
                     if (enemy instanceof Endboss) {
                         enemy.endBossAttacking = true;
@@ -119,6 +121,7 @@ this.pepe_throw.play();
     checkCoinCollisions() {
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin)) {
+                this.coin_sound.play();
                 this.character.coinCount += 25;
                 const coinIndex = this.level.coins.indexOf(coin);
                 if (this.character.coinCount < 100) {
