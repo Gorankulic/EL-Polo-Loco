@@ -17,6 +17,7 @@ class World {
     endBoss= new Endboss();
     endbossHealthBar = new EndBossHealthBar();
     pepe_hurt= new Audio('audio/pepe hurt.mp3');
+    pepe_throw = new Audio('audio/throw sound.mp3'); ///////////////////////ovde sam stao
 
 
     constructor(canvas, keyboard) {
@@ -27,6 +28,8 @@ class World {
         this.setWorld();
         this.run();
         this.throwCooldown = false; // Add this line
+        this.pepe_hurt.pause();
+        this.pepe_throw.pause();
   
 
         // Bind fullscreen toggle to button click
@@ -60,7 +63,7 @@ class World {
                     let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 100, this.character.lastDirection);
                     this.throwableObjects.push(bottle);
                 }
-
+this.pepe_throw.play();
                 this.character.bottleCount -= 20;
 
                 if (this.character.bottleCount < 0) {
