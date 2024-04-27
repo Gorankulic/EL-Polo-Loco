@@ -19,6 +19,7 @@ class World {
     pepe_hurt= new Audio('audio/pepe hurt.mp3');
     pepe_throw = new Audio('audio/throw sound.mp3');
     coin_sound= new Audio('audio/coin.mp3');
+    bottle_collected_sound= new Audio('audio/coin.mp3');
 
 
     constructor(canvas, keyboard) {
@@ -32,6 +33,7 @@ class World {
         this.pepe_hurt.pause();
         this.pepe_throw.pause();
         this.coin_sound.pause();
+        this.bottle_collected_sound.pause();
   
 
         // Bind fullscreen toggle to button click
@@ -138,6 +140,7 @@ this.pepe_throw.play();
     checkBottleCollisions() {
         this.level.bottle.forEach((bottle) => {
             if (this.character.isColliding(bottle) && this.character.bottleCount < 100) {
+                this.bottle_collected_sound.play();
                 this.character.bottleCount += 20;
                 if (this.character.bottleCount > 100) {
                     this.character.bottleCount = 100;
