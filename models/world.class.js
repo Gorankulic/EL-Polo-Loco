@@ -120,14 +120,14 @@ this.pepe_throw.play();
     }
     checkCoinCollisions() {
         this.level.coins.forEach((coin) => {
-            if (this.character.isColliding(coin)) {
+            if (this.character.isColliding(coin) && this.character.coinCount < 100) {
                 this.coin_sound.play();
                 this.character.coinCount += 25;
                 const coinIndex = this.level.coins.indexOf(coin);
-                if (this.character.coinCount < 100) {
+               
                     this.level.coins.splice(coinIndex, 1);
                     this.coinBar.setPercentageForCoins(this.character.coinCount);
-                }
+                
                 if (this.character.coinCount == 100) {
                     this.character.coinCount = 100;
                 }
