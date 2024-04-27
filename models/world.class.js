@@ -20,6 +20,9 @@ class World {
     pepe_throw = new Audio('audio/throw sound.mp3');
     coin_sound= new Audio('audio/coin.mp3');
     bottle_collected_sound= new Audio('audio/coin.mp3');
+    bottle_splash_sound= new Audio('audio/broken bottle.mp3');
+    chicken_hit_sound= new Audio('audio/chicken hit sound.mp3');
+    chicken_eliminated_from_player= new Audio ('audio/chicken eliminated from player.mp3');
 
 
     constructor(canvas, keyboard) {
@@ -34,6 +37,10 @@ class World {
         this.pepe_throw.pause();
         this.coin_sound.pause();
         this.bottle_collected_sound.pause();
+
+        this.bottle_splash_sound.pause();
+        this.chicken_hit_sound.pause();
+        this.chicken_eliminated_from_player.pause();
   
 
         // Bind fullscreen toggle to button click
@@ -158,11 +165,13 @@ this.pepe_throw.play();
             this.level.enemies.forEach((enemy) => {
                 if (this.isCollision(bottle, enemy)) {
                     this.handleCollision(bottle, enemy);
+                    this.bottle_splash_sound.play();
                     bottle.triggerSplash(); // Trigger splash animation upon collision
                     this.removeThrowableObject(i);
                 }
             });
             if (bottle.y >= 379) { // Check if the bottle hits the ground
+                this.bottle_splash_sound.play();
                 bottle.triggerSplash(); // Trigger splash animation
                 this.removeThrowableObject(i);
             }
