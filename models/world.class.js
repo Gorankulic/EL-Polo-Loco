@@ -103,6 +103,8 @@ this.pepe_throw.play();
                     this.character.secondJump();
                     if (!enemy.characterEnemyCollision) {
                         enemy.characterEnemyCollision = true; // Trigger death animation
+                        this.chicken_eliminated_from_player.play();
+                        this.chicken_hit_sound.play();
                         enemy.stopMovementX();
                         // Schedule the removal of the enemy after the animation
                         setTimeout(() => {
@@ -165,6 +167,7 @@ this.pepe_throw.play();
             this.level.enemies.forEach((enemy) => {
                 if (this.isCollision(bottle, enemy)) {
                     this.handleCollision(bottle, enemy);
+                    this.chicken_hit_sound.play();
                     this.bottle_splash_sound.play();
                     bottle.triggerSplash(); // Trigger splash animation upon collision
                     this.removeThrowableObject(i);
