@@ -23,6 +23,8 @@ class World {
     bottle_splash_sound= new Audio('audio/broken bottle.mp3');
     chicken_hit_sound= new Audio('audio/chicken hit sound.mp3');
     chicken_eliminated_from_player= new Audio ('audio/chicken eliminated from player.mp3');
+    endboss_hit_sound= new Audio('audio/enboss got hit.mp3');
+    small_chickens_move_sound = new Audio ('audio/small chickens moving sound.mp3');
 
 
     constructor(canvas, keyboard) {
@@ -37,10 +39,10 @@ class World {
         this.pepe_throw.pause();
         this.coin_sound.pause();
         this.bottle_collected_sound.pause();
-
         this.bottle_splash_sound.pause();
         this.chicken_hit_sound.pause();
         this.chicken_eliminated_from_player.pause();
+        this.small_chickens_move_sound.play();
   
 
         // Bind fullscreen toggle to button click
@@ -114,6 +116,9 @@ this.pepe_throw.play();
                                 const currentIndex = this.level.enemies.indexOf(enemy);
                                 if (currentIndex !== -1) {
                                     this.level.enemies.splice(currentIndex, 1);
+                                }
+                                if (currentIndex === 0){
+                                    this.small_chickens_move_sound.pause();
                                 }
                             }
                         }, 1000); // Wait for 1 second (1000 milliseconds)
