@@ -26,8 +26,8 @@ class World {
     endboss_hit_sound = new Audio('audio/enboss got hit.mp3');
     small_chickens_move_sound = new Audio('audio/small chickens moving sound.mp3');
     endbboss_coming_sound = new Audio('audio/endboss coming sound.mp3');
-    desert_ambient_sound = new Audio('audio/desert ambient sound.mp3');
-    background_game_music = new Audio('audio/game music.mp3');
+    //desert_ambient_sound = new Audio('audio/desert ambient sound.mp3'); when player pushes play button
+    //background_game_music = new Audio('audio/game music.mp3');
 
 
 

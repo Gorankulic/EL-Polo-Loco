@@ -11,7 +11,7 @@ class Endboss extends MovableObject {
         bottom: 30,
         top: 45
     };
-
+    endboss_got_eliminated = new Audio('audio/endboss eliminated sound.mp3');
 
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -70,11 +70,13 @@ class Endboss extends MovableObject {
         this.x = 2500;
         this.animate();
         this.speed = 7 + Math.random() * 0.25;
+        this.endboss_got_eliminated.pause();
     }
     animate() {
         setInterval(() => {
             if (this.endBossIsDead()) {
                 this.endBossIsEliminatedAnimation();
+                this.endboss_got_eliminated.play();
             } else if (this.endBossGotHit) {
                 this.endBossGotHitAnimation();
             } else if (this.endBossAttacking) {
@@ -100,7 +102,7 @@ class Endboss extends MovableObject {
     }
 
     endBossIsEliminatedAnimation() {
-        this.speed=0;
+        this.speed = 0;
         this.playAnimation(this.IMAGES_BOSS_ELIMINATED);
         console.log("Endboss is dead. Elimination animation playing.");
     }
