@@ -25,6 +25,9 @@ class World {
     chicken_eliminated_from_player= new Audio ('audio/chicken eliminated from player.mp3');
     endboss_hit_sound= new Audio('audio/enboss got hit.mp3');
     small_chickens_move_sound = new Audio ('audio/small chickens moving sound.mp3');
+    endbboss_coming_sound= new Audio('audio/endboss coming sound.mp3');
+    desert_ambient_sound= new Audio ('audio/desert ambient sound.mp3');
+    
 
 
     constructor(canvas, keyboard) {
@@ -35,6 +38,7 @@ class World {
         this.setWorld();
         this.run();
         this.throwCooldown = false; // Add this line
+    //  this.small_chickens_move_sound.play();
         this.pepe_hurt.pause();
         this.pepe_throw.pause();
         this.coin_sound.pause();
@@ -42,7 +46,9 @@ class World {
         this.bottle_splash_sound.pause();
         this.chicken_hit_sound.pause();
         this.chicken_eliminated_from_player.pause();
-        this.small_chickens_move_sound.play();
+        this.endbboss_coming_sound.pause();
+        this.desert_ambient_sound.play();
+   
   
 
         // Bind fullscreen toggle to button click
@@ -76,7 +82,7 @@ class World {
                     let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 100, this.character.lastDirection);
                     this.throwableObjects.push(bottle);
                 }
-this.pepe_throw.play();
+                    this.pepe_throw.play();
                 this.character.bottleCount -= 20;
 
                 if (this.character.bottleCount < 0) {
@@ -116,9 +122,6 @@ this.pepe_throw.play();
                                 const currentIndex = this.level.enemies.indexOf(enemy);
                                 if (currentIndex !== -1) {
                                     this.level.enemies.splice(currentIndex, 1);
-                                }
-                                if (currentIndex === 0){
-                                    this.small_chickens_move_sound.pause();
                                 }
                             }
                         }, 1000); // Wait for 1 second (1000 milliseconds)
@@ -261,6 +264,7 @@ this.pepe_throw.play();
         this.coinBar.draw(this.ctx);
         // Manage the visibility of the EndBossHealthBar
         if (this.character.x > 1500) {
+            this.endbboss_coming_sound.play();
             this.endbossHealthBar.show();
         }
 
@@ -312,6 +316,11 @@ this.pepe_throw.play();
             if (enemy instanceof Endboss && this.character.x > 1500) {
                 enemy.endBossMovesLeft = true;
             }
+        
+    
+         //   setTimeout(() => {
+           //     this.small_chickens_move_sound.play();
+           // }, 30000); remove 
         });
     }
 
