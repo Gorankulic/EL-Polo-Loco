@@ -8,26 +8,27 @@ class World {
     statusBar = new StatusBar();
     statusBarForBottle = new BottleBar();
     coinBar = new CoinBar();
-    bottleCount=0;
+    bottleCount = 0;
 
     throwableObjects = [];
     endBossMovesLeft = false;
     endBossAttacking = false;
     endBossGotHit = false;
-    endBoss= new Endboss();
+    endBoss = new Endboss();
     endbossHealthBar = new EndBossHealthBar();
-    pepe_hurt= new Audio('audio/pepe hurt.mp3');
+    pepe_hurt = new Audio('audio/pepe hurt.mp3');
     pepe_throw = new Audio('audio/throw sound.mp3');
-    coin_sound= new Audio('audio/coin.mp3');
-    bottle_collected_sound= new Audio('audio/coin.mp3');
-    bottle_splash_sound= new Audio('audio/broken bottle.mp3');
-    chicken_hit_sound= new Audio('audio/chicken hit sound.mp3');
-    chicken_eliminated_from_player= new Audio ('audio/chicken eliminated from player.mp3');
-    endboss_hit_sound= new Audio('audio/enboss got hit.mp3');
-    small_chickens_move_sound = new Audio ('audio/small chickens moving sound.mp3');
-    endbboss_coming_sound= new Audio('audio/endboss coming sound.mp3');
-    desert_ambient_sound= new Audio ('audio/desert ambient sound.mp3');
-    
+    coin_sound = new Audio('audio/coin.mp3');
+    bottle_collected_sound = new Audio('audio/coin.mp3');
+    bottle_splash_sound = new Audio('audio/broken bottle.mp3');
+    chicken_hit_sound = new Audio('audio/chicken hit sound.mp3');
+    chicken_eliminated_from_player = new Audio('audio/chicken eliminated from player.mp3');
+    endboss_hit_sound = new Audio('audio/enboss got hit.mp3');
+    small_chickens_move_sound = new Audio('audio/small chickens moving sound.mp3');
+    endbboss_coming_sound = new Audio('audio/endboss coming sound.mp3');
+    desert_ambient_sound = new Audio('audio/desert ambient sound.mp3');
+    background_game_music = new Audio('audio/game music.mp3');
+
 
 
     constructor(canvas, keyboard) {
@@ -38,7 +39,7 @@ class World {
         this.setWorld();
         this.run();
         this.throwCooldown = false; // Add this line
-    //  this.small_chickens_move_sound.play();
+        //  this.small_chickens_move_sound.play();
         this.pepe_hurt.pause();
         this.pepe_throw.pause();
         this.coin_sound.pause();
@@ -48,8 +49,9 @@ class World {
         this.chicken_eliminated_from_player.pause();
         this.endbboss_coming_sound.pause();
         this.desert_ambient_sound.play();
-   
-  
+        this.background_game_music.play();
+
+
 
         // Bind fullscreen toggle to button click
         const btn = document.querySelector('.full-screen-button');
@@ -82,7 +84,7 @@ class World {
                     let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 100, this.character.lastDirection);
                     this.throwableObjects.push(bottle);
                 }
-                    this.pepe_throw.play();
+                this.pepe_throw.play();
                 this.character.bottleCount -= 20;
 
                 if (this.character.bottleCount < 0) {
@@ -100,13 +102,13 @@ class World {
     checkEnemyCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-            //    this.pepe_hurt.play();
+                //    this.pepe_hurt.play();
                 setTimeout(() => {
                     if (enemy instanceof Endboss) {
                         enemy.endBossAttacking = true;
                     }
                 }, 500);
-               
+
                 if (this.character.isAboveGround()) {
                     this.character.secondJump();
                     if (!enemy.characterEnemyCollision) {
@@ -143,10 +145,10 @@ class World {
                 this.coin_sound.play();
                 this.character.coinCount += 25;
                 const coinIndex = this.level.coins.indexOf(coin);
-               
-                    this.level.coins.splice(coinIndex, 1);
-                    this.coinBar.setPercentageForCoins(this.character.coinCount);
-                
+
+                this.level.coins.splice(coinIndex, 1);
+                this.coinBar.setPercentageForCoins(this.character.coinCount);
+
                 if (this.character.coinCount == 100) {
                     this.character.coinCount = 100;
                 }
@@ -188,14 +190,14 @@ class World {
             }
         });
     }
-    
-    
+
+
     isCollision(bottle, enemy) {
         const xCollision = bottle.x + bottle.width >= enemy.x && bottle.x <= enemy.x + enemy.width;
         const yCollision = bottle.y + bottle.height >= enemy.y && bottle.y <= enemy.y + enemy.height;
         return xCollision && yCollision;
     }
-    
+
     handleCollision(bottle, enemy) {
         if (!enemy.characterEnemyCollision) {
             enemy.characterEnemyCollision = true;
@@ -207,7 +209,7 @@ class World {
             }
         }
     }
-    
+
     handleEndbossBottleCollision(endboss) {
         endboss.endBossGotHit = true;
         setTimeout(() => {
@@ -217,7 +219,7 @@ class World {
             endboss.characterEnemyCollision = false;
         }, 500);
     }
-    
+
     removeEnemy(enemy) {
         const currentIndex = this.level.enemies.indexOf(enemy);
         if (currentIndex !== -1) {
@@ -226,13 +228,13 @@ class World {
             }, 500);
         }
     }
-    
+
     removeThrowableObject(index) {
         setTimeout(() => {
             this.throwableObjects.splice(index, 1);
         }, 1000 / 60);
     }
-    
+
 
     checkCollisions() {
         this.checkEnemyCollisions();
@@ -316,11 +318,11 @@ class World {
             if (enemy instanceof Endboss && this.character.x > 1500) {
                 enemy.endBossMovesLeft = true;
             }
-        
-    
-         //   setTimeout(() => {
-           //     this.small_chickens_move_sound.play();
-           // }, 30000); remove 
+
+
+            //   setTimeout(() => {
+            //     this.small_chickens_move_sound.play();
+            // }, 30000); remove 
         });
     }
 
