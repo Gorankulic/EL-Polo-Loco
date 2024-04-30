@@ -31,6 +31,7 @@ class World {
 
 
 
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -50,6 +51,7 @@ class World {
         this.endbboss_coming_sound.pause();
         this.desert_ambient_sound.play();
         this.background_game_music.play();
+
 
 
 
@@ -102,7 +104,7 @@ class World {
     checkEnemyCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                //    this.pepe_hurt.play();
+                this.pepe_hurt.play();
                 setTimeout(() => {
                     if (enemy instanceof Endboss) {
                         enemy.endBossAttacking = true;

@@ -77,6 +77,8 @@ class Character extends MovableObject {
     world;
     walking_sound = new Audio('audio/walking.mp3');
     pepe_jump = new Audio('audio/pepe jump.mp3');
+    game_over_voice = new Audio('audio/game over voice.mp3');
+    pepe_eliminated_sound = new Audio('audio/pepe eliminated sound.mp3');
 
 
     constructor() {
@@ -94,6 +96,8 @@ class Character extends MovableObject {
         this.lastMovedTimestamp = new Date().getTime(); // Set the initial timestamp
         this.animate();
         this.character_eliminated_sound.pause();
+        this.game_over_voice.pause();
+        this.pepe_eliminated_sound.pause();
     }
 
     collectBottle() {
@@ -134,6 +138,8 @@ class Character extends MovableObject {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
                 this.character_eliminated_sound.play();
+                this.game_over_voice.play();
+                this.pepe_eliminated_sound.play();
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {

@@ -12,6 +12,7 @@ class Endboss extends MovableObject {
         top: 45
     };
     endboss_got_eliminated = new Audio('audio/endboss eliminated sound.mp3');
+    game_won_sound = new Audio('audio/game won.mp3');
 
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -71,12 +72,15 @@ class Endboss extends MovableObject {
         this.animate();
         this.speed = 7 + Math.random() * 0.25;
         this.endboss_got_eliminated.pause();
+        this.game_won_sound.pause();
+
     }
     animate() {
         setInterval(() => {
             if (this.endBossIsDead()) {
                 this.endBossIsEliminatedAnimation();
                 this.endboss_got_eliminated.play();
+                this.game_won_sound.play();
             } else if (this.endBossGotHit) {
                 this.endBossGotHitAnimation();
             } else if (this.endBossAttacking) {
