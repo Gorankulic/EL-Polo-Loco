@@ -5,7 +5,7 @@ class MovableObject extends DrawableObject {
     acceleration = 1;
     energy = 100;
     lastHit = 0;
-    endBossEnergy=100;
+    endBossEnergy = 100;
 
     applyGravity() {
         setInterval(() => {
@@ -40,14 +40,13 @@ class MovableObject extends DrawableObject {
     }
 
     hit() {
-        this.energy -= 1;  // Deduct a small amount of energy on each hit
+        this.energy -= 1; // Deduct a small amount of energy on each hit
         if (this.energy <= 0) {
-            this.energy = 0;  // Ensure energy doesn't go negative
-        } else {
-        }
-        this.lastHit = new Date().getTime();  // Update the time of the last hit
+            this.energy = 0; // Ensure energy doesn't go negative
+        } else {}
+        this.lastHit = new Date().getTime(); // Update the time of the last hit
     }
-    
+
 
     isDead() {
         return this.energy === 0;

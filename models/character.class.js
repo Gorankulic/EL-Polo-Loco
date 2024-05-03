@@ -131,6 +131,12 @@ class Character extends MovableObject {
             }
 
             this.world.camera_x = -this.x + 100;
+
+
+            if (this.y > -23) {
+                // Setze den Charakter auf 300 Pixel auf der y-Achse
+                this.y = -24;
+            }
         }, 1000 / 60);
 
         setInterval(() => {
@@ -156,11 +162,14 @@ class Character extends MovableObject {
             }
         }, 50);
     }
+
     jump() {
         this.speedY = 16;
     }
     secondJump() {
         this.speedY = 15; // Initial jump boost
+
+
 
     }
     isBored() {
