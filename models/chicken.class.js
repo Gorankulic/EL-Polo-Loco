@@ -34,7 +34,7 @@ class Chicken extends MovableObject {
     animate() {
         setInterval(() => {
             this.moveLeft();
-        }, 1000 / 60);
+        }, 1000 / 1200);
 
         setInterval(() => {
             // Wenn eine Kollision mit dem Charakter stattgefunden hat

@@ -33,7 +33,7 @@ class ThrowableObject extends MovableObject {
         this.applyGravity();
         this.speedY = 10;
         this.acceleration = 0.5;
-    
+
         this.throwInterval = setInterval(() => {
             this.playAnimation(this.FLYING_BOTTLE_IMAGES);
             if (direction === 'right') {
@@ -50,7 +50,7 @@ class ThrowableObject extends MovableObject {
             }
         }, 1000 / 120);
     }
-    
+
     triggerSplash() {
         this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
     }
