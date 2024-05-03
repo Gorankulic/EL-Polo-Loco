@@ -79,7 +79,7 @@ class Character extends MovableObject {
     pepe_jump = new Audio('audio/pepe jump.mp3');
     game_over_voice = new Audio('audio/game over voice.mp3');
     pepe_eliminated_sound = new Audio('audio/pepe eliminated sound.mp3');
-
+    you_lost_music = new Audio('audio/game lost.mp3');
 
     constructor() {
         super();
@@ -98,6 +98,7 @@ class Character extends MovableObject {
         this.character_eliminated_sound.pause();
         this.game_over_voice.pause();
         this.pepe_eliminated_sound.pause();
+        this.you_lost_music.pause();
     }
 
     collectBottle() {
@@ -146,6 +147,7 @@ class Character extends MovableObject {
                 this.character_eliminated_sound.play();
                 this.game_over_voice.play();
                 this.pepe_eliminated_sound.play();
+                this.you_lost_music.play();
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
