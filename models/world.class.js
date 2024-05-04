@@ -14,6 +14,7 @@ class World {
     endBossMovesLeft = false;
     endBossAttacking = false;
     endBossGotHit = false;
+    gameSoundActive = true;
     endBoss = new Endboss();
     endbossHealthBar = new EndBossHealthBar();
     pepe_hurt = new Audio('audio/pepe hurt.mp3');
@@ -26,8 +27,8 @@ class World {
     endboss_hit_sound = new Audio('audio/enboss got hit.mp3');
     small_chickens_move_sound = new Audio('audio/small chickens moving sound.mp3');
     endbboss_coming_sound = new Audio('audio/endboss coming sound.mp3');
-    //desert_ambient_sound = new Audio('audio/desert ambient sound.mp3'); when player pushes play button
-    //background_game_music = new Audio('audio/game music.mp3');
+    desert_ambient_sound = new Audio('audio/desert ambient sound.mp3');
+    background_game_music = new Audio('audio/game music.mp3');
 
 
 
@@ -49,8 +50,8 @@ class World {
         this.chicken_hit_sound.pause();
         this.chicken_eliminated_from_player.pause();
         this.endbboss_coming_sound.pause();
-        this.desert_ambient_sound.play();
-        this.background_game_music.play();
+        //this.desert_ambient_sound.play();
+        // this.background_game_music.play();
 
 
 
@@ -58,6 +59,10 @@ class World {
         // Bind fullscreen toggle to button click
         const btn = document.querySelector('.full-screen-button');
         btn.addEventListener('click', this.toggleFullScreen.bind(this));
+
+        const muteButton = document.querySelector('.mute-button');
+        muteButton.addEventListener('click', () => this.toggle_mute_sound());
+
 
     }
 
@@ -73,6 +78,54 @@ class World {
 
         }, 1000 / 60);
     }
+    toggle_mute_sound() {
+        // Toggle the gameSoundActive flag
+        this.gameSoundActive = !this.gameSoundActive;
+
+        // Control the playing or pausing of sounds based on the gameSoundActive state
+        if (this.gameSoundActive) {
+            // If gameSoundActive is true, play the sounds
+            this.playAllSounds();
+        } else {
+            // If gameSoundActive is false, pause the sounds
+            this.pauseAllSounds();
+        }
+    }
+
+    playAllSounds() {
+        // List all sounds that should play when sounds are active
+        //    this.pepe_hurt.play();
+        //   this.pepe_throw.play();
+        //   this.coin_sound.play();
+        //  this.bottle_collected_sound.play();
+        //  this.bottle_splash_sound.play();
+        //  this.chicken_hit_sound.play();
+        //  this.chicken_eliminated_from_player.play();
+        //  this.endboss_hit_sound.play();
+        //  this.small_chickens_move_sound.play();
+        //  this.endbboss_coming_sound.play();
+        // Uncomment below lines if background sounds are to be played continuously
+        this.desert_ambient_sound.play();
+        this.background_game_music.play();
+    }
+
+    pauseAllSounds() {
+        // List all sounds that should pause when sounds are inactive
+        // this.pepe_hurt.pause();
+        //  this.pepe_throw.pause();
+        //  this.coin_sound.pause();
+        // this.bottle_collected_sound.pause();
+        //  this.bottle_splash_sound.pause();
+        // this.chicken_hit_sound.pause();
+        //  this.chicken_eliminated_from_player.pause();
+        // this.endboss_hit_sound.pause();
+        //  this.small_chickens_move_sound.pause();
+        // this.endbboss_coming_sound.pause();
+        // Uncomment below lines if background sounds are to be paused
+        this.desert_ambient_sound.pause();
+        this.background_game_music.pause();
+    }
+
 
 
     checkThrowableObjects() {
@@ -355,5 +408,6 @@ class World {
             }
         }
     }
+
 
 }

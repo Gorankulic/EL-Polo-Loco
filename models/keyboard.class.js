@@ -118,7 +118,7 @@ class Keyboard {
                 this[direction] = true;
                 setTimeout(() => {
                     this[direction] = false;
-                }, 150); // Continue movement for 150 ms
+                }, 250); // Continue movement for 150 ms
             }, 0); // Immediate timeout to allow for the keyup event to process
         }
     }
