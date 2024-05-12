@@ -182,8 +182,15 @@ class World {
                     this.character.secondJump();
                     if (!enemy.characterEnemyCollision) {
                         enemy.characterEnemyCollision = true; // Trigger death animation
-                        this.chicken_eliminated_from_player.play();
-                        this.chicken_hit_sound.play();
+                        if (!this.gameSoundActive) {
+                            this.chicken_hit_sound.pause();
+                            this.chicken_eliminated_from_player.pause();
+                        }
+                        if (this.gameSoundActive) {
+                            this.chicken_hit_sound.play();
+                            this.chicken_eliminated_from_player.play();
+                        }
+
                         enemy.stopMovementX();
                         // Schedule the removal of the enemy after the animation
                         setTimeout(() => {
@@ -211,7 +218,12 @@ class World {
     checkCoinCollisions() {
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin) && this.character.coinCount < 100) {
-                this.coin_sound.play();
+                if (!this.gameSoundActive) {
+                    this.coin_sound.pause();
+                }
+                if (this.gameSoundActive) {
+                    this.coin_sound.play();
+                }
                 this.character.coinCount += 25;
                 const coinIndex = this.level.coins.indexOf(coin);
 
@@ -228,7 +240,13 @@ class World {
     checkBottleCollisions() {
         this.level.bottle.forEach((bottle) => {
             if (this.character.isColliding(bottle) && this.character.bottleCount < 100) {
-                this.bottle_collected_sound.play();
+                if (!this.gameSoundActive) {
+                    this.bottle_collected_sound.pause();
+                }
+                if (this.gameSoundActive) {
+                    this.bottle_collected_sound.play();
+                }
+
                 this.character.bottleCount += 20;
                 if (this.character.bottleCount > 100) {
                     this.character.bottleCount = 100;
@@ -246,14 +264,27 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (this.isCollision(bottle, enemy)) {
                     this.handleCollision(bottle, enemy);
-                    this.chicken_hit_sound.play();
-                    this.bottle_splash_sound.play();
+                    if (!this.gameSoundActive) {
+                        this.chicken_hit_sound.pause();
+                        this.bottle_splash_sound.pause();
+                    }
+                    if (this.gameSoundActive) {
+                        this.chicken_hit_sound.play();
+                        this.bottle_splash_sound.play();
+                    }
+
                     bottle.triggerSplash(); // Trigger splash animation upon collision
                     this.removeThrowableObject(i);
                 }
             });
             if (bottle.y >= 379) { // Check if the bottle hits the ground
-                this.bottle_splash_sound.play();
+                if (!this.gameSoundActive) {
+                    this.bottle_splash_sound.pause();
+                }
+                if (this.gameSoundActive) {
+                    this.bottle_splash_sound.play();
+                }
+
                 bottle.triggerSplash(); // Trigger splash animation
                 this.removeThrowableObject(i);
             }
@@ -335,7 +366,13 @@ class World {
         this.coinBar.draw(this.ctx);
         // Manage the visibility of the EndBossHealthBar
         if (this.character.x > 1500) {
-            this.endbboss_coming_sound.play();
+            if (!this.gameSoundActive) {
+                this.endbboss_coming_sound.pause();
+            }
+            if (this.gameSoundActive) {
+                this.endbboss_coming_sound.play();
+            }
+
             this.endbossHealthBar.show();
         }
 
