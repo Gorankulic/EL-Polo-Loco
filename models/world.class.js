@@ -111,17 +111,17 @@ class World {
 
     pauseAllSounds() {
         // List all sounds that should pause when sounds are inactive
-        // this.pepe_hurt.pause();
-        //  this.pepe_throw.pause();
-        //  this.coin_sound.pause();
-        // this.bottle_collected_sound.pause();
-        //  this.bottle_splash_sound.pause();
-        // this.chicken_hit_sound.pause();
-        //  this.chicken_eliminated_from_player.pause();
-        // this.endboss_hit_sound.pause();
-        //  this.small_chickens_move_sound.pause();
-        // this.endbboss_coming_sound.pause();
-        // Uncomment below lines if background sounds are to be paused
+
+
+        this.coin_sound.pause();
+        this.bottle_collected_sound.pause();
+        this.bottle_splash_sound.pause();
+        this.chicken_hit_sound.pause();
+        this.chicken_eliminated_from_player.pause();
+        this.endboss_hit_sound.pause();
+        this.small_chickens_move_sound.pause();
+        this.endbboss_coming_sound.pause();
+
         this.desert_ambient_sound.pause();
         this.background_game_music.pause();
     }
@@ -139,7 +139,15 @@ class World {
                     let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 100, this.character.lastDirection);
                     this.throwableObjects.push(bottle);
                 }
-                this.pepe_throw.play();
+                if (!this.gameSoundActive) {
+                    this.pepe_throw.pause();
+                    // ide dole   
+
+                }
+                if (this.gameSoundActive) {
+                    this.pepe_throw.play();
+                }
+
                 this.character.bottleCount -= 20;
 
                 if (this.character.bottleCount < 0) {
@@ -157,7 +165,13 @@ class World {
     checkEnemyCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                this.pepe_hurt.play();
+                if (!this.gameSoundActive) {
+                    this.pepe_hurt.pause();
+                }
+                if (this.gameSoundActive) {
+                    this.pepe_hurt.play();
+                }
+
                 setTimeout(() => {
                     if (enemy instanceof Endboss) {
                         enemy.endBossAttacking = true;
