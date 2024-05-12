@@ -80,6 +80,7 @@ class Character extends MovableObject {
     game_over_voice = new Audio('audio/game over voice.mp3');
     pepe_eliminated_sound = new Audio('audio/pepe eliminated sound.mp3');
     you_lost_music = new Audio('audio/game lost.mp3');
+    sleeping_sound = new Audio('audio/sleeping sound.mp3');
 
     constructor() {
         super();
@@ -99,6 +100,7 @@ class Character extends MovableObject {
         this.game_over_voice.pause();
         this.pepe_eliminated_sound.pause();
         this.you_lost_music.pause();
+        this.sleeping_sound.pause();
     }
 
     collectBottle() {
@@ -113,21 +115,42 @@ class Character extends MovableObject {
 
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
-                this.walking_sound.play();
+                if (!this.gameSoundActive) {
+                    this.walking_sound.pause();
+                    this.sleeping_sound.pause();
+                }
+                if (this.gameSoundActive) {
+                    this.walking_sound.play();
+                }
+
+
                 this.otherDirection = false;
                 this.lastMovedTimestamp = new Date().getTime();
             }
 
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
-                this.walking_sound.play();
+                if (!this.gameSoundActive) {
+                    this.walking_sound.pause();
+                }
+                if (this.gameSoundActive) {
+                    this.walking_sound.play();
+                }
                 this.otherDirection = true;
                 this.lastMovedTimestamp = new Date().getTime();
             }
 
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
-                this.pepe_jump.play();
+                if (!this.gameSoundActive) {
+                    this.pepe_jump.pause();
+                    this.sleeping_sound.pause();
+                }
+                if (this.gameSoundActive) {
+                    this.pepe_jump.play();
+                    this.sleeping_sound.pause();
+                }
+
                 this.lastMovedTimestamp = new Date().getTime();
             }
 
@@ -143,23 +166,38 @@ class Character extends MovableObject {
         setInterval(() => {
             // Handle animation states
             if (this.isDead()) {
+                if (!this.gameSoundActive) {
+                    this.character_eliminated_sound.pause();
+                    this.pepe_eliminated_sound.pause();
+                    this.you_lost_music.pause();
+                    this.sleeping_sound.pause();
+                }
+                if (this.gameSoundActive) {
+                    this.character_eliminated_sound.play();
+                    this.pepe_eliminated_sound.play();
+                    this.you_lost_music.play();
+                    this.sleeping_sound.pause();
+                }
                 this.playAnimation(this.IMAGES_DEAD);
-                this.character_eliminated_sound.play();
-                this.game_over_voice.play();
-                this.pepe_eliminated_sound.play();
-                this.you_lost_music.play();
+
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
+                this.sleeping_sound.pause();
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
+                this.sleeping_sound.pause();
             } else if (this.isSleeping()) {
                 this.playAnimation(this.IMAGES_SLEEPING);
+                this.sleeping_sound.play();
+
             } else if (this.isBored()) {
                 this.playAnimation(this.IMAGES_IDLE);
+                this.sleeping_sound.pause();
             } else {
                 // Default walking animation if character is moving left or right
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     this.playAnimation(this.IMAGES_WALKING);
+                    this.sleeping_sound.pause();
                 }
             }
         }, 50);
