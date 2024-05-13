@@ -56,6 +56,7 @@ class World {
 
 
 
+
         // Bind fullscreen toggle to button click
         const btn = document.querySelector('.full-screen-button');
         btn.addEventListener('click', this.toggleFullScreen.bind(this));

@@ -115,11 +115,11 @@ class Character extends MovableObject {
 
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
-                if (!this.gameSoundActive) {
+                if (!this.world.gameSoundActive) {
                     this.walking_sound.pause();
                     this.sleeping_sound.pause();
                 }
-                if (this.gameSoundActive) {
+                if (this.world.gameSoundActive) {
                     this.walking_sound.play();
                 }
 
@@ -130,10 +130,10 @@ class Character extends MovableObject {
 
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
-                if (!this.gameSoundActive) {
+                if (!this.world.gameSoundActive) {
                     this.walking_sound.pause();
                 }
-                if (this.gameSoundActive) {
+                if (this.world.gameSoundActive) {
                     this.walking_sound.play();
                 }
                 this.otherDirection = true;
@@ -142,11 +142,11 @@ class Character extends MovableObject {
 
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
-                if (!this.gameSoundActive) {
+                if (!this.world.gameSoundActive) {
                     this.pepe_jump.pause();
                     this.sleeping_sound.pause();
                 }
-                if (this.gameSoundActive) {
+                if (this.world.gameSoundActive) {
                     this.pepe_jump.play();
                     this.sleeping_sound.pause();
                 }
@@ -166,13 +166,13 @@ class Character extends MovableObject {
         setInterval(() => {
             // Handle animation states
             if (this.isDead()) {
-                if (!this.gameSoundActive) {
+                if (!this.world.gameSoundActive) {
                     this.character_eliminated_sound.pause();
                     this.pepe_eliminated_sound.pause();
                     this.you_lost_music.pause();
                     this.sleeping_sound.pause();
                 }
-                if (this.gameSoundActive) {
+                if (this.world.gameSoundActive) {
                     this.character_eliminated_sound.play();
                     this.pepe_eliminated_sound.play();
                     this.you_lost_music.play();
