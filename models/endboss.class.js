@@ -80,11 +80,11 @@ class Endboss extends MovableObject {
             if (this.endBossIsDead()) {
                 this.endBossIsEliminatedAnimation();
 
-                if (!this.world.gameSoundActive) {
+                if (!world.gameSoundActive) {
                     this.endboss_got_eliminated.pause();
                     this.game_won_sound.pause();
                 }
-                if (this.world.gameSoundActive) {
+                if (world.gameSoundActive) {
                     this.endboss_got_eliminated.play();
                     this.game_won_sound.play();
                 }
