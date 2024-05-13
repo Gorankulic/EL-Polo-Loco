@@ -38,7 +38,7 @@ class World {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.draw();
-        this.setWorld();
+        this.configureWorldForCharacter();
         this.run();
         this.throwCooldown = false; // Add this line
         //  this.small_chickens_move_sound.play();
@@ -67,7 +67,7 @@ class World {
 
     }
 
-    setWorld() {
+    configureWorldForCharacter() {
         this.character.world = this;
     }
 
