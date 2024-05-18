@@ -369,6 +369,10 @@ class World {
         this.coinBar.draw(this.ctx);
         if (this.character.energy == 0) {
             this.endGameYouLoose.draw(this.ctx);
+            this.restarTheGameButton.draw(this.ctx);
+            setTimeout(() => {
+                this.pauseAllSounds();
+            }, 3000);
 
 
 
@@ -394,7 +398,7 @@ class World {
         if (this.endbossHealthBar.visible) {
             this.endbossHealthBar.draw(this.ctx);
         }
-        this.restarTheGameButton.draw(this.ctx);
+
 
 
 
