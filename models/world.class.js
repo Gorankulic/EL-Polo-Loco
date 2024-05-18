@@ -9,6 +9,7 @@ class World {
     statusBarForBottle = new BottleBar();
     coinBar = new CoinBar();
     endGameYouLoose = new endGameLooseScreenPicture();
+    restarTheGameButton = new restartButton();
     bottleCount = 0;
 
     throwableObjects = [];
@@ -366,7 +367,17 @@ class World {
         this.statusBar.draw(this.ctx);
         this.statusBarForBottle.draw(this.ctx);
         this.coinBar.draw(this.ctx);
-        this.endGameYouLoose.draw(this.ctx);
+        if (this.character.energy == 0) {
+            this.endGameYouLoose.draw(this.ctx);
+
+
+
+
+
+        }
+
+
+
         // Manage the visibility of the EndBossHealthBar
         if (this.character.x > 1500) {
             if (!this.gameSoundActive) {
@@ -383,6 +394,7 @@ class World {
         if (this.endbossHealthBar.visible) {
             this.endbossHealthBar.draw(this.ctx);
         }
+        this.restarTheGameButton.draw(this.ctx);
 
 
 
