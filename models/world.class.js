@@ -9,7 +9,6 @@ class World {
     statusBarForBottle = new BottleBar();
     coinBar = new CoinBar();
     endGameYouLoose = new endGameLooseScreenPicture();
-    restarTheGameButton = new restartButton();
     bottleCount = 0;
 
     throwableObjects = [];
@@ -369,15 +368,9 @@ class World {
         this.coinBar.draw(this.ctx);
         if (this.character.energy == 0) {
             this.endGameYouLoose.draw(this.ctx);
-            this.restarTheGameButton.draw(this.ctx);
             setTimeout(() => {
                 this.pauseAllSounds();
             }, 3000);
-
-
-
-
-
         }
 
 
