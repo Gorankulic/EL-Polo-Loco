@@ -84,6 +84,7 @@ class World {
         // Toggle the gameSoundActive flag
         this.gameSoundActive = !this.gameSoundActive;
 
+
         // Control the playing or pausing of sounds based on the gameSoundActive state
         if (this.gameSoundActive) {
             // If gameSoundActive is true, play the sounds
@@ -369,6 +370,7 @@ class World {
         if (this.character.energy == 0) {
             this.endGameYouLoose.draw(this.ctx);
             setTimeout(() => {
+                this.gameSoundActive = false;
                 this.pauseAllSounds();
             }, 3000);
         }
