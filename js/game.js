@@ -8,17 +8,33 @@ function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
 
-    // Add the event listener for the restart image
+
+
+    startGame();
+    restartTheGame();
+
+
+}
+
+function restartTheGame() {
     document.getElementById('restartGameIcon').addEventListener('click', reloadPage);
 
+}
 
-
+function startGame() {
     document.getElementById('startScreen').style.display = 'none';
-
-
+    startAnimations();
 
 }
 
 function reloadPage() {
     location.reload();
+}
+
+function startAnimations() {
+    world.level.enemies.forEach(enemy => {
+        if (enemy instanceof Chicken || enemy instanceof SmallChickens) {
+            enemy.animate();
+        }
+    });
 }
