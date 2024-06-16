@@ -34,7 +34,6 @@ class SmallChickens extends MovableObject {
     animate() {
         setInterval(() => {
             this.moveLeft();
-            console.log(`small at x: ${this.x}`);
         }, 1000 / 60);
 
         setInterval(() => {

@@ -34,7 +34,6 @@ class Chicken extends MovableObject {
     animate() {
         setInterval(() => {
             this.moveLeft();
-            console.log(`BrownChicken at x: ${this.x}`);
         }, 1000 / 1200);
 
         setInterval(() => {
