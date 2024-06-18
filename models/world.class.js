@@ -30,6 +30,8 @@ class World {
     endbboss_coming_sound = new Audio('audio/endboss coming sound.mp3');
     desert_ambient_sound = new Audio('audio/desert ambient sound.mp3');
     background_game_music = new Audio('audio/game music.mp3');
+    gameOver = false; // Set gameOver to false
+
 
 
 
@@ -51,8 +53,8 @@ class World {
         this.chicken_hit_sound.pause();
         this.chicken_eliminated_from_player.pause();
         this.endbboss_coming_sound.pause();
-        //this.desert_ambient_sound.play();
-        // this.background_game_music.play();
+        this.desert_ambient_sound.play();
+        this.background_game_music.play();
 
 
 
@@ -368,11 +370,17 @@ class World {
         this.coinBar.draw(this.ctx);
         if (this.character.energy == 0) {
             this.endGameYouLoose.draw(this.ctx);
+            this.character.speed = 0; // Stop character movement
+            //this.level.enemies.forEach(enemy => enemy.speed = 0); // Stop enemies' movement
+            this.keyboard.detachEvents(); // Detach keyboard events
+
             setTimeout(() => {
+                this.gameOver = true;
                 this.gameSoundActive = false;
                 this.pauseAllSounds();
                 reloadPage();
-            }, 5000);
+
+            }, 4000);
         }
 
 

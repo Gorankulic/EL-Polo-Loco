@@ -122,5 +122,9 @@ class Keyboard {
             }, 0); // Immediate timeout to allow for the keyup event to process
         }
     }
+    detachEvents() {
+        window.removeEventListener('keydown', this.keyDown);
+        window.removeEventListener('keyup', this.keyUp);
+    }
 
 }
