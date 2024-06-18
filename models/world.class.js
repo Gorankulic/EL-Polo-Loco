@@ -371,6 +371,7 @@ class World {
             setTimeout(() => {
                 this.gameSoundActive = false;
                 this.pauseAllSounds();
+                reloadPage();
             }, 5000);
         }
 
