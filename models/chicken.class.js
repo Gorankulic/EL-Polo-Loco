@@ -46,7 +46,7 @@ class Chicken extends MovableObject {
         // Set a random speed for the chicken
         this.speed = 0.15 + Math.random() * 0.25;
         // Start the animation for the chicken
-        this.animate();
+
     }
 
     // Method to calculate the spawn x position with minimum distance from the last chicken
@@ -74,6 +74,7 @@ class Chicken extends MovableObject {
         // Move the chicken to the left at a certain interval
         setInterval(() => {
             this.moveLeft();
+            console.log('Chicken x position:', this.x);
         }, 100 / 60);
 
         // Change the animation frame at a certain interval
