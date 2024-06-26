@@ -74,7 +74,6 @@ class Chicken extends MovableObject {
         // Move the chicken to the left at a certain interval
         setInterval(() => {
             this.moveLeft();
-            console.log('Chicken x position:', this.x);
         }, 100 / 60);
 
         // Change the animation frame at a certain interval

@@ -160,6 +160,9 @@ class World {
                 if (this.character.bottleCount < 0) {
                     this.character.bottleCount = 0;
                 }
+                if (this.character.bottleCount > 100) {
+                    this.character.bottleCount = 100;
+                }
                 this.statusBarForBottle.setPercentageForBottle(this.character.bottleCount);
                 // Set a timeout to end the cooldown after 500 milliseconds
                 setTimeout(() => {
@@ -374,12 +377,14 @@ class World {
         this.statusBar.draw(this.ctx);
         this.statusBarForBottle.draw(this.ctx);
         this.coinBar.draw(this.ctx);
+
         if (this.character.energy == 0) {
             this.endGameYouLoose.draw(this.ctx);
             this.character.speed = 0; // Stop character movement
             //this.level.enemies.forEach(enemy => enemy.speed = 0); // Stop enemies' movement
             this.keyboard.detachEvents(); // Detach keyboard events
-            this.endbossHealthBar.hide();
+
+            this.character.bottleCount = 0;
 
             setTimeout(() => {
                 this.gameOver = true;
@@ -397,6 +402,7 @@ class World {
             this.level.enemies.forEach(enemy => enemy.speed = 0); // Stop enemies' movement
             this.keyboard.detachEvents(); // Detach keyboard events
             this.endbossHealthBar.hide();
+            this.character.bottleCount = 0;
 
             setTimeout(() => {
                 this.gameOver = true;
