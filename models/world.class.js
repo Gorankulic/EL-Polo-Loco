@@ -9,7 +9,9 @@ class World {
     statusBarForBottle = new BottleBar();
     coinBar = new CoinBar();
     endGameYouLoose = new endGameLooseScreenPicture();
+    endGameYouWon = new endGameUserWonGameScreenPicture();
     bottleCount = 0;
+
 
     throwableObjects = [];
     endBossMovesLeft = false;
@@ -31,6 +33,7 @@ class World {
     desert_ambient_sound = new Audio('audio/desert ambient sound.mp3');
     background_game_music = new Audio('audio/game music.mp3');
     gameOver = false; // Set gameOver to false
+    endBossIsEliminated = false;
 
 
 
@@ -318,6 +321,9 @@ class World {
         endboss.endBossGotHit = true;
         setTimeout(() => {
             endboss.endBossEnergy -= 25;
+            if (endboss.endBossEnergy == 0) {
+                this.endBossIsEliminated = true;
+            }
             this.endbossHealthBar.setPercentageForEndBoss(endboss.endBossEnergy);
             endboss.endBossGotHit = false;
             endboss.characterEnemyCollision = false;
@@ -373,6 +379,7 @@ class World {
             this.character.speed = 0; // Stop character movement
             //this.level.enemies.forEach(enemy => enemy.speed = 0); // Stop enemies' movement
             this.keyboard.detachEvents(); // Detach keyboard events
+            this.endbossHealthBar.hide();
 
             setTimeout(() => {
                 this.gameOver = true;
@@ -382,6 +389,23 @@ class World {
 
             }, 4000);
         }
+
+
+        if (this.endBossIsEliminated == true) { // Check the actual endBoss's energy
+            this.endGameYouWon.draw(this.ctx);
+            this.character.speed = 0; // Stop character movement
+            this.level.enemies.forEach(enemy => enemy.speed = 0); // Stop enemies' movement
+            this.keyboard.detachEvents(); // Detach keyboard events
+            this.endbossHealthBar.hide();
+
+            setTimeout(() => {
+                this.gameOver = true;
+                this.gameSoundActive = false;
+                this.pauseAllSounds();
+                reloadPage();
+            }, 4000);
+        }
+
 
 
 

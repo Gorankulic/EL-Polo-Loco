@@ -104,11 +104,9 @@ class Endboss extends MovableObject {
     endBossGotHitAnimation() {
         if (this.endBossGotHit == true) {
             this.playAnimation(this.IMAGES_ENDBOSS_HIT);
-            console.log("Endboss got hit. Hit animation playing.");
             setTimeout(() => {
                 this.endBossGotHit = false; // Reset hit flag after animation
                 this.speed = 7 + Math.random() * 0.25; // Reset speed after hit
-                console.log('Hit animation ended. Resuming normal behavior.');
             }, 500); // Delay matches the length of the hit animation
         }
 
@@ -117,24 +115,20 @@ class Endboss extends MovableObject {
     endBossIsEliminatedAnimation() {
         this.speed = 0;
         this.playAnimation(this.IMAGES_BOSS_ELIMINATED);
-        console.log("Endboss is dead. Elimination animation playing.");
     }
 
     endBossAttackingAnimation() {
         this.playAnimation(this.IMAGES_ENDBOSS_ATTACKING);
-        console.log("Endboss is attacking. Attack animation playing.");
         this.jump(); // Endboss jumps during attack
         setTimeout(() => {
             this.endBossAttacking = false;
             this.speed = 7 + Math.random() * 0.25; // Reset speed post-attack
-            console.log('Attack animation ended. Resuming movement.');
         }, 500); // Delay after attack animation
     }
 
     endBossRunningAnimation() {
         this.moveLeft(); // Move the endboss left
         this.playAnimation(this.IMAGES_ENDBOSS_RUNNING); // Play the running animation
-        console.log("Endboss is moving left. Running animation playing.");
     }
 
 
