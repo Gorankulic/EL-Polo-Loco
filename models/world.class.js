@@ -364,9 +364,10 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.enemies);
+
         this.addObjectsToMap(this.throwableObjects);
 
 
@@ -377,6 +378,22 @@ class World {
         this.statusBar.draw(this.ctx);
         this.statusBarForBottle.draw(this.ctx);
         this.coinBar.draw(this.ctx);
+        // Manage the visibility of the EndBossHealthBar
+        if (this.character.x > 1500) {
+            if (!this.gameSoundActive) {
+                this.endbboss_coming_sound.pause();
+            }
+            if (this.gameSoundActive) {
+                this.endbboss_coming_sound.play();
+            }
+
+            this.endbossHealthBar.show();
+        }
+
+        // Draw the EndBossHealthBar if it's visible
+        if (this.endbossHealthBar.visible) {
+            this.endbossHealthBar.draw(this.ctx);
+        }
 
         if (this.character.energy == 0) {
             this.endGameYouLoose.draw(this.ctx);
@@ -415,22 +432,7 @@ class World {
 
 
 
-        // Manage the visibility of the EndBossHealthBar
-        if (this.character.x > 1500) {
-            if (!this.gameSoundActive) {
-                this.endbboss_coming_sound.pause();
-            }
-            if (this.gameSoundActive) {
-                this.endbboss_coming_sound.play();
-            }
 
-            this.endbossHealthBar.show();
-        }
-
-        // Draw the EndBossHealthBar if it's visible
-        if (this.endbossHealthBar.visible) {
-            this.endbossHealthBar.draw(this.ctx);
-        }
 
 
 
