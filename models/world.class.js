@@ -374,24 +374,23 @@ class World {
         // Translate back to original position
         this.ctx.translate(-this.camera_x, 0);
 
-        // Drawing the bars after all other objects to ensure they appear in front
-        this.statusBar.draw(this.ctx);
-        this.statusBarForBottle.draw(this.ctx);
-        this.coinBar.draw(this.ctx);
-        // Manage the visibility of the EndBossHealthBar
-        if (this.character.x > 1500) {
-            if (!this.gameSoundActive) {
-                this.endbboss_coming_sound.pause();
-            }
-            if (this.gameSoundActive) {
-                this.endbboss_coming_sound.play();
-            }
+        if (!this.endBossIsEliminated && this.character.energy > 0) {
+            this.statusBar.draw(this.ctx); // Health bar is drawn
+            this.statusBarForBottle.draw(this.ctx); // Bottle bar is drawn
+            this.coinBar.draw(this.ctx); // Coin bar is drawn
 
-            this.endbossHealthBar.show();
-
-            if (this.character.energy == 0 || this.endBossIsEliminated) {
-                this.endbossHealthBar.hide();
+            // Manage the visibility of the EndBossHealthBar
+            if (this.character.x > 1500) {
+                if (!this.gameSoundActive) {
+                    this.endbboss_coming_sound.pause();
+                }
+                if (this.gameSoundActive) {
+                    this.endbboss_coming_sound.play();
+                }
+                this.endbossHealthBar.show();
             }
+        } else {
+            this.endbossHealthBar.hide(); // End boss health bar is hidden
         }
 
         // Draw the EndBossHealthBar if it's visible
