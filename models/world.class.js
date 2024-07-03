@@ -362,17 +362,15 @@ class World {
         // Translate once for drawing objects relative to the camera
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
-
-
         this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
-        this.addToMap(this.character);
+
 
         this.addObjectsToMap(this.throwableObjects);
 
-
+        this.addToMap(this.character);
         // Translate back to original position
         this.ctx.translate(-this.camera_x, 0);
 
@@ -390,6 +388,10 @@ class World {
             }
 
             this.endbossHealthBar.show();
+
+            if (this.character.energy == 0 || this.endBossIsEliminated) {
+                this.endbossHealthBar.hide();
+            }
         }
 
         // Draw the EndBossHealthBar if it's visible
@@ -400,10 +402,10 @@ class World {
         if (this.character.energy == 0) {
             this.endGameYouLoose.draw(this.ctx);
             this.character.speed = 0; // Stop character movement
-            //this.level.enemies.forEach(enemy => enemy.speed = 0); // Stop enemies' movement
-            this.keyboard.detachEvents(); // Detach keyboard events
+            this.level.enemies.forEach(enemy => enemy.speed = 0); // Stop enemies' movement
 
             this.character.bottleCount = 0;
+
 
             setTimeout(() => {
                 this.gameOver = true;
@@ -419,9 +421,9 @@ class World {
             this.endGameYouWon.draw(this.ctx);
             this.character.speed = 0; // Stop character movement
             this.level.enemies.forEach(enemy => enemy.speed = 0); // Stop enemies' movement
-            this.keyboard.detachEvents(); // Detach keyboard events
-            this.endbossHealthBar.hide();
+
             this.character.bottleCount = 0;
+
 
             setTimeout(() => {
                 this.gameOver = true;
