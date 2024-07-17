@@ -34,6 +34,7 @@ class World {
     background_game_music = new Audio('audio/game music.mp3');
     gameOver = false; // Set gameOver to false
     endBossIsEliminated = false;
+    stopAllAnimations = false;
 
 
 
@@ -399,6 +400,7 @@ class World {
         }
 
         if (this.character.energy == 0) {
+            this.stopAllAnimations = true;
             this.endGameYouLoose.draw(this.ctx);
             this.character.speed = 0; // Stop character movement
             this.level.enemies.forEach(enemy => enemy.speed = 0); // Stop enemies' movement
@@ -417,6 +419,7 @@ class World {
 
 
         if (this.endBossIsEliminated == true) { // Check the actual endBoss's energy
+            this.stopAllAnimations = true;
             this.endGameYouWon.draw(this.ctx);
             this.character.speed = 0; // Stop character movement
             this.level.enemies.forEach(enemy => enemy.speed = 0); // Stop enemies' movement

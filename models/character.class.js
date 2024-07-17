@@ -112,7 +112,6 @@ class Character extends MovableObject {
             // Handle movement and sound effects
             this.walking_sound.pause();
             this.pepe_jump.pause();
-
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 if (!this.world.gameSoundActive) {
@@ -161,10 +160,12 @@ class Character extends MovableObject {
                 // Setze den Charakter auf 300 Pixel auf der y-Achse
                 this.y = -24;
             }
+
         }, 1000 / 60);
 
         setInterval(() => {
             // Handle animation states
+
             if (this.isDead()) {
                 if (!this.world.gameSoundActive) {
                     this.character_eliminated_sound.pause();
@@ -200,6 +201,7 @@ class Character extends MovableObject {
                     this.sleeping_sound.pause();
                 }
             }
+
         }, 50);
     }
 

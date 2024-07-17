@@ -62,7 +62,7 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
 
     ];
-    constructor() {
+    constructor(world) {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_ENDBOSS_RUNNING);
         this.loadImages(this.IMAGES_ENDBOSS_ATTACKING);
@@ -97,6 +97,8 @@ class Endboss extends MovableObject {
             } else if (this.endBossMovesLeft && !this.endBossGotHit) {
                 this.endBossRunningAnimation();
             }
+
+
         }, 80); // The interval at which the animations are checked and updated
     }
 

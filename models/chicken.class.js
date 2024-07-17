@@ -71,21 +71,21 @@ class Chicken extends MovableObject {
 
     // Method to start the animation for the chicken
     animate() {
-        // Move the chicken to the left at a certain interval
         setInterval(() => {
-            this.moveLeft();
-        }, 100 / 60);
-
-        // Change the animation frame at a certain interval
-        setInterval(() => {
-            // If the chicken has collided with the character, play the eliminated animation
-            if (this.characterEnemyCollision == true) {
-                this.playAnimation(this.ELIMINATED_CHICKEN_IMAGES);
-            } else {
-                // Otherwise, play the walking animation
-                this.playAnimation(this.IMAGES_WALKING);
+            if (!world.stopAllAnimations) {
+                this.moveLeft();
             }
-        }, 150);
+        }, 1000 / 1200);
+
+        setInterval(() => {
+            if (!world.stopAllAnimations) {
+                if (this.characterEnemyCollision) {
+                    this.playAnimation(this.ELIMINATED_CHICKEN_IMAGES);
+                } else {
+                    this.playAnimation(this.IMAGES_WALKING);
+                }
+            }
+        }, 1000 / 20);
     }
 
     // Method to check if the chicken has collided with the character

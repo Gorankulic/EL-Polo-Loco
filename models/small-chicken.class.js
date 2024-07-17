@@ -33,17 +33,21 @@ class SmallChickens extends MovableObject {
 
     animate() {
         setInterval(() => {
-            this.moveLeft();
+            if (!world.stopAllAnimations) {
+                this.moveLeft();
+            }
         }, 1000 / 60);
 
         setInterval(() => {
-            // Wenn eine Kollision mit dem Charakter stattgefunden hat
-            if (this.characterEnemyCollision == true) {
-                // Warte 2 Sekunden, dann spiele die Eliminierungsanimation
-                this.playAnimation(this.ELIMINATED_CHICKEN_IMAGES);
-            } else {
-                // Ansonsten spiele die Laufanimation
-                this.playAnimation(this.RUNNING_IMAGES_FOR_SMALL_CHICKEN);
+            if (!world.stopAllAnimations) {
+                // Wenn eine Kollision mit dem Charakter stattgefunden hat
+                if (this.characterEnemyCollision == true) {
+                    // Warte 2 Sekunden, dann spiele die Eliminierungsanimation
+                    this.playAnimation(this.ELIMINATED_CHICKEN_IMAGES);
+                } else {
+                    // Ansonsten spiele die Laufanimation
+                    this.playAnimation(this.RUNNING_IMAGES_FOR_SMALL_CHICKEN);
+                }
             }
         }, 1000 / 20);
     }
