@@ -140,7 +140,7 @@ class Character extends MovableObject {
                 this.lastMovedTimestamp = new Date().getTime();
             }
 
-            if (this.world.keyboard.SPACE && !this.isAboveGround() && this.characterCanJump) {
+            if (this.world.keyboard.SPACE && !this.isAboveGround() && this.characterCanJump == true) {
                 this.jump();
                 if (!this.world.gameSoundActive) {
                     this.pepe_jump.pause();
@@ -207,7 +207,7 @@ class Character extends MovableObject {
     }
 
     jump() {
-        if (characterCanJump == true) {
+        if (this.characterCanJump == true) {
             this.speedY = 16;
         }
 
