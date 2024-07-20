@@ -22,13 +22,33 @@ class SmallChickens extends MovableObject {
     ];
 
     constructor() {
-        super();
-        this.loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
-        this.loadImages(this.RUNNING_IMAGES_FOR_SMALL_CHICKEN);
-        this.loadImages(this.ELIMINATED_CHICKEN_IMAGES);
-        this.x = 800 + Math.random() * 2200;
-        this.speed = 0.15 + Math.random() * 0.25;
+            super();
+            this.loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
+            this.loadImages(this.RUNNING_IMAGES_FOR_SMALL_CHICKEN);
+            this.loadImages(this.ELIMINATED_CHICKEN_IMAGES);
+            this.x = this.getSpawnX();
+            // Set a random speed for the SmallChickens
+            this.speed = 0.15 + Math.random() * 0.25;
+            // Start the animation for the SmallChickens
+        }
+        // Method to calculate the spawn x position with minimum distance from the last SmallChickens
+    getSpawnX() {
+        // Minimum x value for spawning
+        let minX = 800;
+        // Maximum x value for spawning
+        let maxX = 2500;
+        // Minimum distance between chickens
+        let minDistance = 100;
 
+        let newX;
+        // Generate a new x position until it meets the minimum distance requirement
+        do {
+            newX = minX + Math.random() * (maxX - minX);
+        } while (Math.abs(newX - SmallChickens.lastX) < minDistance);
+
+        // Update the last SmallChickens's position
+        SmallChickens.lastX = newX;
+        return newX;
     }
 
     animate() {
