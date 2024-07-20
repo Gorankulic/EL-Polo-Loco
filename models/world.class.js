@@ -400,6 +400,7 @@ class World {
         }
 
         if (this.character.energy == 0) {
+            this.character.characterCanJump = false;
             this.stopAllAnimations = true;
             this.endGameYouLoose.draw(this.ctx);
             this.character.speed = 0; // Stop character movement

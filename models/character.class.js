@@ -11,6 +11,7 @@ class Character extends MovableObject {
     };
     lastMovedTimestamp = null;
     character_eliminated_sound = new Audio('audio/endboss eliminated sound.mp3');
+    characterCanJump = true;
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -139,7 +140,7 @@ class Character extends MovableObject {
                 this.lastMovedTimestamp = new Date().getTime();
             }
 
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+            if (this.world.keyboard.SPACE && !this.isAboveGround() && this.characterCanJump) {
                 this.jump();
                 if (!this.world.gameSoundActive) {
                     this.pepe_jump.pause();
@@ -206,7 +207,10 @@ class Character extends MovableObject {
     }
 
     jump() {
-        this.speedY = 16;
+        if (characterCanJump == true) {
+            this.speedY = 16;
+        }
+
     }
     secondJump() {
         this.speedY = 15; // Initial jump boost
