@@ -74,14 +74,30 @@ canvas {
     height: 100%;
 }
 
-.left-button-on-start-screen {
+.control-buttons-home-page {
     position: absolute;
-    transform: rotate(180deg);
+    width: 100%;
+    /* height: 100%; */
+    z-index: 1;
+    bottom: -30px;
+    /* right: 500px; */
+    display: flex;
+    justify-content: center;
 }
 
-.right-button-on-start-screen {
-    position: absolute;
-    right: 255px;
+.jump-button-on-start-screen {
+    bottom: 10px;
+}
+
+.d-button-on-start-screen {
+    /* width: 100px; */
+    height: 75px;
+    margin-top: 32px;
+}
+
+.button-description-with-text {
+    display: flex;
+    flex-direction: column;
 }
 
 
