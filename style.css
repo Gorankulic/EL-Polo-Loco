@@ -85,15 +85,13 @@ canvas {
     justify-content: center;
 }
 
-.jump-button-on-start-screen {
-    bottom: 10px;
+.right-button-on-start-screen {
+    width: fit-content;
 }
 
-.d-button-on-start-screen {
-    /* width: 100px; */
-    /* height: 75px; */
-    /* margin-top: 32px; */
+.left-button-on-start-screen {
     width: fit-content;
+    transform: rotate(180deg);
 }
 
 .jump-button-on-start-screen {
