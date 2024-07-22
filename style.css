@@ -37,6 +37,11 @@ canvas {
     /* object-fit: contain; */
 }
 
+.top-button-bar {
+    display: flex;
+    justify-content: space-around;
+}
+
 .start-button {
     padding: 1em 2em;
     font-size: 1.5em;
@@ -113,7 +118,7 @@ canvas {
     width: 95%;
     height: 95%;
     position: absolute;
-    align-items: center;
+    align-items: end;
     bottom: 0;
     flex-direction: column;
     justify-content: space-between;
@@ -143,12 +148,6 @@ canvas {
 
 .throw-button {
     transition: border-color 0.2s;
-}
-
-.top-button-bar {
-    display: flex;
-    width: 100%;
-    justify-content: end;
 }
 
 .bottom-control-bar {
@@ -217,13 +216,6 @@ canvas {
     #canvas {
         width: 100vw;
     }
-    .top-button-bar {
-        display: flex;
-        /* width: 20%; */
-        justify-content: end;
-        /* margin-top: -60px; */
-        margin-right: 20px;
-    }
     .start-screen-image {
         /* max-width: 100%; */
         /* height: 480px; */
@@ -242,13 +234,6 @@ canvas {
 }
 
 @media only screen and (max-height:390px) {
-    .top-button-bar {
-        display: flex;
-        width: 20%;
-        justify-content: space-around;
-        /* margin-top: -60px; */
-        margin-right: 20px;
-    }
     .start-screen {
         position: absolute;
         /* width: 100%; */
@@ -264,13 +249,6 @@ canvas {
 }
 
 @media only screen and (max-height:415px) {
-    .top-button-bar {
-        display: flex;
-        width: 20%;
-        justify-content: space-around;
-        margin-top: -100px;
-        /* margin-right: 20px; */
-    }
     .start-screen {
         position: absolute;
         /* width: 100%; */
@@ -298,6 +276,21 @@ canvas {
         margin: 0;
         height: 100vh;
     }
+    .game-div:fullscreen .on-display-icons {
+        width: 95%;
+        height: 95%;
+        position: absolute;
+        /* align-items: center; */
+        bottom: 0;
+        flex-direction: column;
+        /* justify-content: space-between; */
+    }
+    .bottom-control-bar {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        /* margin-bottom: -100px; */
+    }
     .game-div {
         position: relative;
         text-align: center;
@@ -314,7 +307,7 @@ canvas {
         /* align-items: end; */
         /* bottom: 0px; */
         /* flex-direction: column; */
-        justify-content: space-around;
+        /* justify-content: space-around; */
     }
     .button-universal {
         width: 50px;
@@ -323,17 +316,6 @@ canvas {
     .button-universal:hover {
         cursor: pointer;
         opacity: 0.7;
-    }
-    .top-button-bar {
-        display: flex;
-        width: 20%;
-        justify-content: end;
-    }
-    .bottom-control-bar {
-        display: flex;
-        width: 100%;
-        justify-content: space-around;
-        margin-bottom: -100px;
     }
     .start-screen {
         position: absolute;
