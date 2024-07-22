@@ -177,6 +177,14 @@ canvas {
     opacity: 0.7;
 }
 
+.mute-button {
+    display: none;
+}
+
+.unmute-button {
+    display: block;
+}
+
 @media only screen and (max-width: 720px) {
     body {
         /* display: flex; */
@@ -212,6 +220,12 @@ canvas {
     .button-universal:hover {
         cursor: pointer;
         opacity: 0.7;
+    }
+    .mute-button {
+        display: none;
+    }
+    .unmute-button {
+        display: block;
     }
     #canvas {
         width: 100vw;
@@ -316,6 +330,12 @@ canvas {
     .button-universal:hover {
         cursor: pointer;
         opacity: 0.7;
+    }
+    .mute-button {
+        display: none;
+    }
+    .unmute-button {
+        display: block;
     }
     .start-screen {
         position: absolute;

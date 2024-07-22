@@ -68,8 +68,11 @@ class World {
         const btn = document.querySelector('.full-screen-button');
         btn.addEventListener('click', this.toggleFullScreen.bind(this));
 
-        const muteButton = document.querySelector('.mute-button');
+        const muteButton = document.getElementById('muteIcon');
+        const unmuteButton = document.getElementById('unmuteIcon');
+
         muteButton.addEventListener('click', () => this.toggle_mute_sound());
+        unmuteButton.addEventListener('click', () => this.toggle_mute_sound());
 
 
     }
@@ -87,16 +90,27 @@ class World {
         }, 1000 / 60);
     }
     toggle_mute_sound() {
-        // Toggle the gameSoundActive flag
         this.gameSoundActive = !this.gameSoundActive;
 
-        // Control the playing or pausing of sounds based on the gameSoundActive state
         if (this.gameSoundActive) {
-            // If gameSoundActive is true, play the sounds
             this.playAllSounds();
         } else {
-            // If gameSoundActive is false, pause the sounds
             this.pauseAllSounds();
+        }
+
+        this.updateMuteIcon();
+    }
+
+    updateMuteIcon() {
+        const muteIcon = document.getElementById('muteIcon');
+        const unmuteIcon = document.getElementById('unmuteIcon');
+
+        if (this.gameSoundActive) {
+            muteIcon.style.display = 'none';
+            unmuteIcon.style.display = 'block';
+        } else {
+            muteIcon.style.display = 'block';
+            unmuteIcon.style.display = 'none';
         }
     }
 
