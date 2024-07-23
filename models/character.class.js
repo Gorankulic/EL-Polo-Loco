@@ -148,7 +148,7 @@ class Character extends MovableObject {
                 }
                 if (this.world.gameSoundActive) {
                     this.pepe_jump.play();
-                    this.sleeping_sound.pause();
+                    this.sleeping_sound.play();
                 }
 
                 this.lastMovedTimestamp = new Date().getTime();
@@ -190,7 +190,12 @@ class Character extends MovableObject {
                 this.sleeping_sound.pause();
             } else if (this.isSleeping()) {
                 this.playAnimation(this.IMAGES_SLEEPING);
-                this.sleeping_sound.play();
+                if (this.world.gameSoundActive) {
+                    this.sleeping_sound.play();
+                }
+                if (!this.world.gameSoundActive) {
+                    this.sleeping_sound.pause();
+                }
 
             } else if (this.isBored()) {
                 this.playAnimation(this.IMAGES_IDLE);
