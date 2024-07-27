@@ -75,6 +75,11 @@ class World {
         unmuteButton.addEventListener('click', () => this.toggle_mute_sound());
 
 
+        // Add event listener for orientation change
+        window.addEventListener('orientationchange', this.checkOrientation.bind(this));
+        // Initial check
+        this.checkOrientation();
+
     }
 
     configureWorldForCharacter() {
@@ -147,6 +152,18 @@ class World {
         this.desert_ambient_sound.pause();
         this.background_game_music.pause();
     }
+
+    checkOrientation() {
+        const warning = document.getElementById('orientationWarning');
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        if (isMobile && window.innerWidth < window.innerHeight) {
+            warning.style.display = 'flex';
+        } else {
+            warning.style.display = 'none';
+        }
+    }
+
 
 
 
