@@ -154,14 +154,17 @@ class World {
     }
 
     checkOrientation() {
-        const warning = document.getElementById('orientationWarning');
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        setInterval(() => {
+            const warning = document.getElementById('orientationWarning');
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-        if (isMobile && window.innerWidth < window.innerHeight) {
-            warning.style.display = 'flex';
-        } else {
-            warning.style.display = 'none';
-        }
+            if (isMobile && window.innerWidth < window.innerHeight) {
+                warning.style.display = 'flex';
+            } else {
+                warning.style.display = 'none';
+            }
+        }, 1000 / 60);
+
     }
 
 
