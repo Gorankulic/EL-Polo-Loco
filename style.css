@@ -22,7 +22,7 @@ canvas {
     /* background-color: rgba(0, 0, 0, 0.8); */
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     z-index: 1000;
 }
@@ -56,7 +56,7 @@ canvas {
     cursor: pointer;
     position: absolute;
     width: 270px;
-    margin-bottom: 300px;
+    /* margin-bottom: 300px; */
     border-radius: 15px;
     text-align: center;
     text-transform: uppercase;
@@ -64,6 +64,7 @@ canvas {
     border: none;
     color: white;
     transition: background-color 0.3s ease;
+    margin-top: 20px;
 }
 
 .start-button:hover {
@@ -271,65 +272,6 @@ canvas {
     }
 }
 
-@media only screen and (max-height:390px) {
-    .start-screen {
-        position: absolute;
-        /* width: 100%; */
-        /* height: 100%; */
-        /* background-color: rgba(0, 0, 0, 0.8); */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        height: 100vh;
-    }
-    .start-screen-image {
-        /* max-width: 100%; */
-        height: 100%;
-        /* width: 720px; */
-        /* border-radius: 15px; */
-        /* border-color: brown; */
-        /* border-width: 10px; */
-        /* object-fit: contain; */
-    }
-}
-
-@media only screen and (max-height:415px) {
-    .start-screen {
-        position: absolute;
-        /* width: 100%; */
-        /* height: 100%; */
-        /* background-color: rgba(0, 0, 0, 0.8); */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        height: 100vh;
-    }
-    .start-screen-image {
-        /* max-width: 100%; */
-        height: 100%;
-        /* width: 720px; */
-        /* border-radius: 15px; */
-        /* border-color: brown; */
-        /* border-width: 10px; */
-        /* object-fit: contain; */
-    }
-    .control-buttons-home-page {
-        position: absolute;
-        width: 100vw;
-        /* height: 100%; */
-        z-index: 1;
-        bottom: 0px;
-        /* right: 500px; */
-        display: flex;
-        justify-content: center;
-        background-color: rgb(255 255 255 / 57%);
-    }
-}
-
 @media only screen and (max-height:480px) {
     canvas {
         height: 100vh;
@@ -379,6 +321,22 @@ canvas {
     .button-universal {
         width: 50px;
         opacity: 0.5;
+    }
+    .start-button {
+        padding: 1em 2em;
+        font-size: 1.5em;
+        cursor: pointer;
+        position: absolute;
+        width: 270px;
+        margin-bottom: 280px;
+        border-radius: 15px;
+        text-align: center;
+        text-transform: uppercase;
+        background-color: #FFA500 !important;
+        border: none;
+        color: white;
+        transition: background-color 0.3s ease;
+        margin-top: 20px;
     }
     .button-universal:hover {
         cursor: pointer;
