@@ -7,9 +7,9 @@ class Endboss extends MovableObject {
     endBossGotHit = false;
     offset = {
         right: 55,
-        left: 35,
+        left: 155,
         bottom: 30,
-        top: 45
+        top: 200
     };
     endboss_got_eliminated = new Audio('audio/endboss eliminated sound.mp3');
     game_won_sound = new Audio('audio/game won.mp3');
