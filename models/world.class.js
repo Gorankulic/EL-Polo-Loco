@@ -217,11 +217,15 @@ class World {
                     this.pepe_hurt.play();
                 }
 
-                setTimeout(() => {
-                    if (enemy instanceof Endboss) {
+                if (enemy instanceof Endboss) {
+                    // Handle Endboss collision differently
+                    setTimeout(() => {
                         enemy.endBossAttacking = true;
-                    }
-                }, 500);
+                    }, 500);
+                    this.character.hit();
+                    this.statusBar.setPercentage(this.character.energy);
+                    return; // Exit early since Endboss collision is handled separately
+                }
 
                 if (this.character.isAboveGround()) {
                     this.character.secondJump();
@@ -260,6 +264,7 @@ class World {
             }
         });
     }
+
     checkCoinCollisions() {
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin) && this.character.coinCount < 100) {
