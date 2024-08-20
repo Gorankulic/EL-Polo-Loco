@@ -7,3 +7,4 @@ Image by <a href="https://pixabay.com/users/makunin-37005/?utm_source=link-attri
 <a href="https://www.flaticon.com/free-icons/speaker" title="speaker icons">Speaker icons created by Pixel perfect - Flaticon</a>  nova mute ikona zvuk ukljucen
 <a href="https://www.flaticon.com/free-icons/mute" title="mute icons">Mute icons created by Mayor Icons - Flaticon</a>  nova ikona za iskljucenje zvuka
 <a href="https://iconscout.com/icons/screen-rotate" class="text-underline font-size-sm" target="_blank">Screen Rotate</a> by <a href="https://iconscout.com/contributors/berkah-studio" class="text-underline font-size-sm">Berkah Icon</a> on <a href="https://iconscout.com" class="text-underline font-size-sm">IconScout</a> ikona rotacije
+https://fontmeme.com/fonts/light-house-font/ font used in game link

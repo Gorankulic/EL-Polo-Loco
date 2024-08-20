@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'game-font';
+    src: url('fonts/ZABARS/Zabars.ttf') format('truetype');
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -8,7 +13,7 @@ body {
     margin: 0;
     height: 100vh;
     background-image: url('img/background/desert.jpg');
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: game-font;
 }
 
 canvas {
@@ -66,6 +71,7 @@ canvas {
     color: white;
     transition: background-color 0.3s ease;
     margin-top: 20px;
+    font-family: game-font;
 }
 
 .start-button:hover {
