@@ -46,6 +46,7 @@ canvas {
     display: flex;
     justify-content: space-around;
     width: 200px;
+    margin-top: 20px;
 }
 
 .rotate-image {
@@ -171,6 +172,7 @@ canvas {
     display: none;
     width: 100%;
     justify-content: space-around;
+    margin-bottom: 5px;
 }
 
 .on-display-icons {
