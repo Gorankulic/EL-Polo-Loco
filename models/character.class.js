@@ -1,7 +1,7 @@
 class Character extends MovableObject {
-    height = 450;
-    width = 200;
-    y = -300;
+    height = 350;
+    width = 150;
+
     speed = 10;
     offset = {
         right: 55,
@@ -157,9 +157,9 @@ class Character extends MovableObject {
             this.world.camera_x = -this.x + 100;
 
 
-            if (this.y > -23) {
+            if (this.y > 74) {
                 // Setze den Charakter auf 300 Pixel auf der y-Achse
-                this.y = -24;
+                this.y = 75; //////ovdje staviti oko 110
             }
 
         }, 1000 / 60);
