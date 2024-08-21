@@ -13,10 +13,10 @@ class CoinBar extends DrawableObject {
         super();
         this.loadImages(this.IMAGES_FOR_COINS);
         this.setPercentageForCoins(0);
-        this.x = 12;
-        this.y = 82;
-        this.width = 150;
-        this.height = 50;
+        this.x = 20;
+        this.y = 75;
+        this.width = 125;
+        this.height = 45;
     }
     setPercentageForCoins(percentage) {
         this.percentageForCoins = percentage;

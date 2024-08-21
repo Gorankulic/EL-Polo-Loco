@@ -45,8 +45,9 @@ canvas {
 .top-button-bar {
     display: flex;
     justify-content: space-around;
-    width: 200px;
+    width: 125px;
     margin-top: 20px;
+    margin-right: 10px;
 }
 
 .rotate-image {
@@ -187,7 +188,7 @@ canvas {
 }
 
 .button-universal {
-    width: 50px;
+    width: 32px;
     opacity: 0.5;
 }
 
