@@ -58,6 +58,10 @@ canvas {
     display: none;
 }
 
+.please-rotate-device-text {
+    display: none;
+}
+
 .start-button {
     padding: 1em 2em;
     font-size: 2em;
@@ -74,11 +78,14 @@ canvas {
     transition: background-color 0.3s ease;
     margin-top: 20px;
     font-family: game-font;
+    transform: scale(1.0);
 }
 
 .start-button:hover {
     background-color: #E59400 !important;
     /* 10% darker shade of orange with !important */
+    transform: scale(1.05);
+    /* Zoom in effect */
 }
 
 
@@ -128,6 +135,12 @@ canvas {
     display: flex;
     flex-direction: column;
     TEXT-ALIGN: center;
+    transition: transform 0.3s ease;
+    margin: 10px;
+}
+
+.button-description-with-text:hover {
+    transform: scale(1.2);
 }
 
 
@@ -190,11 +203,13 @@ canvas {
 .button-universal {
     width: 32px;
     opacity: 0.5;
+    transition: transform 0.3s ease;
 }
 
 .button-universal:hover {
     cursor: pointer;
     opacity: 0.7;
+    transform: scale(1.2);
 }
 
 .mute-button {
@@ -230,6 +245,9 @@ canvas {
         align-items: center;
         z-index: 1001;
         flex-direction: column;
+    }
+    .please-rotate-device-text {
+        display: flex;
     }
     .game-div {
         position: relative;
@@ -348,6 +366,7 @@ canvas {
         color: white;
         transition: background-color 0.3s ease;
         margin-top: 20px;
+        transition: transform 0.3s ease, background-color 0.3s ease;
     }
     .button-universal:hover {
         cursor: pointer;
