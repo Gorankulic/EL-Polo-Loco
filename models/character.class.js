@@ -208,7 +208,7 @@ class Character extends MovableObject {
                 }
             }
 
-        }, 50);
+        }, 1000 / 60);
     }
 
     jump() {

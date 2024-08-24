@@ -76,7 +76,10 @@ class Chicken extends MovableObject {
                 this.moveLeft();
             }
         }, 1000 / 1200);
+        this.stopAllAnimationsforChicken();
 
+    }
+    stopAllAnimationsforChicken() {
         setInterval(() => {
             if (!world.stopAllAnimations) {
                 if (this.characterEnemyCollision) {

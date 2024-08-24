@@ -57,7 +57,13 @@ class SmallChickens extends MovableObject {
                 this.moveLeft();
             }
         }, 1000 / 60);
+        this.stopAnimationsForChicken();
 
+    }
+    isCharacterColliding() {
+        return this.characterEnemyCollision;
+    }
+    stopAnimationsForChicken() {
         setInterval(() => {
             if (!world.stopAllAnimations) {
                 // Wenn eine Kollision mit dem Charakter stattgefunden hat
@@ -71,10 +77,4 @@ class SmallChickens extends MovableObject {
             }
         }, 1000 / 20);
     }
-    isCharacterColliding() {
-        return this.characterEnemyCollision;
-    }
-
-
-
 }
