@@ -172,40 +172,57 @@ class World {
 
     checkThrowableObjects() {
         if (this.keyboard.D && this.character.bottleCount > 0) {
-            if (!this.character.throwCooldown) { // Check if cooldown is not active
-                this.character.throwCooldown = true; // Activate cooldown
-
-                // Existing code for throwing bottles remains unchanged
-                for (let i = 0; i < this.character.bottleCount; i++) {
-                    let xOffset = this.character.lastDirection === 'right' ? 100 : 0; // Choose the right offset based on direction
-                    let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 100, this.character.lastDirection);
-                    this.throwableObjects.push(bottle);
-                }
-                if (!this.gameSoundActive) {
-                    this.pepe_throw.pause();
-                    // ide dole   
-
-                }
-                if (this.gameSoundActive) {
-                    this.pepe_throw.play();
-                }
-
-                this.character.bottleCount -= 20;
-
-                if (this.character.bottleCount < 0) {
-                    this.character.bottleCount = 0;
-                }
-                if (this.character.bottleCount > 100) {
-                    this.character.bottleCount = 100;
-                }
-                this.statusBarForBottle.setPercentageForBottle(this.character.bottleCount);
-                // Set a timeout to end the cooldown after 500 milliseconds
-                setTimeout(() => {
-                    this.character.throwCooldown = false; // Deactivate cooldown
-                }, 500);
+            if (!this.character.throwCooldown) {
+                this.activateThrowCooldown();
+                this.throwBottles();
+                this.updateBottleCount();
+                this.playThrowSound();
+                this.updateBottleStatusBar();
+                this.resetThrowCooldownAfterDelay();
             }
         }
     }
+
+    activateThrowCooldown() {
+        this.character.throwCooldown = true; // Activate cooldown
+    }
+
+    throwBottles() {
+        for (let i = 0; i < this.character.bottleCount; i++) {
+            let xOffset = this.character.lastDirection === 'right' ? 100 : 0; // Choose the right offset based on direction
+            let bottle = new ThrowableObject(this.character.x + xOffset, this.character.y + 100, this.character.lastDirection);
+            this.throwableObjects.push(bottle);
+        }
+    }
+
+    updateBottleCount() {
+        this.character.bottleCount -= 20;
+        if (this.character.bottleCount < 0) {
+            this.character.bottleCount = 0;
+        }
+        if (this.character.bottleCount > 100) {
+            this.character.bottleCount = 100;
+        }
+    }
+
+    playThrowSound() {
+        if (!this.gameSoundActive) {
+            this.pepe_throw.pause();
+        } else {
+            this.pepe_throw.play();
+        }
+    }
+
+    updateBottleStatusBar() {
+        this.statusBarForBottle.setPercentageForBottle(this.character.bottleCount);
+    }
+
+    resetThrowCooldownAfterDelay() {
+        setTimeout(() => {
+            this.character.throwCooldown = false; // Deactivate cooldown
+        }, 500);
+    }
+
 
     checkEnemyCollisions() {
         this.level.enemies.forEach((enemy) => {
@@ -311,35 +328,37 @@ class World {
     }
     checkBottleChickenCollision() {
         this.throwableObjects.forEach((bottle, i) => {
+            let isRemoved = false;
+
             this.level.enemies.forEach((enemy) => {
                 if (this.isCollision(bottle, enemy)) {
                     this.handleCollision(bottle, enemy);
                     if (!this.gameSoundActive) {
                         this.chicken_hit_sound.pause();
                         this.bottle_splash_sound.pause();
-                    }
-                    if (this.gameSoundActive) {
+                    } else {
                         this.chicken_hit_sound.play();
                         this.bottle_splash_sound.play();
                     }
-
                     bottle.triggerSplash(); // Trigger splash animation upon collision
                     this.removeThrowableObject(i);
+                    isRemoved = true; // Mark bottle as removed
                 }
             });
-            if (bottle.y >= 379) { // Check if the bottle hits the ground
+
+            // If the bottle was not removed due to collision, check if it hits the ground
+            if (!isRemoved && bottle.y >= 379) {
                 if (!this.gameSoundActive) {
                     this.bottle_splash_sound.pause();
-                }
-                if (this.gameSoundActive) {
+                } else {
                     this.bottle_splash_sound.play();
                 }
-
                 bottle.triggerSplash(); // Trigger splash animation
                 this.removeThrowableObject(i);
             }
         });
     }
+
 
 
     isCollision(bottle, enemy) {
@@ -383,10 +402,13 @@ class World {
     }
 
     removeThrowableObject(index) {
-        setTimeout(() => {
-            this.throwableObjects.splice(index, 1);
-        }, 1000 / 60);
+        const bottle = this.throwableObjects[index];
+        if (bottle) {
+            bottle.clearAllBottleIntervals(); // Clear all intervals for the specific bottle
+            this.throwableObjects.splice(index, 1); // Remove bottle from array
+        }
     }
+
 
 
     checkCollisions() {
@@ -452,6 +474,8 @@ class World {
                 this.gameOver = true;
                 this.gameSoundActive = false;
                 this.pauseAllSounds();
+                this.clearAllBottleObjects(); // Clear all thrown bottles
+                this.clearAllIntervals();
                 reloadPage();
 
             }, 4000);
@@ -471,17 +495,11 @@ class World {
                 this.gameOver = true;
                 this.gameSoundActive = false;
                 this.pauseAllSounds();
+                this.clearAllBottleObjects(); // Clear all thrown bottles
+                this.clearAllIntervals();
                 reloadPage();
             }, 4000);
         }
-
-
-
-
-
-
-
-
 
         let self = this;
         requestAnimationFrame(function() {
@@ -558,6 +576,21 @@ class World {
                 document.msExitFullscreen();
             }
         }
+    }
+
+    clearAllIntervals() {
+        const highestIntervalId = setInterval(() => {}, 0); // Get the highest interval ID
+        for (let i = 0; i <= highestIntervalId; i++) {
+            clearInterval(i); // Clear all intervals from 0 to the highest
+        }
+    }
+
+    clearAllBottleObjects() {
+        // Iterate through all thrown bottles and clear their intervals
+        this.throwableObjects.forEach((bottle) => {
+            bottle.clearAllBottleIntervals();
+        });
+        this.throwableObjects = []; // Clear the array after clearing intervals
     }
 
 
