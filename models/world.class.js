@@ -603,32 +603,39 @@ class World {
     }
 
     toggleFullScreen() {
-        let gameDiv = document.querySelector('.game-div'); // Changed from getElementById to querySelector
+        const gameDiv = document.querySelector('.game-div'); // Select the game container
 
         if (!document.fullscreenElement) {
-            // Enter fullscreen
-            if (gameDiv.requestFullscreen) {
-                gameDiv.requestFullscreen();
-            } else if (gameDiv.mozRequestFullScreen) { /* Firefox */
-                gameDiv.mozRequestFullScreen();
-            } else if (gameDiv.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-                gameDiv.webkitRequestFullscreen();
-            } else if (gameDiv.msRequestFullscreen) { /* IE/Edge */
-                gameDiv.msRequestFullscreen();
-            }
+            this.requestFullScreen(gameDiv);
         } else {
-            // Exit fullscreen
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) { /* Firefox */
-                document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) { /* Chrome, Safari & Opera */
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) { /* IE/Edge */
-                document.msExitFullscreen();
-            }
+            this.exitFullScreen();
         }
     }
+
+    requestFullScreen(element) {
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.mozRequestFullScreen) { // Firefox
+            element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullscreen) { // Chrome, Safari & Opera
+            element.webkitRequestFullscreen();
+        } else if (element.msRequestFullscreen) { // IE/Edge
+            element.msRequestFullscreen();
+        }
+    }
+
+    exitFullScreen() {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { // Firefox
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { // Chrome, Safari & Opera
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { // IE/Edge
+            document.msExitFullscreen();
+        }
+    }
+
 
     clearAllIntervals() {
         const highestIntervalId = setInterval(() => {}, 0); // Get the highest interval ID
