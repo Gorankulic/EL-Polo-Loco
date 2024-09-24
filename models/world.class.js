@@ -284,26 +284,46 @@ class World {
 
     checkCoinCollisions() {
         this.level.coins.forEach((coin) => {
-            if (this.character.isColliding(coin) && this.character.coinCount < 100) {
-                if (!this.gameSoundActive) {
-                    this.coin_sound.pause();
-                }
-                if (this.gameSoundActive) {
-                    this.coin_sound.play();
-                }
-                this.character.coinCount += 25;
-                const coinIndex = this.level.coins.indexOf(coin);
-
-                this.level.coins.splice(coinIndex, 1);
-                this.coinBar.setPercentageForCoins(this.character.coinCount);
-
-                if (this.character.coinCount == 100) {
-                    this.character.coinCount = 100;
-                }
-
+            if (this.shouldCollectCoin(coin)) {
+                this.collectCoin(coin);
             }
         });
     }
+
+    shouldCollectCoin(coin) {
+        return this.character.isColliding(coin) && this.character.coinCount < 100;
+    }
+
+    collectCoin(coin) {
+        this.playCoinCollectedSound();
+        this.incrementCoinCount();
+        this.removeCoinFromLevel(coin);
+        this.updateCoinStatusBar();
+    }
+
+    playCoinCollectedSound() {
+        if (this.gameSoundActive) {
+            this.coin_sound.play();
+        } else {
+            this.coin_sound.pause();
+        }
+    }
+
+    incrementCoinCount() {
+        this.character.coinCount = Math.min(this.character.coinCount + 25, 100);
+    }
+
+    removeCoinFromLevel(coin) {
+        const coinIndex = this.level.coins.indexOf(coin);
+        if (coinIndex !== -1) {
+            this.level.coins.splice(coinIndex, 1);
+        }
+    }
+
+    updateCoinStatusBar() {
+        this.coinBar.setPercentageForCoins(this.character.coinCount);
+    }
+
     checkBottleCollisions() {
         this.level.bottle.forEach((bottle) => {
             if (this.shouldCollectBottle(bottle)) {
