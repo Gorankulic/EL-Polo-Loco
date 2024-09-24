@@ -328,36 +328,56 @@ class World {
     }
     checkBottleChickenCollision() {
         this.throwableObjects.forEach((bottle, i) => {
-            let isRemoved = false;
+            let isRemoved = this.checkBottleEnemyCollision(bottle, i);
 
-            this.level.enemies.forEach((enemy) => {
-                if (this.isCollision(bottle, enemy)) {
-                    this.handleCollision(bottle, enemy);
-                    if (!this.gameSoundActive) {
-                        this.chicken_hit_sound.pause();
-                        this.bottle_splash_sound.pause();
-                    } else {
-                        this.chicken_hit_sound.play();
-                        this.bottle_splash_sound.play();
-                    }
-                    bottle.triggerSplash(); // Trigger splash animation upon collision
-                    this.removeThrowableObject(i);
-                    isRemoved = true; // Mark bottle as removed
-                }
-            });
-
-            // If the bottle was not removed due to collision, check if it hits the ground
-            if (!isRemoved && bottle.y >= 379) {
-                if (!this.gameSoundActive) {
-                    this.bottle_splash_sound.pause();
-                } else {
-                    this.bottle_splash_sound.play();
-                }
-                bottle.triggerSplash(); // Trigger splash animation
-                this.removeThrowableObject(i);
+            if (!isRemoved) {
+                this.checkBottleGroundCollision(bottle, i);
             }
         });
     }
+
+    checkBottleEnemyCollision(bottle, index) {
+        let isRemoved = false;
+
+        this.level.enemies.forEach((enemy) => {
+            if (this.isCollision(bottle, enemy)) {
+                this.handleCollision(bottle, enemy);
+                this.playBottleChickenCollisionSound();
+                bottle.triggerSplash(); // Trigger splash animation upon collision
+                this.removeThrowableObject(index);
+                isRemoved = true;
+            }
+        });
+
+        return isRemoved;
+    }
+
+    checkBottleGroundCollision(bottle, index) {
+        if (bottle.y >= 379) {
+            this.playBottleGroundCollisionSound();
+            bottle.triggerSplash(); // Trigger splash animation
+            this.removeThrowableObject(index);
+        }
+    }
+
+    playBottleChickenCollisionSound() {
+        if (!this.gameSoundActive) {
+            this.chicken_hit_sound.pause();
+            this.bottle_splash_sound.pause();
+        } else {
+            this.chicken_hit_sound.play();
+            this.bottle_splash_sound.play();
+        }
+    }
+
+    playBottleGroundCollisionSound() {
+        if (!this.gameSoundActive) {
+            this.bottle_splash_sound.pause();
+        } else {
+            this.bottle_splash_sound.play();
+        }
+    }
+
 
 
 
