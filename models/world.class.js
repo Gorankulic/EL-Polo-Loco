@@ -306,26 +306,46 @@ class World {
     }
     checkBottleCollisions() {
         this.level.bottle.forEach((bottle) => {
-            if (this.character.isColliding(bottle) && this.character.bottleCount < 100) {
-                if (!this.gameSoundActive) {
-                    this.bottle_collected_sound.pause();
-                }
-                if (this.gameSoundActive) {
-                    this.bottle_collected_sound.play();
-                }
-
-                this.character.bottleCount += 20;
-                if (this.character.bottleCount > 100) {
-                    this.character.bottleCount = 100;
-                }
-                const bottleIndex = this.level.bottle.indexOf(bottle);
-                if (bottleIndex !== -1) {
-                    this.level.bottle.splice(bottleIndex, 1);
-                }
-                this.statusBarForBottle.setPercentageForBottle(this.character.bottleCount);
+            if (this.shouldCollectBottle(bottle)) {
+                this.collectBottle(bottle);
             }
         });
     }
+
+    shouldCollectBottle(bottle) {
+        return this.character.isColliding(bottle) && this.character.bottleCount < 100;
+    }
+
+    collectBottle(bottle) {
+        this.playBottleCollectedSound();
+        this.incrementBottleCount();
+        this.removeBottleFromLevel(bottle);
+        this.updateBottleStatusBar();
+    }
+
+    playBottleCollectedSound() {
+        if (this.gameSoundActive) {
+            this.bottle_collected_sound.play();
+        } else {
+            this.bottle_collected_sound.pause();
+        }
+    }
+
+    incrementBottleCount() {
+        this.character.bottleCount = Math.min(this.character.bottleCount + 20, 100);
+    }
+
+    removeBottleFromLevel(bottle) {
+        const bottleIndex = this.level.bottle.indexOf(bottle);
+        if (bottleIndex !== -1) {
+            this.level.bottle.splice(bottleIndex, 1);
+        }
+    }
+
+    updateBottleStatusBar() {
+        this.statusBarForBottle.setPercentageForBottle(this.character.bottleCount);
+    }
+
     checkBottleChickenCollision() {
         this.throwableObjects.forEach((bottle, i) => {
             let isRemoved = this.checkBottleEnemyCollision(bottle, i);
