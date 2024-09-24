@@ -417,111 +417,147 @@ class World {
     }
 
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.clearCanvas();
+        this.translateCamera();
+        this.drawBackgroundObjects();
+        this.drawGameObjects();
+        this.resetCamera();
 
-        // Translate once for drawing objects relative to the camera
+        if (this.isGameInProgress()) {
+            this.drawStatusBars();
+            this.handleEndBossHealthBar();
+        } else {
+            this.hideEndBossHealthBar();
+        }
+
+        if (this.isCharacterDead()) {
+            this.handleGameOver();
+        } else if (this.isEndBossEliminated()) {
+            this.handleVictory();
+        }
+
+        this.requestNextFrame();
+    }
+
+    clearCanvas() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    translateCamera() {
         this.ctx.translate(this.camera_x, 0);
+    }
+
+    resetCamera() {
+        this.ctx.translate(-this.camera_x, 0);
+    }
+
+    drawBackgroundObjects() {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
+    }
+
+    drawGameObjects() {
         this.addObjectsToMap(this.level.bottle);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.enemies);
-
-
         this.addObjectsToMap(this.throwableObjects);
-
         this.addToMap(this.character);
-        // Translate back to original position
-        this.ctx.translate(-this.camera_x, 0);
+    }
 
-        if (!this.endBossIsEliminated && this.character.energy > 0) {
-            this.statusBar.draw(this.ctx); // Health bar is drawn
-            this.statusBarForBottle.draw(this.ctx); // Bottle bar is drawn
-            this.coinBar.draw(this.ctx); // Coin bar is drawn
+    isGameInProgress() {
+        return !this.endBossIsEliminated && this.character.energy > 0;
+    }
 
-            // Manage the visibility of the EndBossHealthBar
-            if (this.character.x > 1500) {
-                if (!this.gameSoundActive) {
-                    this.endbboss_coming_sound.pause();
-                }
-                if (this.gameSoundActive) {
-                    this.endbboss_coming_sound.play();
-                }
-                this.endbossHealthBar.show();
-            }
-        } else {
-            this.endbossHealthBar.hide(); // End boss health bar is hidden
+    drawStatusBars() {
+        this.statusBar.draw(this.ctx);
+        this.statusBarForBottle.draw(this.ctx);
+        this.coinBar.draw(this.ctx);
+    }
+
+    handleEndBossHealthBar() {
+        if (this.character.x > 1500) {
+            this.playEndBossComingSound();
+            this.endbossHealthBar.show();
         }
-
-        // Draw the EndBossHealthBar if it's visible
         if (this.endbossHealthBar.visible) {
             this.endbossHealthBar.draw(this.ctx);
         }
+    }
 
-        if (this.character.energy == 0) {
-            this.character.characterCanJump = false;
-            this.stopAllAnimations = true;
-            this.endGameYouLoose.draw(this.ctx);
-            this.character.speed = 0; // Stop character movement
-            this.level.enemies.forEach(enemy => enemy.speed = 0); // Stop enemies' movement
+    hideEndBossHealthBar() {
+        this.endbossHealthBar.hide();
+    }
 
-            this.character.bottleCount = 0;
-
-
-            setTimeout(() => {
-                this.gameOver = true;
-                this.gameSoundActive = false;
-                this.pauseAllSounds();
-                this.clearAllBottleObjects(); // Clear all thrown bottles
-                this.clearAllChickenIntervals();
-                this.clearCharacterIntervals(); // Clear character intervals
-                this.clearAllCloudIntervals(); // Clear all cloud intervals
-                this.clearEndBossIntervals(); // Clear end boss intervals
-                this.clearAllMovableObjectIntervals(); // Clear movable object intervals
-
-
-
-
-                this.clearAllIntervals();
-                reloadPage();
-
-            }, 4000);
+    playEndBossComingSound() {
+        if (!this.gameSoundActive) {
+            this.endbboss_coming_sound.pause();
+        } else {
+            this.endbboss_coming_sound.play();
         }
+    }
 
+    isCharacterDead() {
+        return this.character.energy == 0;
+    }
 
-        if (this.endBossIsEliminated == true) { // Check the actual endBoss's energy
-            this.stopAllAnimations = true;
-            this.endGameYouWon.draw(this.ctx);
-            this.character.speed = 0; // Stop character movement
-            this.level.enemies.forEach(enemy => enemy.speed = 0); // Stop enemies' movement
+    handleGameOver() {
+        this.character.characterCanJump = false;
+        this.stopAllAnimations = true;
+        this.endGameYouLoose.draw(this.ctx);
+        this.stopCharacterAndEnemies();
+        this.resetCharacterBottleCount();
 
-            this.character.bottleCount = 0;
+        setTimeout(() => {
+            this.endGameRoutine();
+            reloadPage();
+        }, 4000);
+    }
 
+    isEndBossEliminated() {
+        return this.endBossIsEliminated === true;
+    }
 
-            setTimeout(() => {
-                this.gameOver = true;
-                this.gameSoundActive = false;
-                this.pauseAllSounds();
-                this.clearAllBottleObjects(); // Clear all thrown bottles
-                this.clearAllChickenIntervals();
-                this.clearCharacterIntervals(); // Clear character intervals
-                this.clearAllCloudIntervals(); // Clear all cloud intervals
-                this.clearEndBossIntervals(); // Clear end boss intervals
-                this.clearAllMovableObjectIntervals(); // Clear movable object intervals
+    handleVictory() {
+        this.stopAllAnimations = true;
+        this.endGameYouWon.draw(this.ctx);
+        this.stopCharacterAndEnemies();
+        this.resetCharacterBottleCount();
 
+        setTimeout(() => {
+            this.endGameRoutine();
+            reloadPage();
+        }, 4000);
+    }
 
+    stopCharacterAndEnemies() {
+        this.character.speed = 0; // Stop character movement
+        this.level.enemies.forEach(enemy => enemy.speed = 0); // Stop enemies' movement
+    }
 
+    resetCharacterBottleCount() {
+        this.character.bottleCount = 0;
+    }
 
-                this.clearAllIntervals();
-                reloadPage();
-            }, 4000);
-        }
+    endGameRoutine() {
+        this.gameOver = true;
+        this.gameSoundActive = false;
+        this.pauseAllSounds();
+        this.clearAllBottleObjects(); // Clear all thrown bottles
+        this.clearAllChickenIntervals(); // Clear chicken intervals
+        this.clearCharacterIntervals(); // Clear character intervals
+        this.clearAllCloudIntervals(); // Clear cloud intervals
+        this.clearEndBossIntervals(); // Clear end boss intervals
+        this.clearAllMovableObjectIntervals(); // Clear movable object intervals
+        this.clearAllIntervals(); // Clear all global intervals
+    }
 
+    requestNextFrame() {
         let self = this;
         requestAnimationFrame(function() {
             self.draw();
         });
     }
+
 
 
     addObjectsToMap(objects) {
