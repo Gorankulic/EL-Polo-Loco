@@ -227,60 +227,80 @@ class World {
     checkEnemyCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                if (!this.gameSoundActive) {
-                    this.pepe_hurt.pause();
-                }
-                if (this.gameSoundActive) {
-                    this.pepe_hurt.play();
-                }
-
-                if (enemy instanceof Endboss) {
-                    // Handle Endboss collision differently
-                    setTimeout(() => {
-                        enemy.endBossAttacking = true;
-                    }, 500);
-                    this.character.hit();
-                    this.statusBar.setPercentage(this.character.energy);
-                    return; // Exit early since Endboss collision is handled separately
-                }
-
-                if (this.character.isAboveGround()) {
-                    this.character.secondJump();
-                    if (!enemy.characterEnemyCollision) {
-                        enemy.characterEnemyCollision = true; // Trigger death animation
-                        if (!this.gameSoundActive) {
-                            this.chicken_hit_sound.pause();
-                            this.chicken_eliminated_from_player.pause();
-                        }
-                        if (this.gameSoundActive) {
-                            this.chicken_hit_sound.play();
-                            this.chicken_eliminated_from_player.play();
-                        }
-
-                        enemy.stopMovementX();
-                        // Schedule the removal of the enemy after the animation
-                        setTimeout(() => {
-                            // Ensure the enemy wasn't already removed
-                            if (this.level.enemies.includes(enemy)) {
-                                // Find current index of the enemy to remove
-                                const currentIndex = this.level.enemies.indexOf(enemy);
-                                if (currentIndex !== -1) {
-                                    this.level.enemies.splice(currentIndex, 1);
-                                }
-                            }
-                        }, 250); // Wait for 1 second (1000 milliseconds)
-                    }
-                    if (this.character.energy < 100) {
-                        this.character.energy += 10;
-                        this.statusBar.setPercentage(this.character.energy);
-                    }
-                } else {
-                    this.character.hit();
-                    this.statusBar.setPercentage(this.character.energy);
-                }
+                this.handleEnemyCollision(enemy);
             }
         });
     }
+
+    handleEnemyCollision(enemy) {
+        this.playPepeHurtSound();
+
+        if (enemy instanceof Endboss) {
+            this.handleEndbossCollision(enemy);
+        } else if (this.character.isAboveGround()) {
+            this.handleEnemyStomp(enemy);
+        } else {
+            this.character.hit();
+            this.statusBar.setPercentage(this.character.energy);
+        }
+    }
+
+    playPepeHurtSound() {
+        if (this.gameSoundActive) {
+            this.pepe_hurt.play();
+        } else {
+            this.pepe_hurt.pause();
+        }
+    }
+
+    handleEndbossCollision(endboss) {
+        setTimeout(() => {
+            endboss.endBossAttacking = true;
+        }, 500);
+        this.character.hit();
+        this.statusBar.setPercentage(this.character.energy);
+    }
+
+    handleEnemyStomp(enemy) {
+        this.character.secondJump();
+
+        if (!enemy.characterEnemyCollision) {
+            enemy.characterEnemyCollision = true;
+            this.playChickenHitSound();
+            enemy.stopMovementX();
+            this.removeEnemyAfterDelay(enemy, 250);
+            this.increaseCharacterEnergy();
+        }
+    }
+
+    playChickenHitSound() {
+        if (this.gameSoundActive) {
+            this.chicken_hit_sound.play();
+            this.chicken_eliminated_from_player.play();
+        } else {
+            this.chicken_hit_sound.pause();
+            this.chicken_eliminated_from_player.pause();
+        }
+    }
+
+    removeEnemyAfterDelay(enemy, delay) {
+        setTimeout(() => {
+            if (this.level.enemies.includes(enemy)) {
+                const currentIndex = this.level.enemies.indexOf(enemy);
+                if (currentIndex !== -1) {
+                    this.level.enemies.splice(currentIndex, 1);
+                }
+            }
+        }, delay);
+    }
+
+    increaseCharacterEnergy() {
+        if (this.character.energy < 100) {
+            this.character.energy += 10;
+            this.statusBar.setPercentage(this.character.energy);
+        }
+    }
+
 
     checkCoinCollisions() {
         this.level.coins.forEach((coin) => {
