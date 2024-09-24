@@ -24,12 +24,14 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/2_alert/G11.png',
         'img/4_enemie_boss_chicken/2_alert/G12.png'
     ];
+
     IMAGES_ENDBOSS_RUNNING = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
         'img/4_enemie_boss_chicken/1_walk/G2.png',
         'img/4_enemie_boss_chicken/1_walk/G3.png',
         'img/4_enemie_boss_chicken/1_walk/G4.png'
     ];
+
     IMAGES_ENBOSS_ALERTED = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -40,6 +42,7 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/2_alert/G11.png',
         'img/4_enemie_boss_chicken/2_alert/G12.png'
     ];
+
     IMAGES_ENDBOSS_ATTACKING = [
         'img/4_enemie_boss_chicken/3_attack/G13.png',
         'img/4_enemie_boss_chicken/3_attack/G14.png',
@@ -50,18 +53,22 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/3_attack/G19.png',
         'img/4_enemie_boss_chicken/3_attack/G20.png'
     ];
+
     IMAGES_ENDBOSS_HIT = [
         'img/4_enemie_boss_chicken/4_hurt/G21.png',
         'img/4_enemie_boss_chicken/4_hurt/G22.png',
         'img/4_enemie_boss_chicken/4_hurt/G23.png'
-
     ];
+
     IMAGES_BOSS_ELIMINATED = [
         'img/4_enemie_boss_chicken/5_dead/G24.png',
         'img/4_enemie_boss_chicken/5_dead/G25.png',
         'img/4_enemie_boss_chicken/5_dead/G26.png'
-
     ];
+
+    moveInterval = null; // Track movement interval
+    animationInterval = null; // Track animation interval
+
     constructor(world) {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_ENDBOSS_RUNNING);
@@ -69,14 +76,14 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ENDBOSS_HIT);
         this.loadImages(this.IMAGES_BOSS_ELIMINATED);
         this.x = 2500;
-        this.animate();
         this.speed = 7 + Math.random() * 0.25;
         this.endboss_got_eliminated.pause();
         this.game_won_sound.pause();
-
+        this.animate();
     }
+
     animate() {
-        setInterval(() => {
+        this.moveInterval = setInterval(() => {
             if (this.endBossIsDead()) {
                 this.endBossIsEliminatedAnimation();
                 world.background_game_music.pause();
@@ -84,12 +91,10 @@ class Endboss extends MovableObject {
                 if (!world.gameSoundActive) {
                     this.endboss_got_eliminated.pause();
                     this.game_won_sound.pause();
-                }
-                if (world.gameSoundActive) {
+                } else {
                     this.endboss_got_eliminated.play();
                     this.game_won_sound.play();
                 }
-
             } else if (this.endBossGotHit) {
                 this.endBossGotHitAnimation();
             } else if (this.endBossAttacking) {
@@ -97,21 +102,17 @@ class Endboss extends MovableObject {
             } else if (this.endBossMovesLeft && !this.endBossGotHit) {
                 this.endBossRunningAnimation();
             }
-
-
-        }, 80); // The interval at which the animations are checked and updated
+        }, 80); // Interval for animation updates
     }
 
-
     endBossGotHitAnimation() {
-        if (this.endBossGotHit == true) {
+        if (this.endBossGotHit) {
             this.playAnimation(this.IMAGES_ENDBOSS_HIT);
             setTimeout(() => {
                 this.endBossGotHit = false; // Reset hit flag after animation
                 this.speed = 7 + Math.random() * 0.25; // Reset speed after hit
-            }, 500); // Delay matches the length of the hit animation
+            }, 500); // Delay for hit animation
         }
-
     }
 
     endBossIsEliminatedAnimation() {
@@ -124,14 +125,21 @@ class Endboss extends MovableObject {
         this.jump(); // Endboss jumps during attack
         setTimeout(() => {
             this.endBossAttacking = false;
-            this.speed = 7 + Math.random() * 0.25; // Reset speed post-attack
-        }, 500); // Delay after attack animation
+            this.speed = 7 + Math.random() * 0.25; // Reset speed after attack
+        }, 500); // Delay for attack animation
     }
 
     endBossRunningAnimation() {
-        this.moveLeft(); // Move the endboss left
-        this.playAnimation(this.IMAGES_ENDBOSS_RUNNING); // Play the running animation
+        this.moveLeft();
+        this.playAnimation(this.IMAGES_ENDBOSS_RUNNING); // Running animation
     }
 
-
+    clearAllIntervals() {
+        if (this.moveInterval) {
+            clearInterval(this.moveInterval); // Clear movement interval
+        }
+        if (this.animationInterval) {
+            clearInterval(this.animationInterval); // Clear animation interval
+        }
+    }
 }

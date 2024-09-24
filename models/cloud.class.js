@@ -2,6 +2,7 @@ class Cloud extends MovableObject {
     y = 10;
     height = 250;
     width = 450;
+    moveInterval = null; // Track the interval for cloud movement
 
     constructor() {
         super();
@@ -19,8 +20,14 @@ class Cloud extends MovableObject {
     }
 
     moveLeft() {
-        setInterval(() => {
+        this.moveInterval = setInterval(() => {
             this.x -= 0.055;
         }, 1000 / 60);
+    }
+
+    clearAllIntervals() {
+        if (this.moveInterval) {
+            clearInterval(this.moveInterval); // Clear the cloud's movement interval
+        }
     }
 }

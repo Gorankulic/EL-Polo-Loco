@@ -6,14 +6,15 @@ class MovableObject extends DrawableObject {
     energy = 100;
     lastHit = 0;
     endBossEnergy = 100;
+    gravityInterval = null; // Track the gravity interval
 
     applyGravity() {
-        setInterval(() => {
+        this.gravityInterval = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
-        }, 1000 / 60);
+        }, 1000 / 80);
     }
 
     offset = {
@@ -21,7 +22,7 @@ class MovableObject extends DrawableObject {
         left: 0,
         right: 0,
         bottom: 0
-    }
+    };
 
     isAboveGround() {
         if (this instanceof ThrowableObject) {
@@ -30,7 +31,6 @@ class MovableObject extends DrawableObject {
             return this.y < 75;
         }
     }
-
 
     isColliding(mo) {
         return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
@@ -43,14 +43,14 @@ class MovableObject extends DrawableObject {
         this.energy -= 1; // Deduct a small amount of energy on each hit
         if (this.energy <= 0) {
             this.energy = 0; // Ensure energy doesn't go negative
-        } else {}
+        }
         this.lastHit = new Date().getTime(); // Update the time of the last hit
     }
-
 
     isDead() {
         return this.energy === 0;
     }
+
     endBossIsDead() {
         return this.endBossEnergy === 0;
     }
@@ -85,10 +85,18 @@ class MovableObject extends DrawableObject {
     }
 
     jump() {
-            this.speedY = 12;
-        }
-        // Method to stop the object's movement on the x-axis
+        this.speedY = 12;
+    }
+
+    // Method to stop the object's movement on the x-axis
     stopMovementX() {
         this.speed = 0;
+    }
+
+    // Method to clear all intervals related to this object
+    clearAllIntervals() {
+        if (this.gravityInterval) {
+            clearInterval(this.gravityInterval); // Clear the gravity interval
+        }
     }
 }

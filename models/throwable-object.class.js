@@ -38,7 +38,7 @@ class ThrowableObject extends MovableObject {
         this.throwInterval = setInterval(() => {
             this.thrownBottleAnimation(direction);
             this.bottleFlyingDirection();
-        }, 1000 / 120); // Throw animation interval
+        }, 1000 / 140); // Throw animation interval
 
 
     }
@@ -71,7 +71,7 @@ class ThrowableObject extends MovableObject {
                 this.x -= this.speedX;
                 this.speedX -= this.accelerationX;
             }
-        }, 1000 / 60);
+        }, 1000 / 30);
         setTimeout(() => {
             this.clearAnimationInterval();
         }, 3000);

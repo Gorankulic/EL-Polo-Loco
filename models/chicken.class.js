@@ -75,12 +75,12 @@ class Chicken extends MovableObject {
             if (!world.stopAllAnimations) {
                 this.moveLeft();
             }
-        }, 1000 / 1200);
+        }, 1000 / 60);
         this.stopAllAnimationsforChicken();
 
     }
     stopAllAnimationsforChicken() {
-        setInterval(() => {
+        this.animationInterval = setInterval(() => {
             if (!world.stopAllAnimations) {
                 if (this.characterEnemyCollision) {
                     this.playAnimation(this.ELIMINATED_CHICKEN_IMAGES);
@@ -91,8 +91,12 @@ class Chicken extends MovableObject {
         }, 1000 / 20);
     }
 
-    // Method to check if the chicken has collided with the character
-    isCharacterColliding() {
-        return this.characterEnemyCollision;
+    clearAllIntervals() {
+        if (this.moveInterval) {
+            clearInterval(this.moveInterval);
+        }
+        if (this.animationInterval) {
+            clearInterval(this.animationInterval);
+        }
     }
 }

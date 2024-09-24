@@ -475,6 +475,15 @@ class World {
                 this.gameSoundActive = false;
                 this.pauseAllSounds();
                 this.clearAllBottleObjects(); // Clear all thrown bottles
+                this.clearAllChickenIntervals();
+                this.clearCharacterIntervals(); // Clear character intervals
+                this.clearAllCloudIntervals(); // Clear all cloud intervals
+                this.clearEndBossIntervals(); // Clear end boss intervals
+                this.clearAllMovableObjectIntervals(); // Clear movable object intervals
+
+
+
+
                 this.clearAllIntervals();
                 reloadPage();
 
@@ -496,6 +505,15 @@ class World {
                 this.gameSoundActive = false;
                 this.pauseAllSounds();
                 this.clearAllBottleObjects(); // Clear all thrown bottles
+                this.clearAllChickenIntervals();
+                this.clearCharacterIntervals(); // Clear character intervals
+                this.clearAllCloudIntervals(); // Clear all cloud intervals
+                this.clearEndBossIntervals(); // Clear end boss intervals
+                this.clearAllMovableObjectIntervals(); // Clear movable object intervals
+
+
+
+
                 this.clearAllIntervals();
                 reloadPage();
             }, 4000);
@@ -592,6 +610,35 @@ class World {
         });
         this.throwableObjects = []; // Clear the array after clearing intervals
     }
+
+    clearAllChickenIntervals() {
+        this.level.enemies.forEach(enemy => {
+            if (enemy instanceof SmallChickens || enemy instanceof Chicken) {
+                enemy.clearAllIntervals(); // Clear all intervals for each type of chicken
+            }
+        });
+    }
+    clearCharacterIntervals() {
+        this.character.clearAllIntervals(); // Clear intervals for the character
+
+    }
+    clearAllCloudIntervals() {
+        this.level.clouds.forEach(cloud => {
+            cloud.clearAllIntervals(); // Clear intervals for each cloud
+        });
+    }
+    clearEndBossIntervals() {
+        this.endBoss.clearAllIntervals(); // Clear intervals for the end boss
+    }
+    clearAllMovableObjectIntervals() {
+        if (this.level && this.level.movableObjects && this.level.movableObjects.length > 0) {
+            const movableObject = this.level.movableObjects[0]; // Access the first movable object
+            if (movableObject.clearAllIntervals) {
+                movableObject.clearAllIntervals(); // Clear intervals for the first movable object
+            }
+        }
+    }
+
 
 
 }

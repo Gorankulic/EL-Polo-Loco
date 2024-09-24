@@ -56,7 +56,7 @@ class SmallChickens extends MovableObject {
             if (!world.stopAllAnimations) {
                 this.moveLeft();
             }
-        }, 1000 / 60);
+        }, 1000 / 80);
         this.stopAnimationsForChicken();
 
     }
@@ -64,17 +64,23 @@ class SmallChickens extends MovableObject {
         return this.characterEnemyCollision;
     }
     stopAnimationsForChicken() {
-        setInterval(() => {
+        this.animationInterval = setInterval(() => {
             if (!world.stopAllAnimations) {
-                // Wenn eine Kollision mit dem Charakter stattgefunden hat
-                if (this.characterEnemyCollision == true) {
-                    // Warte 2 Sekunden, dann spiele die Eliminierungsanimation
+                if (this.characterEnemyCollision) {
                     this.playAnimation(this.ELIMINATED_CHICKEN_IMAGES);
                 } else {
-                    // Ansonsten spiele die Laufanimation
                     this.playAnimation(this.RUNNING_IMAGES_FOR_SMALL_CHICKEN);
                 }
             }
         }, 1000 / 20);
+    }
+
+    clearAllIntervals() {
+        if (this.moveInterval) {
+            clearInterval(this.moveInterval);
+        }
+        if (this.animationInterval) {
+            clearInterval(this.animationInterval);
+        }
     }
 }
