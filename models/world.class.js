@@ -393,13 +393,11 @@ class World {
     }
 
     removeEnemy(enemy) {
-        const currentIndex = this.level.enemies.indexOf(enemy);
-        if (currentIndex !== -1) {
-            setTimeout(() => {
-                this.level.enemies.splice(currentIndex, 1);
-            }, 500);
-        }
+        setTimeout(() => {
+            this.level.enemies = this.level.enemies.filter(e => e !== enemy); // Remove the specific enemy
+        }, 500);
     }
+
 
     removeThrowableObject(index) {
         const bottle = this.throwableObjects[index];

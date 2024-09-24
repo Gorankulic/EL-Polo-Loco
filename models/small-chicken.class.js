@@ -38,7 +38,7 @@ class SmallChickens extends MovableObject {
         // Maximum x value for spawning
         let maxX = 2500;
         // Minimum distance between chickens
-        let minDistance = 100;
+        let minDistance = 0;
 
         let newX;
         // Generate a new x position until it meets the minimum distance requirement

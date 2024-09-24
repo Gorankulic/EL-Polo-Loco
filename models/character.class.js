@@ -110,11 +110,11 @@ class Character extends MovableObject {
     animate() {
         this.moveInterval = setInterval(() => {
             this.handleMovement();
-        }, 30);
+        }, 1000 / 60);
 
         this.animationInterval = setInterval(() => {
             this.handleAnimation();
-        }, 30);
+        }, 1000 / 60);
     }
 
     handleMovement() {
