@@ -156,16 +156,16 @@ class World {
     checkOrientation() {
         setInterval(() => {
             const warning = document.getElementById('orientationWarning');
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-            if (isMobile && window.innerWidth < window.innerHeight) {
-                warning.style.display = 'flex';
+            // Check if the window is in portrait mode
+            if (window.innerWidth < window.innerHeight) {
+                warning.style.display = 'flex'; // Show warning if in portrait mode
             } else {
-                warning.style.display = 'none';
+                warning.style.display = 'none'; // Hide warning if in landscape mode
             }
         }, 1000 / 30);
-
     }
+
 
 
 
