@@ -220,7 +220,7 @@ class World {
     resetThrowCooldownAfterDelay() {
         setTimeout(() => {
             this.character.throwCooldown = false; // Deactivate cooldown
-        }, 500);
+        }, 1000);
     }
 
 
@@ -269,7 +269,10 @@ class World {
             this.playChickenHitSound();
             enemy.stopMovementX();
             this.removeEnemyAfterDelay(enemy, 250);
-            this.increaseCharacterEnergy();
+            if (this.character.energy < 100) {
+                this.increaseCharacterEnergy();
+            }
+
         }
     }
 
@@ -295,11 +298,10 @@ class World {
     }
 
     increaseCharacterEnergy() {
-        if (this.character.energy < 100) {
-            this.character.energy += 10;
-            this.statusBar.setPercentage(this.character.energy);
-        }
+        this.character.energy = Math.min(this.character.energy + 20, 100); // Ensure energy doesn't exceed 100
+        this.statusBar.setPercentage(this.character.energy); // Update the status bar
     }
+
 
 
     checkCoinCollisions() {
@@ -401,7 +403,7 @@ class World {
 
         this.level.enemies.forEach((enemy) => {
             if (this.isCollision(bottle, enemy)) {
-                this.handleCollision(bottle, enemy);
+                this.handleChickenBottleCollision(bottle, enemy);
                 this.playBottleChickenCollisionSound();
                 bottle.triggerSplash(); // Trigger splash animation upon collision
                 this.removeThrowableObject(index);
@@ -447,7 +449,7 @@ class World {
         return xCollision && yCollision;
     }
 
-    handleCollision(bottle, enemy) {
+    handleChickenBottleCollision(bottle, enemy) {
         if (!enemy.characterEnemyCollision) {
             enemy.characterEnemyCollision = true;
             enemy.stopMovementX();

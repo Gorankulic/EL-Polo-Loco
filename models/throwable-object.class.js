@@ -32,13 +32,15 @@ class ThrowableObject extends MovableObject {
     throw (direction) {
         this.thrownBottle = true;
         this.applyGravity();
-        this.speedY = 10;
-        this.acceleration = 0.5;
+        this.speedY = 11;
+
+        this.acceleration = 0.4;
+
 
         this.throwInterval = setInterval(() => {
             this.thrownBottleAnimation(direction);
             this.bottleFlyingDirection();
-        }, 1000 / 140); // Throw animation interval
+        }, 1000 / 30); // Throw animation interval
 
 
     }
@@ -46,9 +48,9 @@ class ThrowableObject extends MovableObject {
     thrownBottleAnimation(direction) {
         this.playAnimation(this.FLYING_BOTTLE_IMAGES);
         if (direction === 'right') {
-            this.x += 2;
+            this.x += 12; // Increase the x-axis speed to make the bottle fly farther
         } else {
-            this.x -= 2;
+            this.x -= 12; // Same increase for the left direction
         }
     }
     bottleFlyingDirection() {
@@ -71,7 +73,7 @@ class ThrowableObject extends MovableObject {
                 this.x -= this.speedX;
                 this.speedX -= this.accelerationX;
             }
-        }, 1000 / 30);
+        }, 1000 / 240);
         setTimeout(() => {
             this.clearAnimationInterval();
         }, 3000);

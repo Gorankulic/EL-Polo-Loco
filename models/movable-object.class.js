@@ -40,7 +40,7 @@ class MovableObject extends DrawableObject {
     }
 
     hit() {
-        this.energy -= 1; // Deduct a small amount of energy on each hit
+        this.energy -= 2; // Deduct a small amount of energy on each hit
         if (this.energy <= 0) {
             this.energy = 0; // Ensure energy doesn't go negative
         }
