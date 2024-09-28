@@ -65,8 +65,23 @@ class ThrowableObject extends MovableObject {
         }
     }
     triggerSplash() {
-        this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
+        let splashFrameIndex = 0;
+        const splashInterval = setInterval(() => {
+            this.img = this.imageCache[this.BOTTLE_SPLASH_IMAGES[splashFrameIndex]]; // Cycle through splash images
+            splashFrameIndex++;
+
+            // Stop the animation after all frames have been displayed
+            if (splashFrameIndex >= this.BOTTLE_SPLASH_IMAGES.length) {
+                clearInterval(splashInterval); // Clear the interval after the last frame
+            }
+        }, 125); // Display each frame for 125ms (500ms / 4 frames)
+
+        // Clear all bottle intervals after 500ms
+        setTimeout(() => {
+            this.clearAllBottleIntervals(); // Ensure all intervals are cleared after the animation completes
+        }, 500); // Animation duration is 500ms
     }
+
     stopMovementX() {
         this.movementInterval = setInterval(() => {
             if (this.speedY < 15) {
