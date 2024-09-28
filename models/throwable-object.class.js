@@ -65,21 +65,7 @@ class ThrowableObject extends MovableObject {
         }
     }
     triggerSplash() {
-        let splashFrameIndex = 0;
-        const splashInterval = setInterval(() => {
-            this.img = this.imageCache[this.BOTTLE_SPLASH_IMAGES[splashFrameIndex]]; // Cycle through splash images
-            splashFrameIndex++;
-
-            // Stop the animation after all frames have been displayed
-            if (splashFrameIndex >= this.BOTTLE_SPLASH_IMAGES.length) {
-                clearInterval(splashInterval); // Clear the interval after the last frame
-            }
-        }, 125); // Display each frame for 125ms (500ms / 4 frames)
-
-        // Clear all bottle intervals after 500ms
-        setTimeout(() => {
-            this.clearAllBottleIntervals(); // Ensure all intervals are cleared after the animation completes
-        }, 500); // Animation duration is 500ms
+        this.playAnimation(this.BOTTLE_SPLASH_IMAGES); // Use the playAnimation method to handle splash animation
     }
 
     stopMovementX() {
@@ -88,10 +74,10 @@ class ThrowableObject extends MovableObject {
                 this.x -= this.speedX;
                 this.speedX -= this.accelerationX;
             }
-        }, 1000 / 240);
+        }, 1000 / 60);
         setTimeout(() => {
             this.clearAnimationInterval();
-        }, 3000);
+        }, 1000);
     }
     clearAllBottleIntervals() {
         if (this.throwInterval) {

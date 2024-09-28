@@ -92,7 +92,7 @@ class World {
             this.checkThrowableObjects();
             this.checkCharacterXPosition();
 
-        }, 1000 / 60);
+        }, 1000 / 30);
     }
     toggle_mute_sound() {
         this.gameSoundActive = !this.gameSoundActive;
@@ -163,7 +163,7 @@ class World {
             } else {
                 warning.style.display = 'none';
             }
-        }, 1000 / 60);
+        }, 1000 / 30);
 
     }
 
