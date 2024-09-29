@@ -29,6 +29,7 @@ function startGame() {
 
 function reloadPage() {
     location.reload();
+    world.endGameRoutine();
 }
 
 function startAnimations() {
