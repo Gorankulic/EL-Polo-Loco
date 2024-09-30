@@ -87,7 +87,11 @@ class Endboss extends MovableObject {
             if (this.endBossIsDead()) {
                 this.endBossIsEliminatedAnimation();
                 world.background_game_music.pause();
-                this.endboss_got_eliminated.play();
+
+                // Check if game sounds are active before playing the endboss eliminated sound
+                if (world.gameSoundActive) {
+                    this.endboss_got_eliminated.play();
+                }
             } else if (this.endBossGotHit) {
                 this.endBossGotHitAnimation(); // Prioritize hit animation
             } else if (this.endBossAttacking) {
@@ -97,6 +101,7 @@ class Endboss extends MovableObject {
             }
         }, 100); // Keep the normal interval for general animation
     }
+
 
     endBossGotHitAnimation() {
         if (this.endBossGotHit) {
@@ -112,11 +117,14 @@ class Endboss extends MovableObject {
     }
 
 
-
     endBossIsEliminatedAnimation() {
         this.speed = 0;
         this.playAnimation(this.IMAGES_BOSS_ELIMINATED);
+
     }
+
+
+
 
     endBossAttackingAnimation() {
         this.playAnimation(this.IMAGES_ENDBOSS_ATTACKING);

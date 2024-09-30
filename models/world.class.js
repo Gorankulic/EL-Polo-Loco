@@ -112,20 +112,10 @@ class World {
     }
 
     playAllSounds() {
-        this.pepe_hurt.play();
-        this.pepe_throw.play();
-        this.coin_sound.play();
-        this.bottle_collected_sound.play();
-        this.bottle_splash_sound.play();
-        this.chicken_hit_sound.play();
-        this.chicken_eliminated_from_player.play();
-        this.endboss_hit_sound.play();
-        this.small_chickens_move_sound.play();
-        this.endbboss_coming_sound.play();
-        this.endboss.endboss_got_eliminated.play(); // Add this to control Endboss eliminated sound
-        this.endboss.game_won_sound.play(); // Add this to control Endboss game won sound
-        this.desert_ambient_sound.play();
-        this.background_game_music.play();
+        if (this.gameSoundActive) {
+            this.desert_ambient_sound.play();
+            this.background_game_music.play();
+        }
     }
 
     pauseAllSounds() {
@@ -139,11 +129,12 @@ class World {
         this.endboss_hit_sound.pause();
         this.small_chickens_move_sound.pause();
         this.endbboss_coming_sound.pause();
-        this.endboss.endboss_got_eliminated.pause(); // Add this to control Endboss eliminated sound
-        this.endboss.game_won_sound.pause(); // Add this to control Endboss game won sound
+        this.endboss.endboss_got_eliminated.pause(); // Ensure endboss eliminated sound is paused
+        this.endboss.game_won_sound.pause(); // Ensure game won sound is paused
         this.desert_ambient_sound.pause();
         this.background_game_music.pause();
     }
+
 
 
     checkOrientation() {
@@ -634,6 +625,9 @@ class World {
         this.endGameYouWon.draw(this.ctx);
         this.stopCharacterAndEnemies();
         this.resetCharacterBottleCount();
+        if (this.gameSoundActive) {
+            this.endboss.game_won_sound.play();
+        }
 
         setTimeout(() => {
             this.endGameRoutine();
