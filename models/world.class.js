@@ -36,10 +36,6 @@ class World {
     endBossIsEliminated = false;
     stopAllAnimations = false;
 
-
-
-
-
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -59,10 +55,6 @@ class World {
         this.endbboss_coming_sound.pause();
         this.desert_ambient_sound.play();
         this.background_game_music.play();
-
-
-
-
 
         // Bind fullscreen toggle to button click
         const btn = document.querySelector('.full-screen-button');
@@ -165,10 +157,6 @@ class World {
             }
         }, 1000 / 60);
     }
-
-
-
-
 
     checkThrowableObjects() {
         if (this.keyboard.D && this.character.bottleCount > 0 && !this.character.throwCooldown) {
@@ -472,24 +460,46 @@ class World {
 
 
     handleEndbossBottleCollision(bottle, endboss) {
-        endboss.endBossGotHit = true;
-        bottle.triggerSplash(); // Trigger splash animation
+        endboss.endBossGotHit = true; // Trigger the hit animation
+        this.triggerEndbossSplash(bottle); // Trigger splash animation
 
-        // Delay the health reduction and status updates to give time for the splash animation
+        // Delay the hit processing to allow the hit animation to finish before health updates
         setTimeout(() => {
-            endboss.endBossEnergy -= 25;
-
-            if (endboss.endBossEnergy <= 0) {
-                this.endBossIsEliminated = true;
-                endboss.endBossEnergy = 0; // Prevent negative health
-            }
-
-            this.endbossHealthBar.setPercentageForEndBoss(endboss.endBossEnergy);
+            this.reduceEndbossEnergy(endboss);
+            this.updateEndbossHealthBar(endboss);
+            this.resetEndbossCollisionState(endboss);
             endboss.endBossGotHit = false;
-            endboss.characterEnemyCollision = false;
-
-        }, 100); // Delay of 1 second to allow splash animation to be shown first
+        }, 500); // Increase delay to 1 second to give enough time for the hit animation
     }
+
+
+    // Trigger the splash animation for the bottle
+    triggerEndbossSplash(bottle) {
+        bottle.triggerSplash();
+    }
+
+    // Reduce the endboss's energy when hit
+    reduceEndbossEnergy(endboss) {
+        endboss.endBossEnergy -= 25;
+
+        // If the endboss's energy is below zero, mark him as eliminated
+        if (endboss.endBossEnergy <= 0) {
+            this.endBossIsEliminated = true;
+            endboss.endBossEnergy = 0; // Prevent negative health
+        }
+    }
+
+    // Update the endboss's health bar after the hit
+    updateEndbossHealthBar(endboss) {
+        this.endbossHealthBar.setPercentageForEndBoss(endboss.endBossEnergy);
+    }
+
+    // Reset the endboss's collision state after processing the hit
+    resetEndbossCollisionState(endboss) {
+        endboss.endBossGotHit = false;
+        endboss.characterEnemyCollision = false;
+    }
+
 
 
 

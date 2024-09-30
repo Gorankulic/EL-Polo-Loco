@@ -87,33 +87,31 @@ class Endboss extends MovableObject {
             if (this.endBossIsDead()) {
                 this.endBossIsEliminatedAnimation();
                 world.background_game_music.pause();
-
-                if (!world.gameSoundActive) {
-                    this.endboss_got_eliminated.pause();
-                    this.game_won_sound.pause();
-                } else {
-                    this.endboss_got_eliminated.play();
-                    this.game_won_sound.play();
-                }
+                this.endboss_got_eliminated.play();
             } else if (this.endBossGotHit) {
-                this.endBossGotHitAnimation();
+                this.endBossGotHitAnimation(); // Prioritize hit animation
             } else if (this.endBossAttacking) {
                 this.endBossAttackingAnimation();
             } else if (this.endBossMovesLeft && !this.endBossGotHit) {
                 this.endBossRunningAnimation();
             }
-        }, 80); // Interval for animation updates
+        }, 100); // Keep the normal interval for general animation
     }
 
     endBossGotHitAnimation() {
         if (this.endBossGotHit) {
-            this.playAnimation(this.IMAGES_ENDBOSS_HIT);
+            this.playAnimation(this.IMAGES_ENDBOSS_HIT); // Play hit animation
+            this.speed = 0; // Stop movement when hit
+
+            // Delay resetting `endBossGotHit` for a longer hit animation
             setTimeout(() => {
-                this.endBossGotHit = false; // Reset hit flag after animation
+                this.endBossGotHit = false; // Reset hit flag after the delay
                 this.speed = 7 + Math.random() * 0.25; // Reset speed after hit
-            }, 500); // Delay for hit animation
+            }, 500); // Increase delay to 1 second to make the hit animation last longer
         }
     }
+
+
 
     endBossIsEliminatedAnimation() {
         this.speed = 0;
