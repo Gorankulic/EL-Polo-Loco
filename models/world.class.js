@@ -452,17 +452,38 @@ class World {
 
 
     handleEndbossBottleCollision(bottle, endboss) {
-        endboss.endBossGotHit = true; // Trigger the hit animation
-        this.triggerEndbossSplash(bottle); // Trigger splash animation
+        this.markEndbossAsHit(endboss);
+        this.triggerBottleSplashIfHit(bottle, endboss);
 
-        // Delay the hit processing to allow the hit animation to finish before health updates
         setTimeout(() => {
-            this.reduceEndbossEnergy(endboss);
-            this.updateEndbossHealthBar(endboss);
-            this.resetEndbossCollisionState(endboss);
-            endboss.endBossGotHit = false;
-        }, 500); // Increase delay to 1 second to give enough time for the hit animation
+            this.processEndbossHitEffects(endboss);
+        }, 500);
+
+        this.resetEndbossHitStateAfterDelay(endboss, 750);
     }
+
+    markEndbossAsHit(endboss) {
+        endboss.endBossGotHit = true;
+    }
+
+    triggerBottleSplashIfHit(bottle, endboss) {
+        if (endboss.endBossGotHit) {
+            bottle.triggerSplash();
+        }
+    }
+
+    processEndbossHitEffects(endboss) {
+        this.reduceEndbossEnergy(endboss);
+        this.updateEndbossHealthBar(endboss);
+        this.resetEndbossCollisionState(endboss);
+    }
+
+    resetEndbossHitStateAfterDelay(endboss, delay) {
+        setTimeout(() => {
+            endboss.endBossGotHit = false;
+        }, delay);
+    }
+
 
 
     // Trigger the splash animation for the bottle
