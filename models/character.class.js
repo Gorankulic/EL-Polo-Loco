@@ -178,6 +178,9 @@ class Character extends MovableObject {
         if (this.world.gameSoundActive) {
             this.sleeping_sound.play();
         }
+        else if (!this.world.gameSoundActive) {
+this.sleeping_sound.pause();
+        }
     }
 
     updateWalkingSound() {

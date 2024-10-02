@@ -92,6 +92,9 @@ class Endboss extends MovableObject {
                 if (world.gameSoundActive) {
                     this.endboss_got_eliminated.play();
                 }
+                else if (!world.gameSoundActive) {
+                    this.endboss_got_eliminated.pause();
+                }
             } else if (this.endBossGotHit) {
                 this.endBossGotHitAnimation(); // Prioritize hit animation
             } else if (this.endBossAttacking) {
