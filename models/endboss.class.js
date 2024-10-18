@@ -68,6 +68,7 @@ class Endboss extends MovableObject {
 
     moveInterval = null; // Track movement interval
     animationInterval = null; // Track animation interval
+    gameSounds = new GameSound(); // Instance of GameSound class
 
     constructor(world) {
         super().loadImage(this.IMAGES_WALKING[0]);
@@ -86,7 +87,7 @@ class Endboss extends MovableObject {
         this.moveInterval = setInterval(() => {
             if (this.endBossIsDead()) {
                 this.endBossIsEliminatedAnimation();
-                world.background_game_music.pause();
+                this.gameSounds.background_game_music.pause();
 
                 // Check if game sounds are active before playing the endboss eliminated sound
                 if (world.gameSoundActive) {

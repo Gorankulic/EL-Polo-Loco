@@ -7,6 +7,7 @@ class Keyboard {
     D = false;
     THROW_REQUEST_STOP = new Date().getTime();
     THROW_REQUEST_START = 0;
+    gameSounds = new GameSound();
 
     constructor() {
         this.bindKeyPressEvents();
@@ -64,12 +65,16 @@ class Keyboard {
                 case 37: // Left arrow key
                     this.LEFT = true;
                     this.lastKeyPressed = 'LEFT';
+                    this.gameSounds.updateWalkingSound(); // Start walking sound on key down
+
                     break;
                     this.UP = true;
                     break;
                 case 39: // Right arrow key
                     this.RIGHT = true;
                     this.lastKeyPressed = 'RIGHT';
+                    this.gameSounds.updateWalkingSound(); // Start walking sound on key down
+
                     break;
                     // Add cases for UP, DOWN, SPACE, D as needed
 
@@ -118,6 +123,7 @@ class Keyboard {
                 this[direction] = true;
                 setTimeout(() => {
                     this[direction] = false;
+                    this.gameSounds.walking_sound.pause();
                 }, 250); // Continue movement for 150 ms
             }, 0); // Immediate timeout to allow for the keyup event to process
         }

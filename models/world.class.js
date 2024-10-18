@@ -1,5 +1,6 @@
 class World {
-    character = new Character();
+    gameSounds = new GameSound(); // Create GameSound instance here
+    character = new Character(this.gameSounds); // Pass gameSounds to Character
     level = level1;
     canvas;
     ctx;
@@ -12,7 +13,6 @@ class World {
     endGameYouWon = new endGameUserWonGameScreenPicture();
     bottleCount = 0;
 
-
     throwableObjects = [];
     endBossMovesLeft = false;
     endBossAttacking = false;
@@ -20,18 +20,6 @@ class World {
     gameSoundActive = true;
     endboss = new Endboss(this);
     endbossHealthBar = new EndBossHealthBar();
-    pepe_hurt = new Audio('audio/pepe hurt.mp3');
-    pepe_throw = new Audio('audio/throw sound.mp3');
-    coin_sound = new Audio('audio/coin.mp3');
-    bottle_collected_sound = new Audio('audio/coin.mp3');
-    bottle_splash_sound = new Audio('audio/broken bottle.mp3');
-    chicken_hit_sound = new Audio('audio/chicken hit sound.mp3');
-    chicken_eliminated_from_player = new Audio('audio/chicken eliminated from player.mp3');
-    endboss_hit_sound = new Audio('audio/enboss got hit.mp3');
-    small_chickens_move_sound = new Audio('audio/small chickens moving sound.mp3');
-    endbboss_coming_sound = new Audio('audio/endboss coming sound.mp3');
-    desert_ambient_sound = new Audio('audio/desert ambient sound.mp3');
-    background_game_music = new Audio('audio/game music.mp3');
     gameOver = false; // Set gameOver to false
     endBossIsEliminated = false;
     stopAllAnimations = false;
@@ -44,17 +32,7 @@ class World {
         this.configureWorldForCharacter();
         this.run();
         this.throwCooldown = false; // Add this line
-        //  this.small_chickens_move_sound.play();
-        this.pepe_hurt.pause();
-        this.pepe_throw.pause();
-        this.coin_sound.pause();
-        this.bottle_collected_sound.pause();
-        this.bottle_splash_sound.pause();
-        this.chicken_hit_sound.pause();
-        this.chicken_eliminated_from_player.pause();
-        this.endbboss_coming_sound.pause();
-        this.desert_ambient_sound.play();
-        this.background_game_music.play();
+        this.gameSounds.playAmbientSounds();
 
         // Bind fullscreen toggle to button click
         const btn = document.querySelector('.full-screen-button');
@@ -88,13 +66,7 @@ class World {
     }
     toggle_mute_sound() {
         this.gameSoundActive = !this.gameSoundActive;
-
-        if (this.gameSoundActive) {
-            this.playAllSounds();
-        } else {
-            this.pauseAllSounds();
-        }
-
+        this.gameSounds.toggleAllSounds(this.gameSoundActive);
         this.updateMuteIcon();
     }
 
@@ -110,31 +82,56 @@ class World {
             unmuteIcon.style.display = 'none';
         }
     }
+    playPepeHurtSound() {
+        this.gameSounds.playPepeHurtSound();
+    }
+    playCoinCollectedSound() {
+        this.gameSounds.playCoinCollectedSound();
+    }
 
-    playAllSounds() {
-        if (this.gameSoundActive) {
-            this.desert_ambient_sound.play();
-            this.background_game_music.play();
-        }
+    playThrowSound() {
+        this.gameSounds.playThrowSound();
+    }
+
+    playChickenHitSound() {
+        this.gameSounds.playChickenHitSound();
+    }
+
+    playEndBossComingSound() {
+        this.gameSounds.playEndBossComingSound();
+    }
+
+    playBottleChickenCollisionSound() {
+        this.gameSounds.playBottleChickenCollisionSound();
+    }
+
+    playBottleGroundCollisionSound() {
+        this.gameSounds.playBottleGroundCollisionSound();
+    }
+    playBottleCollectedSound() {
+        this.gameSounds.playBottleCollectedSound();
+    }
+    handleVictory() {
+        this.stopAllAnimations = true;
+        this.endGameYouWon.draw(this.ctx);
+        this.stopCharacterAndEnemies();
+        this.resetCharacterBottleCount();
+        this.gameSounds.playVictorySound();
+        this.gameSounds.pauseAmbientSounds();
+
+        setTimeout(() => {
+            this.endGameRoutine();
+            reloadPage();
+        }, 4000);
     }
 
     pauseAllSounds() {
-        this.pepe_hurt.pause();
-        this.pepe_throw.pause();
-        this.coin_sound.pause();
-        this.bottle_collected_sound.pause();
-        this.bottle_splash_sound.pause();
-        this.chicken_hit_sound.pause();
-        this.chicken_eliminated_from_player.pause();
-        this.endboss_hit_sound.pause();
-        this.small_chickens_move_sound.pause();
-        this.endbboss_coming_sound.pause();
-        this.endboss.endboss_got_eliminated.pause(); // Ensure endboss eliminated sound is paused
-        this.endboss.game_won_sound.pause(); // Ensure game won sound is paused
-        this.desert_ambient_sound.pause();
-        this.background_game_music.pause();
+        this.gameSounds.pauseAllSounds();
     }
 
+    playAllSounds() {
+        this.gameSounds.playAllSounds();
+    }
 
 
     checkOrientation() {
@@ -181,13 +178,6 @@ class World {
     }
 
 
-    playThrowSound() {
-        if (!this.gameSoundActive) {
-            this.pepe_throw.pause();
-        } else {
-            this.pepe_throw.play();
-        }
-    }
 
     updateBottleStatusBar() {
         let percentage = (this.character.bottleCount / 5) * 100; // Convert bottle count to percentage
@@ -224,11 +214,6 @@ class World {
         }
     }
 
-    playPepeHurtSound() {
-        if (this.gameSoundActive && this.pepe_hurt.paused) {
-            this.pepe_hurt.play();
-        }
-    }
 
     handleEndbossCollision(endboss) {
         setTimeout(() => {
@@ -250,16 +235,6 @@ class World {
                 this.increaseCharacterEnergy();
             }
 
-        }
-    }
-
-    playChickenHitSound() {
-        if (this.gameSoundActive) {
-            this.chicken_hit_sound.play();
-            this.chicken_eliminated_from_player.play();
-        } else {
-            this.chicken_hit_sound.pause();
-            this.chicken_eliminated_from_player.pause();
         }
     }
 
@@ -300,13 +275,7 @@ class World {
         this.updateCoinStatusBar();
     }
 
-    playCoinCollectedSound() {
-        if (this.gameSoundActive) {
-            this.coin_sound.play();
-        } else {
-            this.coin_sound.pause();
-        }
-    }
+
 
     incrementCoinCount() {
         this.character.coinCount = Math.min(this.character.coinCount + 25, 100);
@@ -343,13 +312,7 @@ class World {
     }
 
 
-    playBottleCollectedSound() {
-        if (this.gameSoundActive) {
-            this.bottle_collected_sound.play();
-        } else {
-            this.bottle_collected_sound.pause();
-        }
-    }
+
 
     incrementBottleCount() {
         this.character.bottleCount = Math.min(this.character.bottleCount + 1, 5);
@@ -408,27 +371,6 @@ class World {
             }, 75); // 2 seconds to allow splash animation to finish
         }
     }
-
-    playBottleChickenCollisionSound() {
-        if (!this.gameSoundActive) {
-            this.chicken_hit_sound.pause();
-            this.bottle_splash_sound.pause();
-        } else {
-            this.chicken_hit_sound.play();
-            this.bottle_splash_sound.play();
-        }
-    }
-
-    playBottleGroundCollisionSound() {
-        if (!this.gameSoundActive) {
-            this.bottle_splash_sound.pause();
-        } else {
-            this.bottle_splash_sound.play();
-        }
-    }
-
-
-
 
     isCollision(bottle, enemy) {
         const xCollision = bottle.x + bottle.width >= enemy.x && bottle.x <= enemy.x + enemy.width;
@@ -609,14 +551,6 @@ class World {
 
     hideEndBossHealthBar() {
         this.endbossHealthBar.hide();
-    }
-
-    playEndBossComingSound() {
-        if (!this.gameSoundActive) {
-            this.endbboss_coming_sound.pause();
-        } else {
-            this.endbboss_coming_sound.play();
-        }
     }
 
     isCharacterDead() {

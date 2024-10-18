@@ -9,7 +9,6 @@ class Character extends MovableObject {
         top: 45
     };
     lastMovedTimestamp = null;
-    character_eliminated_sound = new Audio('audio/endboss eliminated sound.mp3');
     characterCanJump = true;
 
     IMAGES_WALKING = [
@@ -76,18 +75,13 @@ class Character extends MovableObject {
     ];
 
     world;
-    walking_sound = new Audio('audio/walking.mp3');
-    pepe_jump = new Audio('audio/pepe jump.mp3');
-    game_over_voice = new Audio('audio/game over voice.mp3');
-    pepe_eliminated_sound = new Audio('audio/pepe eliminated sound.mp3');
-    you_lost_music = new Audio('audio/game lost.mp3');
-    sleeping_sound = new Audio('audio/sleeping sound.mp3');
-
+    gameSounds; // Declare gameSounds
     moveInterval = null;
     animationInterval = null;
 
-    constructor() {
+    constructor(gameSounds) { // Accept gameSounds object in constructor
         super();
+        this.gameSounds = gameSounds;
         this.loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
@@ -99,12 +93,8 @@ class Character extends MovableObject {
         this.coinCount = 0;
         this.applyGravity();
         this.lastMovedTimestamp = new Date().getTime(); // Set the initial timestamp
-        this.character_eliminated_sound.pause();
-        this.game_over_voice.pause();
-        this.pepe_eliminated_sound.pause();
-        this.you_lost_music.pause();
-        this.sleeping_sound.pause();
         this.animate();
+
     }
 
     animate() {
@@ -118,26 +108,29 @@ class Character extends MovableObject {
     }
 
     handleMovement() {
-        this.walking_sound.pause();
-        this.pepe_jump.pause();
-
+        // Check for null before calling
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.moveRight();
-            this.updateWalkingSound();
+
+
+
             this.otherDirection = false;
             this.lastMovedTimestamp = new Date().getTime();
         }
 
         if (this.world.keyboard.LEFT && this.x > 0) {
             this.moveLeft();
-            this.updateWalkingSound();
+
+
+
             this.otherDirection = true;
             this.lastMovedTimestamp = new Date().getTime();
         }
 
         if (this.world.keyboard.SPACE && !this.isAboveGround() && this.characterCanJump) {
             this.jump();
-            this.updateJumpSound();
+
+            this.gameSounds.updateJumpSound();
             this.lastMovedTimestamp = new Date().getTime();
         }
 
@@ -150,14 +143,16 @@ class Character extends MovableObject {
 
     handleAnimation() {
         if (this.isDead()) {
-            this.handleDeath();
+            this.gameSounds.playCharacterEliminatedSounds();
+            this.gameSounds.pauseAmbientSounds();
         } else if (this.isHurt()) {
             this.playAnimation(this.IMAGES_HURT);
+            this.gameSounds.playPepeHurtSound(); // Trigger hurt sound
         } else if (this.isAboveGround()) {
             this.playAnimation(this.IMAGES_JUMPING);
         } else if (this.isSleeping() && world.character.energy > 0) {
             this.playAnimation(this.IMAGES_SLEEPING);
-            this.playSleepingSound();
+            this.gameSounds.playSleepingSound(); // Play sleeping sound
         } else if (this.isBored()) {
             this.playAnimation(this.IMAGES_IDLE);
         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
@@ -165,32 +160,6 @@ class Character extends MovableObject {
         }
     }
 
-    handleDeath() {
-        this.playAnimation(this.IMAGES_DEAD);
-        if (this.world.gameSoundActive) {
-            this.character_eliminated_sound.play();
-            this.pepe_eliminated_sound.play();
-            this.you_lost_music.play();
-        }
-    }
-
-    playSleepingSound() {
-        if (this.world.gameSoundActive) {
-            this.sleeping_sound.play();
-        }
-    }
-
-    updateWalkingSound() {
-        if (this.world.gameSoundActive) {
-            this.walking_sound.play();
-        }
-    }
-
-    updateJumpSound() {
-        if (this.world.gameSoundActive) {
-            this.pepe_jump.play();
-        }
-    }
 
     clearAllIntervals() {
         if (this.moveInterval) {
@@ -230,4 +199,6 @@ class Character extends MovableObject {
         this.x += this.speed;
         this.lastDirection = 'right';
     }
+
+
 }
