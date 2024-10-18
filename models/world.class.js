@@ -485,20 +485,17 @@ class World {
         this.drawBackgroundObjects();
         this.drawGameObjects();
         this.resetCamera();
-
         if (this.isGameInProgress()) {
             this.drawStatusBars();
             this.handleEndBossHealthBar();
         } else {
             this.hideEndBossHealthBar();
         }
-
         if (this.isCharacterDead()) {
             this.handleGameOver();
         } else if (this.isEndBossEliminated()) {
             this.handleVictory();
         }
-
         this.requestNextFrame();
     }
 

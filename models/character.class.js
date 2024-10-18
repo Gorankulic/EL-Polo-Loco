@@ -160,6 +160,32 @@ class Character extends MovableObject {
         }
     }
 
+    handleDeath() {
+        this.playAnimation(this.IMAGES_DEAD);
+        if (this.world.gameSoundActive) {
+            this.character_eliminated_sound.play();
+            this.pepe_eliminated_sound.play();
+            this.you_lost_music.play();
+        }
+    }
+
+    playSleepingSound() {
+        if (this.world.gameSoundActive) {
+            this.sleeping_sound.play();
+        }
+    }
+
+    updateWalkingSound() {
+        if (this.world.gameSoundActive) {
+            this.walking_sound.play();
+        }
+    }
+
+    updateJumpSound() {
+        if (this.world.gameSoundActive) {
+            this.pepe_jump.play();
+        }
+    }
 
     clearAllIntervals() {
         if (this.moveInterval) {
