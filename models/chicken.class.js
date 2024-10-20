@@ -1,11 +1,7 @@
 class Chicken extends MovableObject {
-    // Initial y position of the chicken
     y = 335;
-    // Height of the chicken
     height = 80;
-    // Width of the chicken
     width = 70;
-    // Offset values for collision detection
     offset = {
             right: 5,
             left: 5,

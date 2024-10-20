@@ -2,6 +2,7 @@ class GameSound {
     pepe_hurt = new Audio('audio/pepe hurt.mp3');
     pepe_throw = new Audio('audio/throw sound.mp3');
     coin_sound = new Audio('audio/coin.mp3');
+    small_chicken_walk_sound = new Audio('audio/small chickens moving sound.mp3'); // Add walking sound for small chickens
     bottle_collected_sound = new Audio('audio/coin.mp3');
     bottle_splash_sound = new Audio('audio/broken bottle.mp3');
     chicken_hit_sound = new Audio('audio/chicken hit sound.mp3');
@@ -20,7 +21,6 @@ class GameSound {
     pepe_jump = new Audio('audio/pepe jump.mp3');
     sleeping_sound = new Audio('audio/sleeping sound.mp3');
     you_lost_music = new Audio('audio/game lost.mp3');
-
 
     toggleAllSounds(play) {
         if (play) {
@@ -148,6 +148,17 @@ class GameSound {
             this.sleeping_sound.pause();
         }
     }
+
+    // Method to play small chicken walking sound
+    playSmallChickenWalkSound() {
+        if (world.gameSoundActive) {
+            this.small_chicken_walk_sound.play();
+        } else {
+            this.small_chicken_walk_sound.pause();
+        }
+    }
+
+
 
 
 

@@ -8,6 +8,8 @@ class SmallChickens extends MovableObject {
         top: 0,
         bottom: 0
     }
+    gameSounds = new GameSound(); // Create GameSound instance here
+
     ELIMINATED_CHICKEN_WIDTH = 50;
     ELIMINATED_CHICKEN_HEIGHT = 40;
     characterEnemyCollision = false;
@@ -55,6 +57,7 @@ class SmallChickens extends MovableObject {
         setInterval(() => {
             if (!world.stopAllAnimations) {
                 this.moveLeft();
+                this.gameSounds.playSmallChickenWalkSound()
             }
         }, 1000 / 80);
         this.stopAnimationsForChicken();
