@@ -441,7 +441,6 @@ class World {
         // If the endboss's energy is below zero, mark him as eliminated
         if (endboss.endBossEnergy <= 0) {
             this.endBossIsEliminated = true;
-            this.gameSounds.walking_sound.pause();
             endboss.endBossEnergy = 0; // Prevent negative health
         }
     }
@@ -561,7 +560,9 @@ class World {
         this.stopAllAnimations = true;
         this.endGameYouLoose.draw(this.ctx);
         this.stopCharacterAndEnemies();
-        this.resetCharacterBottleCount(); //////////// 
+        this.resetCharacterBottleCount();
+        this.character.world.keyboard.disableControls();
+
 
         setTimeout(() => {
             this.endGameRoutine();
@@ -569,7 +570,7 @@ class World {
         }, 4000);
     }
 
-    isEndBossEliminated() { /////////////////////////////////////
+    isEndBossEliminated() {
         return this.endBossIsEliminated === true;
 
     }
@@ -579,6 +580,8 @@ class World {
         this.endGameYouWon.draw(this.ctx);
         this.stopCharacterAndEnemies();
         this.resetCharacterBottleCount();
+        this.character.world.keyboard.disableControls();
+        this.stopAllAnimations = true;
         if (this.gameSoundActive) {
             this.gameSounds.game_won_sound.play();
         }

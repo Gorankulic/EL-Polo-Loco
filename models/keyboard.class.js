@@ -132,6 +132,30 @@ class Keyboard {
         window.removeEventListener('keydown', this.keyDown);
         window.removeEventListener('keyup', this.keyUp);
     }
+    disableControls() {
+        // Set all key flags to false
+        this.LEFT = false;
+        this.RIGHT = false;
+        this.UP = false;
+        this.DOWN = false;
+        this.SPACE = false;
+        this.D = false;
+
+        // Detach all event listeners for buttons
+        document.getElementById('btnLeft').removeEventListener('mousedown', this.handleStart);
+        document.getElementById('btnLeft').removeEventListener('mouseup', this.handleEnd);
+        document.getElementById('btnRight').removeEventListener('mousedown', this.handleStart);
+        document.getElementById('btnRight').removeEventListener('mouseup', this.handleEnd);
+        document.getElementById('btnJump').removeEventListener('mousedown', this.handleStart);
+        document.getElementById('btnJump').removeEventListener('mouseup', this.handleEnd);
+        document.getElementById('btnThrow').removeEventListener('mousedown', this.handleStart);
+        document.getElementById('btnThrow').removeEventListener('mouseup', this.handleEnd);
+
+        // Detach keyboard events
+        window.removeEventListener('keydown', this.keyDown);
+        window.removeEventListener('keyup', this.keyUp);
+    }
+
 
 }
 0

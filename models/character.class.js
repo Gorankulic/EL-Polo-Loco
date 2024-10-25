@@ -111,25 +111,16 @@ class Character extends MovableObject {
         // Check for null before calling
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.moveRight();
-
-
-
             this.otherDirection = false;
             this.lastMovedTimestamp = new Date().getTime();
         }
-
         if (this.world.keyboard.LEFT && this.x > 0) {
             this.moveLeft();
-
-
-
             this.otherDirection = true;
             this.lastMovedTimestamp = new Date().getTime();
         }
-
         if (this.world.keyboard.SPACE && !this.isAboveGround() && this.characterCanJump) {
             this.jump();
-
             this.gameSounds.updateJumpSound();
             this.lastMovedTimestamp = new Date().getTime();
         }
@@ -150,15 +141,22 @@ class Character extends MovableObject {
             this.gameSounds.playPepeHurtSound(); // Trigger hurt sound
         } else if (this.isAboveGround()) {
             this.playAnimation(this.IMAGES_JUMPING);
-        } else if (this.isSleeping() && world.character.energy > 0) {
+        } else if (this.isSleeping() && this.world.character.energy > 0) {
             this.playAnimation(this.IMAGES_SLEEPING);
             this.gameSounds.playSleepingSound(); // Play sleeping sound
         } else if (this.isBored()) {
             this.playAnimation(this.IMAGES_IDLE);
         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            // Only play walking animation and sound if Endboss has energy
             this.playAnimation(this.IMAGES_WALKING);
+            this.gameSounds.updateWalkingSound(); // Start walking sound on key down
+        } else {
+            // Pause walking sound and reset animation if Endboss is defeated
+            this.gameSounds.walking_sound.pause();
+            this.playAnimation(this.IMAGES_IDLE); // Force idle image to stop flipping
         }
     }
+
 
     handleDeath() {
         this.playAnimation(this.IMAGES_DEAD);
