@@ -5,6 +5,7 @@ class Endboss extends MovableObject {
     endBossMovesLeft = false;
     endBossAttacking = false;
     endBossGotHit = false;
+    gameSounds = new GameSound(); // Create GameSound instance here
     offset = {
         right: 55,
         left: 155,
@@ -12,7 +13,6 @@ class Endboss extends MovableObject {
         top: 200
     };
     endboss_got_eliminated = new Audio('audio/endboss eliminated sound.mp3');
-    game_won_sound = new Audio('audio/game won.mp3');
 
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -70,7 +70,7 @@ class Endboss extends MovableObject {
     animationInterval = null; // Track animation interval
     gameSounds = new GameSound(); // Instance of GameSound class
 
-    constructor(world) {
+    constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_ENDBOSS_RUNNING);
         this.loadImages(this.IMAGES_ENDBOSS_ATTACKING);
@@ -78,8 +78,6 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_BOSS_ELIMINATED);
         this.x = 2500;
         this.speed = 7 + Math.random() * 0.25;
-        this.endboss_got_eliminated.pause();
-        this.game_won_sound.pause();
         this.animate();
     }
 
@@ -92,8 +90,7 @@ class Endboss extends MovableObject {
                 // Check if game sounds are active before playing the endboss eliminated sound
                 if (world.gameSoundActive) {
                     this.endboss_got_eliminated.play();
-                }
-                else if (!world.gameSoundActive) {
+                } else if (!world.gameSoundActive) {
                     this.endboss_got_eliminated.pause();
                 }
             } else if (this.endBossGotHit) {

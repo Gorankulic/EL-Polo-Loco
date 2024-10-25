@@ -38,7 +38,6 @@ class ThrowableObject extends MovableObject {
         this.acceleration = 0.4;
 
         if (this.throwInterval) {
-            console.log('Clearing previous throwInterval:', this.throwInterval);
             clearInterval(this.throwInterval);
         }
 
@@ -46,8 +45,6 @@ class ThrowableObject extends MovableObject {
             this.thrownBottleAnimation(direction);
             this.bottleFlyingDirection();
         }, 1000 / 60);
-
-        console.log('New throw interval set:', this.throwInterval);
     }
 
     thrownBottleAnimation(direction) {
@@ -109,11 +106,9 @@ class ThrowableObject extends MovableObject {
         if (!this.intervalsCleared) {
             this.intervalsCleared = true; // Mark intervals as cleared
             if (this.throwInterval) {
-                console.log('Clearing throwInterval:', this.throwInterval);
                 clearInterval(this.throwInterval);
             }
             if (this.movementInterval) {
-                console.log('Clearing movementInterval:', this.movementInterval);
                 clearInterval(this.movementInterval);
             }
         }
@@ -121,7 +116,6 @@ class ThrowableObject extends MovableObject {
 
     clearAnimationInterval() {
         if (this.movementInterval) {
-            console.log('Clearing movementInterval:', this.movementInterval);
             clearInterval(this.movementInterval);
             this.movementInterval = null;
         }

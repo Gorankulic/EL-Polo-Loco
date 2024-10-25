@@ -580,7 +580,7 @@ class World {
         this.stopCharacterAndEnemies();
         this.resetCharacterBottleCount();
         if (this.gameSoundActive) {
-            this.endboss.game_won_sound.play();
+            this.gameSounds.game_won_sound.play();
         }
 
         setTimeout(() => {
@@ -742,7 +742,6 @@ class World {
         const remainingSmallChickens = this.level.enemies.filter(enemy => enemy instanceof SmallChickens);
 
         if (remainingSmallChickens.length === 0) {
-            console.log("All small chickens eliminated. Pausing sound.");
             this.pauseSmallChickenSound = true; // Set global pause flag
             this.gameSounds.pauseSmallChickensMovingSound(); // Call pause method
         }
