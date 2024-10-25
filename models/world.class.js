@@ -62,7 +62,6 @@ class World {
             this.checkCollisions();
             this.checkThrowableObjects();
             this.checkCharacterXPosition();
-
         }, 1000 / 60);
     }
     toggle_mute_sound() {
@@ -442,6 +441,7 @@ class World {
         // If the endboss's energy is below zero, mark him as eliminated
         if (endboss.endBossEnergy <= 0) {
             this.endBossIsEliminated = true;
+            this.gameSounds.walking_sound.pause();
             endboss.endBossEnergy = 0; // Prevent negative health
         }
     }
@@ -554,7 +554,6 @@ class World {
 
     isCharacterDead() {
         return this.character.energy == 0;
-
     }
 
     handleGameOver() {

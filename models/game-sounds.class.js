@@ -126,13 +126,16 @@ class GameSound {
         }
     }
     updateWalkingSound() {
-        // Play the walking sound only if gameSoundActive is true and the character has energy
         if (world.gameSoundActive && world.character.energy > 0) {
             this.walking_sound.play();
+        }
+        if (world.endboss.endBossEnergy == 0) {
+            this.walking_sound.pause();
         } else {
             this.walking_sound.pause();
         }
     }
+
 
     updateJumpSound() {
         if (world.gameSoundActive) {
