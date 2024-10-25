@@ -62,7 +62,6 @@ class World {
             this.checkCollisions();
             this.checkThrowableObjects();
             this.checkCharacterXPosition();
-            this.checkAllSmallChickensEliminated();
 
         }, 1000 / 60);
     }
@@ -196,6 +195,7 @@ class World {
 
 
     checkEnemyCollisions() {
+        this.checkAllSmallChickensEliminated();
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.handleEnemyCollision(enemy);
@@ -554,6 +554,7 @@ class World {
 
     isCharacterDead() {
         return this.character.energy == 0;
+
     }
 
     handleGameOver() {
