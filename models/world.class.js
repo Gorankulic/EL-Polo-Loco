@@ -24,6 +24,7 @@ class World {
     endBossIsEliminated = false;
     stopAllAnimations = false;
     pauseSmallChickenSound = false;
+    characterIsDead = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -204,7 +205,6 @@ class World {
 
     handleEnemyCollision(enemy) {
         this.playPepeHurtSound();
-
         if (enemy instanceof Endboss) {
             this.handleEndbossCollision(enemy);
         } else if (this.character.isAboveGround()) {
@@ -212,8 +212,12 @@ class World {
         } else {
             this.character.hit();
             this.statusBar.setPercentage(this.character.energy);
+            if (this.character.energy <= 0) {
+                this.characterIsDead = true;
+            }
         }
     }
+
 
 
     handleEndbossCollision(endboss) {
@@ -234,6 +238,9 @@ class World {
             this.removeEnemyAfterDelay(enemy, 250);
             if (this.character.energy < 100) {
                 this.increaseCharacterEnergy();
+            }
+            if (this.character.energy == 0) {
+                characterIsDead = true;
             }
 
         }
@@ -561,8 +568,7 @@ class World {
         this.endGameYouLoose.draw(this.ctx);
         this.stopCharacterAndEnemies();
         this.resetCharacterBottleCount();
-        this.character.world.keyboard.disableControls();
-
+        this.gameSounds.walking_sound.pause();
 
         setTimeout(() => {
             this.endGameRoutine();
@@ -580,7 +586,8 @@ class World {
         this.endGameYouWon.draw(this.ctx);
         this.stopCharacterAndEnemies();
         this.resetCharacterBottleCount();
-        this.character.world.keyboard.disableControls();
+        this.gameSounds.walking_sound.pause();
+
         this.stopAllAnimations = true;
         if (this.gameSoundActive) {
             this.gameSounds.game_won_sound.play();
@@ -612,6 +619,7 @@ class World {
         this.clearEndBossIntervals(); // Clear end boss intervals
         this.clearAllMovableObjectIntervals(); // Clear movable object intervals
         this.clearAllIntervals(); // Clear all global intervals
+        this.characterIsDead = false;
     }
 
     requestNextFrame() {

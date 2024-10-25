@@ -7,7 +7,7 @@ class Keyboard {
     D = false;
     THROW_REQUEST_STOP = new Date().getTime();
     THROW_REQUEST_START = 0;
-    gameSounds = new GameSound();
+
 
     constructor() {
         this.bindKeyPressEvents();
@@ -61,34 +61,32 @@ class Keyboard {
 
     bindKeyPressEvents() {
         window.addEventListener("keydown", (e) => {
-            switch (e.keyCode) {
-                case 37: // Left arrow key
-                    this.LEFT = true;
-                    this.lastKeyPressed = 'LEFT';
-                    this.gameSounds.updateWalkingSound(); // Start walking sound on key down
+            if (!world.endBossIsEliminated) {
+                switch (e.keyCode) {
+                    case 37: // Left arrow key
+                        this.LEFT = true;
+                        this.lastKeyPressed = 'LEFT';
 
-                    break;
-                    this.UP = true;
-                    break;
-                case 39: // Right arrow key
-                    this.RIGHT = true;
-                    this.lastKeyPressed = 'RIGHT';
-                    this.gameSounds.updateWalkingSound(); // Start walking sound on key down
+                        break;
+                    case 39: // Right arrow key
+                        this.RIGHT = true;
+                        this.lastKeyPressed = 'RIGHT';
 
-                    break;
-                    // Add cases for UP, DOWN, SPACE, D as needed
-
-                case 40:
-                    this.DOWN = true;
-                    break;
-                case 32:
-                    this.SPACE = true;
-                    break;
-                case 68:
-                    this.D = true;
-                    break;
+                        break;
+                    case 40: // Down arrow key
+                        this.DOWN = true;
+                        break;
+                    case 32: // Space key (jump)
+                        this.SPACE = true;
+                        break;
+                    case 68: // 'D' key (throw action)
+                        this.D = true;
+                        break;
+                }
             }
         });
+
+
 
         window.addEventListener("keyup", (e) => {
             switch (e.keyCode) {
@@ -114,6 +112,7 @@ class Keyboard {
                     this.D = false;
                     break;
             }
+
         });
     }
     simulateAdditionalMovement(direction) {
@@ -123,7 +122,6 @@ class Keyboard {
                 this[direction] = true;
                 setTimeout(() => {
                     this[direction] = false;
-                    this.gameSounds.walking_sound.pause();
                 }, 250); // Continue movement for 150 ms
             }, 0); // Immediate timeout to allow for the keyup event to process
         }
@@ -132,29 +130,7 @@ class Keyboard {
         window.removeEventListener('keydown', this.keyDown);
         window.removeEventListener('keyup', this.keyUp);
     }
-    disableControls() {
-        // Set all key flags to false
-        this.LEFT = false;
-        this.RIGHT = false;
-        this.UP = false;
-        this.DOWN = false;
-        this.SPACE = false;
-        this.D = false;
 
-        // Detach all event listeners for buttons
-        document.getElementById('btnLeft').removeEventListener('mousedown', this.handleStart);
-        document.getElementById('btnLeft').removeEventListener('mouseup', this.handleEnd);
-        document.getElementById('btnRight').removeEventListener('mousedown', this.handleStart);
-        document.getElementById('btnRight').removeEventListener('mouseup', this.handleEnd);
-        document.getElementById('btnJump').removeEventListener('mousedown', this.handleStart);
-        document.getElementById('btnJump').removeEventListener('mouseup', this.handleEnd);
-        document.getElementById('btnThrow').removeEventListener('mousedown', this.handleStart);
-        document.getElementById('btnThrow').removeEventListener('mouseup', this.handleEnd);
-
-        // Detach keyboard events
-        window.removeEventListener('keydown', this.keyDown);
-        window.removeEventListener('keyup', this.keyUp);
-    }
 
 
 }

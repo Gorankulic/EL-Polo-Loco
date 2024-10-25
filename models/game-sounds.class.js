@@ -56,6 +56,7 @@ class GameSound {
         this.endboss_got_eliminated.pause();
         this.pepe_eliminated_sound.pause();
         this.you_lost_music.pause();
+        this.walking_sound.pause();
     }
 
     playCharacterEliminatedSounds() {
@@ -126,13 +127,13 @@ class GameSound {
         }
     }
     updateWalkingSound() {
-        if (world.gameSoundActive && world.character.energy > 0) {
+        if (world.gameSoundActive && !world.characterIsDead && !world.endBossIsEliminated) {
+
+
             this.walking_sound.play();
-        }
-        if (world.endboss.endBossEnergy == 0) {
-            this.walking_sound.pause();
+
         } else {
-            this.walking_sound.pause();
+            this.walking_sound.pause(); // Ensure sound pauses if character is dead or game is over
         }
     }
 

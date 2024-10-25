@@ -167,24 +167,6 @@ class Character extends MovableObject {
         }
     }
 
-    playSleepingSound() {
-        if (this.world.gameSoundActive) {
-            this.sleeping_sound.play();
-        }
-    }
-
-    updateWalkingSound() {
-        if (this.world.gameSoundActive) {
-            this.walking_sound.play();
-        }
-    }
-
-    updateJumpSound() {
-        if (this.world.gameSoundActive) {
-            this.pepe_jump.play();
-        }
-    }
-
     clearAllIntervals() {
         if (this.moveInterval) {
             clearInterval(this.moveInterval);
