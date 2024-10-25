@@ -23,6 +23,7 @@ class World {
     gameOver = false; // Set gameOver to false
     endBossIsEliminated = false;
     stopAllAnimations = false;
+    pauseSmallChickenSound = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -61,6 +62,7 @@ class World {
             this.checkCollisions();
             this.checkThrowableObjects();
             this.checkCharacterXPosition();
+            this.checkAllSmallChickensEliminated();
 
         }, 1000 / 60);
     }
@@ -736,7 +738,14 @@ class World {
             }
         }
     }
+    checkAllSmallChickensEliminated() {
+        const remainingSmallChickens = this.level.enemies.filter(enemy => enemy instanceof SmallChickens);
 
-
+        if (remainingSmallChickens.length === 0) {
+            console.log("All small chickens eliminated. Pausing sound.");
+            this.pauseSmallChickenSound = true; // Set global pause flag
+            this.gameSounds.pauseSmallChickensMovingSound(); // Call pause method
+        }
+    }
 
 }

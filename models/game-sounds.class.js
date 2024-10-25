@@ -149,17 +149,15 @@ class GameSound {
         }
     }
 
-    // Method to play small chicken walking sound
     playSmallChickenWalkSound() {
-        if (world.gameSoundActive) {
-            this.small_chicken_walk_sound.play();
-        } else {
-            this.small_chicken_walk_sound.pause();
+        if (world.gameSoundActive && !world.pauseSmallChickenSound && this.small_chickens_move_sound.paused) {
+            this.small_chickens_move_sound.play();
         }
     }
 
-
-
+    pauseSmallChickensMovingSound() {
+        this.small_chickens_move_sound.pause();
+    }
 
 
 }

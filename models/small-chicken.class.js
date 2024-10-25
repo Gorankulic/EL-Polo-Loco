@@ -35,20 +35,13 @@ class SmallChickens extends MovableObject {
         }
         // Method to calculate the spawn x position with minimum distance from the last SmallChickens
     getSpawnX() {
-        // Minimum x value for spawning
         let minX = 800;
-        // Maximum x value for spawning
         let maxX = 2500;
-        // Minimum distance between chickens
         let minDistance = 100;
-
         let newX;
-        // Generate a new x position until it meets the minimum distance requirement
         do {
             newX = minX + Math.random() * (maxX - minX);
         } while (Math.abs(newX - SmallChickens.lastX) < minDistance);
-
-        // Update the last SmallChickens's position
         SmallChickens.lastX = newX;
         return newX;
     }
@@ -57,7 +50,9 @@ class SmallChickens extends MovableObject {
         setInterval(() => {
             if (!world.stopAllAnimations) {
                 this.moveLeft();
-                this.gameSounds.playSmallChickenWalkSound()
+                if (!world.pauseSmallChickenSound) { // Check global pause flag
+                    world.gameSounds.playSmallChickenWalkSound();
+                }
             }
         }, 1000 / 80);
         this.stopAnimationsForChicken();
