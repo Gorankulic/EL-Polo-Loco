@@ -545,7 +545,7 @@ class World {
 
 
     handleEndBossHealthBar() {
-        if (this.character.x > 1500) {
+        if (this.character.x > 4500) {
             this.playEndBossComingSound();
             this.endbossHealthBar.show();
         }
@@ -662,7 +662,7 @@ class World {
     checkCharacterXPosition() {
         // Assuming Endboss is part of the enemies array
         this.level.enemies.forEach(enemy => {
-            if (enemy instanceof Endboss && this.character.x > 1500) {
+            if (enemy instanceof Endboss && this.character.x > 4500) {
                 enemy.endBossMovesLeft = true;
             }
         });
