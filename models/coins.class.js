@@ -14,21 +14,12 @@ class Coins extends MovableObject {
         }
         // Method to calculate the spawn x position with minimum distance from the last chicken
     getSpawnX() {
-        // Minimum x value for spawning
+        // Set the range and minimum distance for spawning coins
         let minX = 800;
-        // Maximum x value for spawning
         let maxX = 2500;
-        // Minimum distance between chickens
-        let minDistance = 100;
+        let minDistance = 300;
 
-        let newX;
-        // Generate a new x position until it meets the minimum distance requirement
-        do {
-            newX = minX + Math.random() * (maxX - minX);
-        } while (Math.abs(newX - Coins.lastX) < minDistance);
-
-        // Update the last chicken's position
-        Coins.lastX = newX;
-        return newX;
+        // Use the method from MovableObject with 'Coins' as the object type
+        return this.getRandomSpawnX(minX, maxX, minDistance, 'Coins');
     }
 }

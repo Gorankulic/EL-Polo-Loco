@@ -17,23 +17,13 @@ class Bottle extends MovableObject {
         this.x = this.getSpawnX();
     }
 
-    // Method to calculate the spawn x position with minimum distance from the last chicken
     getSpawnX() {
-        // Minimum x value for spawning
+        // Set the range and minimum distance for spawning bottles
         let minX = 800;
-        // Maximum x value for spawning
         let maxX = 2500;
-        // Minimum distance between chickens
-        let minDistance = 100;
+        let minDistance = 100; // Minimum distance between bottles
 
-        let newX;
-        // Generate a new x position until it meets the minimum distance requirement
-        do {
-            newX = minX + Math.random() * (maxX - minX);
-        } while (Math.abs(newX - Bottle.lastX) < minDistance);
-
-        // Update the last chicken's position
-        Bottle.lastX = newX;
-        return newX;
+        // Use the method from MovableObject with 'Bottles' as the object type
+        return this.getRandomSpawnX(minX, maxX, minDistance, 'Bottles');
     }
 }

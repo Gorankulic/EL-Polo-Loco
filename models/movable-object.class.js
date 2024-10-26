@@ -99,4 +99,23 @@ class MovableObject extends DrawableObject {
             clearInterval(this.gravityInterval); // Clear the gravity interval
         }
     }
+    getRandomSpawnX(minX, maxX, minDistance = 100, objectType) {
+        // Initialize the lastPositions storage if it doesn't exist
+        if (!MovableObject.lastPositions) {
+            MovableObject.lastPositions = {};
+        }
+        if (!MovableObject.lastPositions[objectType]) {
+            MovableObject.lastPositions[objectType] = 0;
+        }
+
+        let newX;
+        // Generate a new x position until it meets the minimum distance requirement
+        do {
+            newX = minX + Math.random() * (maxX - minX);
+        } while (Math.abs(newX - MovableObject.lastPositions[objectType]) < minDistance);
+
+        // Update the last position for this object type
+        MovableObject.lastPositions[objectType] = newX;
+        return newX;
+    }
 }
