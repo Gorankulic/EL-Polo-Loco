@@ -16,7 +16,7 @@ class Coins extends MovableObject {
     getSpawnX() {
         // Set the range and minimum distance for spawning coins
         let minX = 800;
-        let maxX = 2500;
+        let maxX = 4500;
         let minDistance = 300;
 
         // Use the method from MovableObject with 'Coins' as the object type

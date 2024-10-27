@@ -1,4 +1,12 @@
+/**
+ * Class representing a Favicon Animator that animates the favicon using a sequence of images.
+ * Uses an array of image paths to create an animation for the browser's favicon.
+ */
 class FaviconAnimator {
+    /**
+     * Constructs a FaviconAnimator instance and initializes the animation frames and canvas.
+     * @param {string[]} animationFrames - An array of image paths used for the animation frames.
+     */
     constructor(animationFrames) {
         this.animationFrames = animationFrames; // Array of image paths for animation
         this.currentFrame = 0;
@@ -16,6 +24,10 @@ class FaviconAnimator {
         }
     }
 
+    /**
+     * Updates the favicon to display the current frame of the animation.
+     * This method clears the canvas, draws the current image, and updates the favicon's href.
+     */
     updateFavicon() {
         const image = new Image();
         image.src = this.animationFrames[this.currentFrame];
@@ -34,6 +46,10 @@ class FaviconAnimator {
         };
     }
 
+    /**
+     * Starts the animation loop using requestAnimationFrame.
+     * Continuously updates the favicon by calling updateFavicon on each frame.
+     */
     playAnimation() {
         const animate = () => {
             this.updateFavicon();
@@ -42,8 +58,11 @@ class FaviconAnimator {
         requestAnimationFrame(animate);
     }
 
+    /**
+     * Placeholder for stopping the animation. Note: requestAnimationFrame does not use intervals,
+     * so stopping requires canceling the animation frame.
+     */
     stopAnimation() {
-        // No need for clearInterval with requestAnimationFrame
         console.warn("Stopping the animation needs to be handled differently with requestAnimationFrame.");
     }
 }

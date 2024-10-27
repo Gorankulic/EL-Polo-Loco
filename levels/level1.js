@@ -54,12 +54,12 @@ function createInstances(classType, count) {
 // Instantiate the level with all elements
 const level1 = new Level(
     [
-        ...createInstances(Chicken, 3),
-        ...createInstances(SmallChickens, 3),
+        ...createInstances(Chicken, 5),
+        ...createInstances(SmallChickens, 10),
         new Endboss()
     ],
-    createInstances(Coins, 8),
+    createInstances(Coins, 5),
     createInstances(Bottle, 10),
-    createInstances(Cloud, 8),
+    createInstances(Cloud, 20),
     backgroundObjects // Pass the dynamically generated background objects
 );

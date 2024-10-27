@@ -1,8 +1,12 @@
+/**
+ * Class representing all game sounds used in the game.
+ * Manages the playback and control of various audio elements based on game events.
+ */
 class GameSound {
     pepe_hurt = new Audio('audio/pepe hurt.mp3');
     pepe_throw = new Audio('audio/throw sound.mp3');
     coin_sound = new Audio('audio/coin.mp3');
-    small_chicken_walk_sound = new Audio('audio/small chickens moving sound.mp3'); // Add walking sound for small chickens
+    small_chicken_walk_sound = new Audio('audio/small chickens moving sound.mp3');
     bottle_collected_sound = new Audio('audio/coin.mp3');
     bottle_splash_sound = new Audio('audio/broken bottle.mp3');
     chicken_hit_sound = new Audio('audio/chicken hit sound.mp3');
@@ -22,6 +26,10 @@ class GameSound {
     sleeping_sound = new Audio('audio/sleeping sound.mp3');
     you_lost_music = new Audio('audio/game lost.mp3');
 
+    /**
+     * Toggles all sounds based on whether to play or pause.
+     * @param {boolean} play - Whether to play or pause all ambient and background sounds.
+     */
     toggleAllSounds(play) {
         if (play) {
             this.playAmbientSounds();
@@ -30,15 +38,25 @@ class GameSound {
         }
     }
 
+    /**
+     * Plays all ambient and background sounds in the game.
+     */
     playAmbientSounds() {
         this.desert_ambient_sound.play();
         this.background_game_music.play();
     }
+
+    /**
+     * Pauses all ambient and background sounds in the game.
+     */
     pauseAmbientSounds() {
         this.desert_ambient_sound.pause();
         this.background_game_music.pause();
     }
 
+    /**
+     * Pauses all game sounds to ensure silence across all events.
+     */
     pauseAllSounds() {
         this.pepe_hurt.pause();
         this.pepe_throw.pause();
@@ -59,34 +77,60 @@ class GameSound {
         this.walking_sound.pause();
     }
 
+    /**
+     * Plays the sound for character elimination.
+     */
     playCharacterEliminatedSounds() {
         if (world.gameSoundActive) {
             this.pepe_eliminated_sound.play();
             this.you_lost_music.play();
-        } else if (!world.gameSoundActive) {
+        } else {
             this.pepe_eliminated_sound.pause();
             this.you_lost_music.pause();
         }
     }
 
+    /**
+     * Updates the walking sound based on the character's status.
+     */
+    updateWalkingSound() {
+        if (world.gameSoundActive && !world.characterIsDead && !world.endBossIsEliminated) {
+            this.walking_sound.play();
+        } else {
+            this.walking_sound.pause();
+        }
+    }
+
+    /**
+     * Plays the sound when the character gets hurt.
+     */
     playPepeHurtSound() {
         if (world.gameSoundActive && this.pepe_hurt.paused) {
             this.pepe_hurt.play();
         }
     }
 
+    /**
+     * Plays the sound for character throwing an item.
+     */
     playThrowSound() {
         if (world.gameSoundActive) {
             this.pepe_throw.play();
         }
     }
 
+    /**
+     * Plays the sound when a bottle is collected.
+     */
     playBottleCollectedSound() {
         if (world.gameSoundActive) {
             this.bottle_collected_sound.play();
         }
     }
 
+    /**
+     * Plays the sound when a chicken is hit.
+     */
     playChickenHitSound() {
         if (world.gameSoundActive) {
             this.chicken_hit_sound.play();
@@ -94,12 +138,18 @@ class GameSound {
         }
     }
 
+    /**
+     * Plays the sound when the End Boss is approaching.
+     */
     playEndBossComingSound() {
         if (world.gameSoundActive) {
             this.endboss_coming_sound.play();
         }
     }
 
+    /**
+     * Plays the sound for when a bottle collides with a chicken.
+     */
     playBottleChickenCollisionSound() {
         if (world.gameSoundActive) {
             this.chicken_hit_sound.play();
@@ -107,62 +157,70 @@ class GameSound {
         }
     }
 
+    /**
+     * Plays the sound when a coin is collected.
+     */
     playCoinCollectedSound() {
         if (world.gameSoundActive) {
             this.coin_sound.play();
         }
     }
 
+    /**
+     * Plays the sound for when a bottle collides with the ground.
+     */
     playBottleGroundCollisionSound() {
         if (world.gameSoundActive) {
             this.bottle_splash_sound.play();
         }
     }
 
+    /**
+     * Plays the victory sound when the game is won.
+     */
     playVictorySound() {
         if (world.gameSoundActive) {
             this.game_won_sound.play();
-        } else if (world.gameSoundActive) {
+        } else {
             this.game_won_sound.pause();
         }
     }
-    updateWalkingSound() {
-        if (world.gameSoundActive && !world.characterIsDead && !world.endBossIsEliminated) {
 
-
-            this.walking_sound.play();
-
-        } else {
-            this.walking_sound.pause(); // Ensure sound pauses if character is dead or game is over
-        }
-    }
-
-
+    /**
+     * Updates the jump sound based on the game sound status.
+     */
     updateJumpSound() {
         if (world.gameSoundActive) {
             this.pepe_jump.play();
-        } else if (!world.gameSoundActive) {
+        } else {
             this.pepe_jump.pause();
         }
     }
 
+    /**
+     * Plays the sleeping sound for the character.
+     */
     playSleepingSound() {
         if (world.gameSoundActive) {
             this.sleeping_sound.play();
-        } else if (!world.gameSoundActive) {
+        } else {
             this.sleeping_sound.pause();
         }
     }
 
+    /**
+     * Plays the walking sound for small chickens.
+     */
     playSmallChickenWalkSound() {
         if (world.gameSoundActive && !world.pauseSmallChickenSound && this.small_chickens_move_sound.paused) {
             this.small_chickens_move_sound.play();
         }
     }
 
+    /**
+     * Pauses the small chickens' moving sound.
+     */
     pauseSmallChickensMovingSound() {
         this.small_chickens_move_sound.pause();
     }
-
-
 }

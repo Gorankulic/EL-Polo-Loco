@@ -36,8 +36,8 @@ class SmallChickens extends MovableObject {
         // Method to calculate the spawn x position with minimum distance from the last SmallChickens
     getSpawnX() {
         let minX = 800;
-        let maxX = 2500;
-        let minDistance = 100;
+        let maxX = 4500;
+        let minDistance = 300;
         let newX;
         do {
             newX = minX + Math.random() * (maxX - minX);

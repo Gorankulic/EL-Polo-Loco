@@ -1,3 +1,7 @@
+/**
+ * Class representing the keyboard controls and button events for the game.
+ * Manages both keyboard and button press events, including touch and mouse events for mobile and desktop compatibility.
+ */
 class Keyboard {
     LEFT = false;
     RIGHT = false;
@@ -8,12 +12,73 @@ class Keyboard {
     THROW_REQUEST_STOP = new Date().getTime();
     THROW_REQUEST_START = 0;
 
-
+    /**
+     * Constructs a Keyboard instance, binding key and button events for user input.
+     */
     constructor() {
         this.bindKeyPressEvents();
         this.bindBtsPressEvents();
     }
 
+    /**
+     * Binds keyboard events for key press and release actions.
+     * Handles movement, jump, and throw actions when the corresponding keys are pressed or released.
+     */
+    bindKeyPressEvents() {
+        window.addEventListener("keydown", (e) => {
+            if (!world.endBossIsEliminated) {
+                switch (e.keyCode) {
+                    case 37: // Left arrow key
+                        this.LEFT = true;
+                        this.lastKeyPressed = 'LEFT';
+                        break;
+                    case 39: // Right arrow key
+                        this.RIGHT = true;
+                        this.lastKeyPressed = 'RIGHT';
+                        break;
+                    case 40: // Down arrow key
+                        this.DOWN = true;
+                        break;
+                    case 32: // Space key (jump)
+                        this.SPACE = true;
+                        break;
+                    case 68: // 'D' key (throw action)
+                        this.D = true;
+                        break;
+                }
+            }
+        });
+
+        window.addEventListener("keyup", (e) => {
+            switch (e.keyCode) {
+                case 37: // Left arrow key
+                    this.LEFT = false;
+                    this.simulateAdditionalMovement('LEFT');
+                    break;
+                case 38: // Up arrow key
+                    this.UP = false;
+                    break;
+                case 39: // Right arrow key
+                    this.RIGHT = false;
+                    this.simulateAdditionalMovement('RIGHT');
+                    break;
+                case 40: // Down arrow key
+                    this.DOWN = false;
+                    break;
+                case 32: // Space key (jump)
+                    this.SPACE = false;
+                    break;
+                case 68: // 'D' key (throw action)
+                    this.D = false;
+                    break;
+            }
+        });
+    }
+
+    /**
+     * Binds button press events for mobile and desktop controls using touch and mouse events.
+     * Manages movement, jump, and throw actions through on-screen buttons.
+     */
     bindBtsPressEvents() {
         // Common function to handle both touch and mouse events
         const handleStart = (buttonFlag) => {
@@ -59,79 +124,26 @@ class Keyboard {
         btnThrow.addEventListener('mouseup', handleEnd('D'));
     }
 
-    bindKeyPressEvents() {
-        window.addEventListener("keydown", (e) => {
-            if (!world.endBossIsEliminated) {
-                switch (e.keyCode) {
-                    case 37: // Left arrow key
-                        this.LEFT = true;
-                        this.lastKeyPressed = 'LEFT';
-
-                        break;
-                    case 39: // Right arrow key
-                        this.RIGHT = true;
-                        this.lastKeyPressed = 'RIGHT';
-
-                        break;
-                    case 40: // Down arrow key
-                        this.DOWN = true;
-                        break;
-                    case 32: // Space key (jump)
-                        this.SPACE = true;
-                        break;
-                    case 68: // 'D' key (throw action)
-                        this.D = true;
-                        break;
-                }
-            }
-        });
-
-
-
-        window.addEventListener("keyup", (e) => {
-            switch (e.keyCode) {
-                case 37: // Left arrow key
-                    this.LEFT = false;
-                    this.simulateAdditionalMovement('LEFT');
-                    break;
-                case 38:
-                    this.UP = false;
-                    break;
-                case 39: // Right arrow key
-                    this.RIGHT = false;
-                    this.simulateAdditionalMovement('RIGHT');
-                    break;
-                    // Add cases for UP, DOWN, SPACE, D as needed
-                case 40:
-                    this.DOWN = false;
-                    break;
-                case 32:
-                    this.SPACE = false;
-                    break;
-                case 68:
-                    this.D = false;
-                    break;
-            }
-
-        });
-    }
+    /**
+     * Simulates additional movement for a short duration when a key is released.
+     * @param {string} direction - The direction ('LEFT' or 'RIGHT') to simulate movement.
+     */
     simulateAdditionalMovement(direction) {
-        // Ensure the direction is either LEFT or RIGHT to proceed
         if (direction === 'LEFT' || direction === 'RIGHT') {
             setTimeout(() => {
                 this[direction] = true;
                 setTimeout(() => {
                     this[direction] = false;
-                }, 250); // Continue movement for 150 ms
-            }, 0); // Immediate timeout to allow for the keyup event to process
+                }, 250); // Continue movement for 250 ms
+            }, 0);
         }
     }
+
+    /**
+     * Detaches all key press events, useful for resetting or stopping controls.
+     */
     detachEvents() {
         window.removeEventListener('keydown', this.keyDown);
         window.removeEventListener('keyup', this.keyUp);
     }
-
-
-
 }
-0

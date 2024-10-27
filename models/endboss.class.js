@@ -1,3 +1,7 @@
+/**
+ * Class representing the End Boss in the game.
+ * Extends the MovableObject class and contains all logic related to the End Boss's animations and behavior.
+ */
 class Endboss extends MovableObject {
     height = 400;
     width = 300;
@@ -5,15 +9,18 @@ class Endboss extends MovableObject {
     endBossMovesLeft = false;
     endBossAttacking = false;
     endBossGotHit = false;
-    gameSounds = new GameSound(); // Create GameSound instance here
+    gameSounds = new GameSound(); // Instance of GameSound class
+    endboss_got_eliminated = new Audio('audio/endboss eliminated sound.mp3');
+
+    // Offset for collision detection
     offset = {
         right: 55,
         left: 155,
         bottom: 30,
         top: 200
     };
-    endboss_got_eliminated = new Audio('audio/endboss eliminated sound.mp3');
 
+    // Image arrays for different end boss animations
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -68,8 +75,10 @@ class Endboss extends MovableObject {
 
     moveInterval = null; // Track movement interval
     animationInterval = null; // Track animation interval
-    gameSounds = new GameSound(); // Instance of GameSound class
 
+    /**
+     * Constructs an Endboss instance and initializes its properties, including loading images and starting animations.
+     */
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_ENDBOSS_RUNNING);
@@ -81,72 +90,82 @@ class Endboss extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Handles the animation of the End Boss based on its state (e.g., dead, hit, attacking, or moving).
+     */
     animate() {
         this.moveInterval = setInterval(() => {
             if (this.endBossIsDead()) {
                 this.endBossIsEliminatedAnimation();
                 this.gameSounds.background_game_music.pause();
-
-                // Check if game sounds are active before playing the endboss eliminated sound
                 if (world.gameSoundActive) {
                     this.endboss_got_eliminated.play();
-                } else if (!world.gameSoundActive) {
+                } else {
                     this.endboss_got_eliminated.pause();
                 }
             } else if (this.endBossGotHit) {
-                this.endBossGotHitAnimation(); // Prioritize hit animation
+                this.endBossGotHitAnimation();
             } else if (this.endBossAttacking) {
                 this.endBossAttackingAnimation();
             } else if (this.endBossMovesLeft && !this.endBossGotHit) {
                 this.endBossRunningAnimation();
             }
-        }, 100); // Keep the normal interval for general animation
+        }, 100);
     }
 
-
+    /**
+     * Plays the animation when the End Boss is hit and temporarily stops its movement.
+     */
     endBossGotHitAnimation() {
         if (this.endBossGotHit) {
-            this.playAnimation(this.IMAGES_ENDBOSS_HIT); // Play hit animation
-            this.speed = 0; // Stop movement when hit
-
-            // Delay resetting `endBossGotHit` for a longer hit animation
+            this.playAnimation(this.IMAGES_ENDBOSS_HIT);
+            this.speed = 0;
             setTimeout(() => {
-                this.endBossGotHit = false; // Reset hit flag after the delay
-                this.speed = 7 + Math.random() * 0.25; // Reset speed after hit
-            }, 500); // Increase delay to 1 second to make the hit animation last longer
+                this.endBossGotHit = false;
+                this.speed = 7 + Math.random() * 0.25;
+            }, 500);
         }
     }
 
-
+    /**
+     * Plays the animation when the End Boss is eliminated.
+     * Stops its movement completely.
+     */
     endBossIsEliminatedAnimation() {
         this.speed = 0;
         this.playAnimation(this.IMAGES_BOSS_ELIMINATED);
-
     }
 
-
-
-
+    /**
+     * Plays the attacking animation for the End Boss and makes it jump.
+     * Resets the attack state and speed after a short delay.
+     */
     endBossAttackingAnimation() {
         this.playAnimation(this.IMAGES_ENDBOSS_ATTACKING);
-        this.jump(); // Endboss jumps during attack
+        this.jump();
         setTimeout(() => {
             this.endBossAttacking = false;
-            this.speed = 7 + Math.random() * 0.25; // Reset speed after attack
-        }, 500); // Delay for attack animation
+            this.speed = 7 + Math.random() * 0.25;
+        }, 500);
     }
 
+    /**
+     * Plays the running animation when the End Boss moves left.
+     */
     endBossRunningAnimation() {
         this.moveLeft();
-        this.playAnimation(this.IMAGES_ENDBOSS_RUNNING); // Running animation
+        this.playAnimation(this.IMAGES_ENDBOSS_RUNNING);
     }
 
+    /**
+     * Clears all intervals associated with the End Boss, stopping all animations and movement.
+     */
     clearAllIntervals() {
         if (this.moveInterval) {
-            clearInterval(this.moveInterval); // Clear movement interval
+            clearInterval(this.moveInterval);
         }
         if (this.animationInterval) {
-            clearInterval(this.animationInterval); // Clear animation interval
+            clearInterval(this.animationInterval);
         }
     }
 }

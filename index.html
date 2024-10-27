@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <link id="dynamic-favicon" rel="icon" type="image/png" href="" />
+    <!-- Game classes and scripts -->
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
     <script src="models/character.class.js"></script>
@@ -35,11 +36,9 @@
 
 <body>
     <div class="game-div">
-
-        <canvas id="canvas" width="720" height="480"> </canvas>
+        <canvas id="canvas" width="720" height="480"></canvas>
 
         <div class="on-display-icons">
-
             <div class="top-button-bar">
                 <div class="restart-button">
                     <img src="img/icons/refresh-icon.png" class="button-universal" onclick="restartTheGame()" alt="refresh game icon" id="restartGameIcon">
@@ -51,34 +50,30 @@
                 <div class="full-screen-div">
                     <img src="img/icons/fullscreen.ico" class="full-screen-button button-universal" alt="full-screen">
                 </div>
-
             </div>
+
             <div id="startScreen" class="start-screen">
                 <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="Start Screen Image" class="start-screen-image">
                 <button id="startButton" onclick="init()" class="start-button">Start Game</button>
-
                 <div class="control-buttons-home-page">
                     <div class="button-description-with-text">
                         <img class="d-button-on-start-screen" src="img/icons/d-button-icon.png" alt="">
                         <span>THROW</span>
                     </div>
                     <div class="button-description-with-text">
-                        <img class="left-button-on-start-screen" src="img/icons/noun-arrow-1953036.png">
+                        <img class="left-button-on-start-screen" src="img/icons/noun-arrow-1953036.png" alt="Left">
                         <span>LEFT</span>
                     </div>
                     <div class="button-description-with-text">
-                        <img class="right-button-on-start-screen" src="img/icons/noun-arrow-1953036.png">
+                        <img class="right-button-on-start-screen" src="img/icons/noun-arrow-1953036.png" alt="Right">
                         <span>RIGHT</span>
                     </div>
-
-
                     <div class="button-description-with-text">
-                        <img class="jump-button-on-start-screen" src="img/icons/icons8-space-bar-100.png">
+                        <img class="jump-button-on-start-screen" src="img/icons/icons8-space-bar-100.png" alt="Jump">
                         <span>JUMP</span>
                     </div>
                 </div>
             </div>
-
 
             <div class="bottom-control-bar">
                 <div class="bottom-control-bar-left">
@@ -90,16 +85,13 @@
                     <img class="throw-button button-universal" id="btnThrow" src="img/icons/jump.ico" alt="throw-button">
                 </div>
             </div>
+
             <div id="orientationWarning" class="orientation-warning">
-                <img class="orientation-image" alt="">
+
                 <p class="please-rotate-device-text">PLEASE ROTATE YOUR DEVICE</p>
             </div>
         </div>
-
     </div>
-
-
-
 </body>
 
 </html>

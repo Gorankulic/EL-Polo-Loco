@@ -1,4 +1,9 @@
+/**
+ * Class representing a throwable object, such as a Tobasco sauce bottle, in the game.
+ * Extends the MovableObject class and handles the mechanics for throwing and animating the bottle.
+ */
 class ThrowableObject extends MovableObject {
+    // Image paths for flying and splashing animations
     FLYING_BOTTLE_IMAGES = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -17,8 +22,14 @@ class ThrowableObject extends MovableObject {
     accelerationX = 0;
     throwInterval = null;
     movementInterval = null;
-    intervalsCleared = false; // Add a flag to ensure intervals are only cleared once
+    intervalsCleared = false; // Flag to ensure intervals are only cleared once
 
+    /**
+     * Constructs a ThrowableObject instance, initializes its position, dimensions, and starts the throw animation.
+     * @param {number} x - The initial x-coordinate of the bottle.
+     * @param {number} y - The initial y-coordinate of the bottle.
+     * @param {string} [direction='right'] - The direction of the throw ('right' or 'left').
+     */
     constructor(x, y, direction = 'right') {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.FLYING_BOTTLE_IMAGES);
@@ -31,6 +42,10 @@ class ThrowableObject extends MovableObject {
         this.throw(direction);
     }
 
+    /**
+     * Initiates the throw animation and physics for the bottle.
+     * @param {string} direction - The direction ('right' or 'left') in which the bottle is thrown.
+     */
     throw (direction) {
         this.thrownBottle = true;
         this.applyGravity();
@@ -47,40 +62,51 @@ class ThrowableObject extends MovableObject {
         }, 1000 / 60);
     }
 
+    /**
+     * Animates the flying bottle based on its direction and updates its x-coordinate.
+     * @param {string} direction - The direction ('right' or 'left') in which the bottle is flying.
+     */
     thrownBottleAnimation(direction) {
         this.playAnimation(this.FLYING_BOTTLE_IMAGES);
         if (direction === 'right') {
-            this.x += 10; // Increase the x-axis speed to make the bottle fly farther
+            this.x += 10; // Move the bottle to the right
         } else {
-            this.x -= 10; // Same increase for the left direction
+            this.x -= 10; // Move the bottle to the left
         }
     }
 
+    /**
+     * Manages the bottle's behavior when it reaches the ground and triggers the splash animation.
+     */
     bottleFlyingDirection() {
         if (this.y >= 379) {
-            this.y = 380; // Ensure it doesn't go below the specified coordinate
+            this.y = 380; // Ensure the bottle stays at ground level
             this.speedY = 0;
 
-            // Ensure intervals are only cleared once
             if (!this.intervalsCleared) {
-                this.clearAllBottleIntervals(); // Ensure all intervals are cleared once
-                this.stopMovementX(); // Stopping the movement after the splash
+                this.clearAllBottleIntervals();
+                this.stopMovementX();
                 setTimeout(() => {
-                    this.triggerSplash(); // Trigger splash animation
-                }, 200); // Trigger the splash after a slight delay
+                    this.triggerSplash();
+                }, 200); // Delay to trigger splash animation
 
-                // Keep the splash animation visible for longer before clearing intervals
                 setTimeout(() => {
-                    this.clearAnimationInterval(); // Delay clearing the animation
-                }, 1500); // Increase this value to keep splash on screen longer
+                    this.clearAnimationInterval();
+                }, 1500); // Keep the splash animation visible for 1.5 seconds
             }
         }
     }
 
+    /**
+     * Triggers the splash animation when the bottle hits the ground.
+     */
     triggerSplash() {
-        this.playAnimation(this.BOTTLE_SPLASH_IMAGES); // Use the playAnimation method to handle splash animation
+        this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
     }
 
+    /**
+     * Stops the horizontal movement of the bottle.
+     */
     stopMovementX() {
         if (!this.intervalsCleared) {
             this.movementInterval = setInterval(() => {
@@ -90,21 +116,26 @@ class ThrowableObject extends MovableObject {
                 }
             }, 1000 / 60);
 
-            // Clear the movement interval after 1 second, if not already cleared
             setTimeout(() => {
                 this.clearAnimationInterval();
             }, 1000);
         }
     }
+
+    /**
+     * Stops both horizontal and vertical movement.
+     */
     stopMovementXandY() {
-        // Set both the x and y velocities to 0 to stop movement completely
         this.speedX = 0;
         this.speedY = 0;
     }
 
+    /**
+     * Clears all intervals related to the bottle's movement and animations.
+     */
     clearAllBottleIntervals() {
         if (!this.intervalsCleared) {
-            this.intervalsCleared = true; // Mark intervals as cleared
+            this.intervalsCleared = true;
             if (this.throwInterval) {
                 clearInterval(this.throwInterval);
             }
@@ -114,6 +145,9 @@ class ThrowableObject extends MovableObject {
         }
     }
 
+    /**
+     * Clears the animation interval to stop the bottle's movement.
+     */
     clearAnimationInterval() {
         if (this.movementInterval) {
             clearInterval(this.movementInterval);
