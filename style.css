@@ -42,10 +42,6 @@ canvas {
     margin-right: 10px;
 }
 
-.rotate-image {
-    height: 400px;
-}
-
 .orientation-warning {
     display: none;
 }
@@ -191,14 +187,6 @@ canvas {
     transform: scale(1.2);
 }
 
-.mute-button {
-    display: none;
-}
-
-.unmute-button {
-    display: block;
-}
-
 @media only screen and (max-width: 720px) {
     body {
         margin: 0;
@@ -247,12 +235,6 @@ canvas {
     .button-universal:hover {
         cursor: pointer;
         opacity: 0.7;
-    }
-    .mute-button {
-        display: none;
-    }
-    .unmute-button {
-        display: block;
     }
     #canvas {
         width: 100vw;
@@ -320,12 +302,6 @@ canvas {
     .button-universal:hover {
         cursor: pointer;
         opacity: 0.7;
-    }
-    .mute-button {
-        display: none;
-    }
-    .unmute-button {
-        display: block;
     }
     .start-screen {
         position: absolute;
