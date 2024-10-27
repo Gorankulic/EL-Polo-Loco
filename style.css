@@ -1,7 +1,12 @@
+/* Define a custom font for the game */
+
 @font-face {
     font-family: 'game-font';
     src: url('fonts/ZABARS/Zabars.ttf') format('truetype');
 }
+
+
+/* Body styling for the main game layout */
 
 body {
     display: flex;
@@ -10,15 +15,24 @@ body {
     justify-content: center;
     background-size: cover;
     min-height: 100vh;
+    /* Minimum height for responsiveness */
     margin: 0;
     height: 100vh;
     background-image: url('img/background/desert.jpg');
     font-family: game-font;
+    /* Apply the custom game font */
 }
+
+
+/* Style for the canvas where the game is rendered */
 
 canvas {
     border-radius: 15px;
+    /* Rounded corners for the canvas */
 }
+
+
+/* Styling for the start screen layout */
 
 .start-screen {
     position: absolute;
@@ -26,13 +40,21 @@ canvas {
     flex-direction: column;
     align-items: center;
     z-index: 1000;
+    /* Ensure it's above other elements */
 }
+
+
+/* Style for the start screen image */
 
 .start-screen-image {
     height: 480px;
     width: 720px;
     border-radius: 15px;
+    /* Rounded corners */
 }
+
+
+/* Styling for the top button bar */
 
 .top-button-bar {
     display: flex;
@@ -42,13 +64,22 @@ canvas {
     margin-right: 10px;
 }
 
+
+/* Orientation warning hidden by default */
+
 .orientation-warning {
     display: none;
 }
 
+
+/* Text for the orientation warning */
+
 .please-rotate-device-text {
     display: none;
 }
+
+
+/* Style for the start button */
 
 .start-button {
     padding: 1em 2em;
@@ -68,10 +99,18 @@ canvas {
     transform: scale(1.0);
 }
 
+
+/* Hover effect for the start button */
+
 .start-button:hover {
     background-color: #E59400 !important;
+    /* Darker orange */
     transform: scale(1.05);
+    /* Slight zoom-in effect */
 }
+
+
+/* Fullscreen style for .game-div */
 
 .game-div:fullscreen {
     height: 100vh;
@@ -80,9 +119,16 @@ canvas {
     left: 0;
 }
 
+
+/* Fullscreen style for the canvas */
+
 .game-div:fullscreen canvas {
     height: 100%;
+    /* Full height for canvas */
 }
+
+
+/* Control buttons on the home page */
 
 .control-buttons-home-page {
     position: absolute;
@@ -95,19 +141,32 @@ canvas {
     border-radius: 15px;
 }
 
+
+/* Style for the right button on the start screen */
+
 .right-button-on-start-screen {
     width: fit-content;
 }
 
+
+/* Style for the left button on the start screen */
+
 .left-button-on-start-screen {
     width: fit-content;
     transform: rotate(180deg);
+    /* Flip horizontally */
 }
+
+
+/* Style for the jump button on the start screen */
 
 .jump-button-on-start-screen {
     height: fit-content;
     bottom: 10px;
 }
+
+
+/* Style for button descriptions with text */
 
 .button-description-with-text {
     display: flex;
@@ -117,9 +176,16 @@ canvas {
     margin: 10px;
 }
 
+
+/* Hover effect for button descriptions */
+
 .button-description-with-text:hover {
     transform: scale(1.2);
+    /* Slight zoom-in effect */
 }
+
+
+/* Fullscreen style for .on-display-icons in .game-div */
 
 .game-div:fullscreen .on-display-icons {
     width: 95%;
@@ -131,6 +197,9 @@ canvas {
     justify-content: space-between;
 }
 
+
+/* General style for .game-div */
+
 .game-div {
     position: relative;
     text-align: center;
@@ -138,31 +207,53 @@ canvas {
     flex-direction: column;
 }
 
+
+/* Rotate and transition styles for the right button */
+
 .right-button {
     transform: rotate(360deg);
+    /* Full rotation */
     transition: border-color 0.2s;
 }
+
+
+/* Rotate and transition styles for the left button */
 
 .left-button {
     transform: rotate(180deg);
+    /* Flip horizontally */
     transition: border-color 0.2s;
 }
 
+
+/* Rotate and transition styles for the jump button */
+
 .jump-button {
     transform: rotate(-90deg);
+    /* Rotate upwards */
     transition: border-color 0.2s;
 }
+
+
+/* Transition styles for the throw button */
 
 .throw-button {
     transition: border-color 0.2s;
 }
 
+
+/* Styles for the bottom control bar */
+
 .bottom-control-bar {
     display: none;
+    /* Hidden by default */
     width: 100%;
     justify-content: space-around;
     margin-bottom: 5px;
 }
+
+
+/* Style for the on-display icons */
 
 .on-display-icons {
     display: flex;
@@ -175,17 +266,27 @@ canvas {
     justify-content: space-between;
 }
 
+
+/* General button styles */
+
 .button-universal {
     width: 32px;
     opacity: 0.5;
     transition: transform 0.3s ease;
 }
 
+
+/* Hover effect for general buttons */
+
 .button-universal:hover {
     cursor: pointer;
     opacity: 0.7;
     transform: scale(1.2);
+    /* Slight zoom-in effect */
 }
+
+
+/* Media query for small screens (max-width: 720px) */
 
 @media only screen and (max-width: 720px) {
     body {
@@ -194,6 +295,7 @@ canvas {
     }
     .orientation-warning {
         display: none;
+        /* Hidden by default */
         position: fixed;
         left: 0;
         width: 100%;
@@ -246,6 +348,9 @@ canvas {
         margin-bottom: 5px;
     }
 }
+
+
+/* Media query for small height screens (max-height: 480px) */
 
 @media only screen and (max-height: 480px) {
     canvas {
