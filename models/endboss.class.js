@@ -10,7 +10,6 @@ class Endboss extends MovableObject {
     endBossAttacking = false;
     endBossGotHit = false;
     gameSounds = new GameSound(); // Instance of GameSound class
-    endboss_got_eliminated = new Audio('audio/endboss eliminated sound.mp3');
 
     // Offset for collision detection
     offset = {
@@ -99,9 +98,9 @@ class Endboss extends MovableObject {
                 this.endBossIsEliminatedAnimation();
                 this.gameSounds.background_game_music.pause();
                 if (world.gameSoundActive) {
-                    this.endboss_got_eliminated.play();
+                    this.gameSounds.endboss_got_eliminated.play();
                 } else {
-                    this.endboss_got_eliminated.pause();
+                    this.gameSoundsendboss_got_eliminated.pause();
                 }
             } else if (this.endBossGotHit) {
                 this.endBossGotHitAnimation();
