@@ -50,7 +50,7 @@ class ThrowableObject extends MovableObject {
         this.thrownBottle = true;
         this.applyGravity();
         this.speedY = 8;
-        this.acceleration = 0.4;
+        this.acceleration = 0.7;
 
         if (this.throwInterval) {
             clearInterval(this.throwInterval);
