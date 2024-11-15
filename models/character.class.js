@@ -10,7 +10,7 @@ class Character extends MovableObject {
         right: 55,
         left: 55,
         bottom: 30,
-        top: 45
+        top: 155
     };
     lastMovedTimestamp = null;
     characterCanJump = true;
