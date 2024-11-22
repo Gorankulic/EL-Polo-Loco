@@ -5,6 +5,21 @@
     src: url('fonts/ZABARS/Zabars.ttf') format('truetype');
 }
 
+@keyframes zoomInOut {
+    0% {
+        transform: scale(1);
+        /* Normal size */
+    }
+    50% {
+        transform: scale(1.2);
+        /* Zoomed in */
+    }
+    100% {
+        transform: scale(1);
+        /* Back to normal size */
+    }
+}
+
 
 /* Body styling for the main game layout */
 
@@ -93,10 +108,12 @@ canvas {
     background-color: #FFA500 !important;
     border: none;
     color: white;
-    transition: background-color 0.3s ease;
     margin-top: 20px;
     font-family: game-font;
-    transform: scale(1.0);
+    animation: zoomInOut 2s infinite;
+    /* Continuous zoom animation */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    /* Smooth transition for hover */
 }
 
 
@@ -104,9 +121,9 @@ canvas {
 
 .start-button:hover {
     background-color: #E59400 !important;
-    /* Darker orange */
-    transform: scale(1.05);
-    /* Slight zoom-in effect */
+    /* Darker orange on hover */
+    transform: scale(1.3);
+    /* Slightly larger zoom on hover */
 }
 
 
@@ -134,10 +151,10 @@ canvas {
     position: absolute;
     width: 100%;
     z-index: 1;
-    bottom: 14px;
+    bottom: 0px;
     display: flex;
     justify-content: center;
-    /* background-color: rgb(255 255 255 / 57%); */
+    background-color: rgb(255 255 255 / 57%);
     border-radius: 15px;
 }
 
@@ -288,10 +305,22 @@ canvas {
 .impressum-and-datendschutzt {
     display: flex;
     align-self: self-end;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 0.8rem;
     cursor: pointer;
     z-index: 1001;
     border-radius: 5px;
     background-color: burlywood;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border-width: 0px;
+    /* Smooth transitions */
+}
+
+.impressum-and-datendschutzt:hover {
+    background-color: #d2a366;
+    /* Slightly darker burlywood */
+    transform: scale(1.02);
+    /* Slightly larger button */
 }
 
 .hidden {
@@ -321,7 +350,7 @@ canvas {
     text-align: left;
     max-height: 80%;
     overflow-y: auto;
-    font-family: Arial, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 1em;
 }
 
@@ -484,14 +513,56 @@ canvas {
         position: absolute;
         width: 100vw;
         z-index: 1;
-        /* bottom: 0px; */
+        bottom: 0px;
         display: flex;
         justify-content: center;
-        /* background-color: rgb(255 255 255 / 57%); */
+        background-color: rgb(255 255 255 / 57%);
         font-size: 1.5em;
     }
     .start-screen-image {
         height: 100%;
         max-width: -webkit-fill-available;
+    }
+    .hidden {
+        display: none;
+    }
+    .popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 1001;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .popup-content {
+        background-color: white;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 600px;
+        padding: 20px;
+        position: relative;
+        text-align: left;
+        max-height: 80%;
+        overflow-y: auto;
+        font-family: Arial, sans-serif;
+        font-size: 1em;
+    }
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+        transition: color 0.2s ease, transform 0.2s ease;
+    }
+    .close-button:hover {
+        color: red;
+        transform: scale(1.2);
     }
 }
