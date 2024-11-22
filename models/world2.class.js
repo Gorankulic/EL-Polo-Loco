@@ -102,7 +102,6 @@ class World2 {
             if (currentIndex !== -1) {
                 this.world.level.enemies.splice(currentIndex, 1);
                 this.world.checkAllSmallChickensEliminated();
-
             }
         }, delay);
     }

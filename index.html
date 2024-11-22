@@ -56,6 +56,14 @@
             <div id="startScreen" class="start-screen">
                 <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="Start Screen Image" class="start-screen-image">
                 <button id="startButton" onclick="init()" class="start-button">Start Game</button>
+                <button id="impressumDatenschutzButton" class="impressum-and-datendschutzt" onclick="showImpressumPopup()">Datenschutz & Impressum</button>
+                <div id="impressumPopup" class="hidden">
+                    <div class="popup-content">
+                        <span class="close-button" onclick="closeImpressumPopup()">&times;</span>
+                        <div id="impressumText"></div>
+                    </div>
+                </div>
+
                 <div class="control-buttons-home-page">
                     <div class="button-description-with-text">
                         <img class="d-button-on-start-screen" src="img/icons/d-button-icon.png" alt="">
