@@ -25,6 +25,8 @@ function restartTheGame() {
 function startGame() {
     document.getElementById('startScreen').style.display = 'none';
     const controlBars = document.getElementsByClassName('bottom-control-bar');
+    const impressumButton = document.getElementById('impressumDatenschutzButton');
+    impressumButton.classList.add('hidden');
     for (let controlBar of controlBars) {
         controlBar.classList.remove('hidden');
     }

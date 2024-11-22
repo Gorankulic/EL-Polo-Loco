@@ -5,7 +5,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <link id="dynamic-favicon" rel="icon" type="image/png" />
     <!-- Game classes and scripts -->
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
@@ -56,13 +55,7 @@
             <div id="startScreen" class="start-screen">
                 <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="Start Screen Image" class="start-screen-image">
                 <button id="startButton" onclick="init()" class="start-button">Start Game</button>
-                <button id="impressumDatenschutzButton" class="impressum-and-datendschutzt" onclick="showImpressumPopup()">Datenschütz & Impressum</button>
-                <div id="impressumPopup" class="hidden">
-                    <div class="popup-content">
-                        <span class="close-button" onclick="closeImpressumPopup()">&times;</span>
-                        <div id="impressumText"></div>
-                    </div>
-                </div>
+
 
                 <div class="control-buttons-home-page">
                     <div class="button-description-with-text">
@@ -81,6 +74,13 @@
                         <img class="jump-button-on-start-screen" src="img/icons/icons8-space-bar-100.png" alt="Jump">
                         <span>JUMP</span>
                     </div>
+                </div>
+            </div>
+            <button id="impressumDatenschutzButton" class="impressum-and-datendschutzt" onclick="showImpressumPopup()">Datenschütz & Impressum</button>
+            <div id="impressumPopup" class="hidden">
+                <div class="popup-content">
+                    <span class="close-button" onclick="closeImpressumPopup()">&times;</span>
+                    <div id="impressumText"></div>
                 </div>
             </div>
 

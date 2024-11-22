@@ -289,7 +289,9 @@ canvas {
     display: flex;
     align-self: self-end;
     cursor: pointer;
-    z-index: 2;
+    z-index: 1002;
+    border-radius: 5px;
+    background-color: burlywood;
 }
 
 .hidden {
@@ -472,12 +474,11 @@ canvas {
         background-color: rgba(0, 0, 0, 0.8);
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        /* justify-content: center; */
         align-items: center;
         z-index: 1000;
         height: 100vh;
         background-color: transparent;
-        /* Remove black background */
     }
     .control-buttons-home-page {
         position: absolute;
