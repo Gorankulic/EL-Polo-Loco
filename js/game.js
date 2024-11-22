@@ -24,6 +24,10 @@ function restartTheGame() {
 
 function startGame() {
     document.getElementById('startScreen').style.display = 'none';
+    const controlBars = document.getElementsByClassName('bottom-control-bar');
+    for (let controlBar of controlBars) {
+        controlBar.classList.remove('hidden');
+    }
     startAnimations();
 }
 

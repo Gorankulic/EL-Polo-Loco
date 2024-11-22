@@ -40,7 +40,7 @@ canvas {
     flex-direction: column;
     align-items: center;
     z-index: 1000;
-    /* Ensure it's above other elements */
+    background-color: transparent;
 }
 
 
@@ -426,6 +426,9 @@ canvas {
         width: 100%;
         justify-content: space-around;
     }
+    .hidden {
+        display: none;
+    }
     .game-div {
         position: relative;
         text-align: center;
@@ -473,18 +476,21 @@ canvas {
         align-items: center;
         z-index: 1000;
         height: 100vh;
+        background-color: transparent;
+        /* Remove black background */
     }
     .control-buttons-home-page {
         position: absolute;
         width: 100vw;
         z-index: 1;
-        bottom: 0px;
+        /* bottom: 0px; */
         display: flex;
         justify-content: center;
-        background-color: rgb(255 255 255 / 57%);
+        /* background-color: rgb(255 255 255 / 57%); */
         font-size: 1.5em;
     }
     .start-screen-image {
         height: 100%;
+        max-width: -webkit-fill-available;
     }
 }
