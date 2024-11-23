@@ -58,7 +58,7 @@ const level1 = new Level(
         ...createInstances(SmallChickens, 10),
         new Endboss()
     ],
-    createInstances(Coins, 5),
+    createInstances(Coins, 4),
     createInstances(Bottle, 10),
     createInstances(Cloud, 20),
     backgroundObjects // Pass the dynamically generated background objects

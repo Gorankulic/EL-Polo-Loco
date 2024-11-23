@@ -2,6 +2,10 @@ let canvas;
 let world;
 let keyboard;
 
+/**
+ * Initializes the game by setting up the keyboard, canvas, and world objects.
+ * Also initializes the favicon animation and starts the game setup.
+ */
 function init() {
     keyboard = new Keyboard();
     canvas = document.getElementById('canvas');
@@ -18,26 +22,61 @@ function init() {
     restartTheGame();
 }
 
+/**
+ * Sets up an event listener on the restart game icon to reload the page and restart the game.
+ */
 function restartTheGame() {
     document.getElementById('restartGameIcon').addEventListener('click', reloadPage);
 }
 
+/**
+ * Starts the game by hiding the start screen, showing control bars, hiding the Impressum button,
+ * and starting animations for the game objects.
+ */
 function startGame() {
-    document.getElementById('startScreen').style.display = 'none';
-    const controlBars = document.getElementsByClassName('bottom-control-bar');
-    const impressumButton = document.getElementById('impressumDatenschutzButton');
-    impressumButton.classList.add('hidden');
-    for (let controlBar of controlBars) {
-        controlBar.classList.remove('hidden');
-    }
+    hideStartScreen();
+    showControlBars();
+    hideImpressumButton();
     startAnimations();
 }
 
+/**
+ * Hides the start screen by setting its display style to 'none'.
+ */
+function hideStartScreen() {
+    document.getElementById('startScreen').style.display = 'none';
+}
+
+/**
+ * Displays all elements with the class 'bottom-control-bar' by removing the 'hidden' class.
+ */
+function showControlBars() {
+    const controlBars = document.getElementsByClassName('bottom-control-bar');
+    for (let controlBar of controlBars) {
+        controlBar.classList.remove('hidden');
+    }
+}
+
+/**
+ * Hides the Impressum button by adding the 'hidden' class to its element.
+ */
+function hideImpressumButton() {
+    const impressumButton = document.getElementById('impressumDatenschutzButton');
+    impressumButton.classList.add('hidden');
+}
+
+/**
+ * Reloads the page and ends the current game routine.
+ */
 function reloadPage() {
     location.reload();
     world.endGameRoutine();
 }
 
+/**
+ * Starts animations for all enemies in the current level.
+ * Specifically animates enemies of type Chicken and SmallChickens.
+ */
 function startAnimations() {
     world.level.enemies.forEach(enemy => {
         if (enemy instanceof Chicken || enemy instanceof SmallChickens) {
@@ -46,6 +85,9 @@ function startAnimations() {
     });
 }
 
+/**
+ * Displays the Impressum popup with dynamically injected content.
+ */
 function showImpressumPopup() {
     const popup = document.getElementById('impressumPopup');
     const popupText = document.getElementById('impressumText');
@@ -122,21 +164,25 @@ E-Mail: gorankulic@outlook.com</p>
     popup.classList.add('popup');
 }
 
+/**
+ * Hides the Impressum popup by removing the 'popup' class from its element.
+ */
 function closeImpressumPopup() {
     const popup = document.getElementById('impressumPopup');
     popup.classList.remove('popup');
 }
 
-// Close popup when clicking on body, except on popup content or button
+/**
+ * Closes the Impressum popup when clicking on the body, except on popup content or the Impressum button.
+ */
 document.addEventListener('click', function(event) {
     const popup = document.getElementById('impressumPopup');
     const popupContent = document.querySelector('.popup-content');
     const impressumButton = document.getElementById('impressumDatenschutzButton');
 
-    if (popup.classList.contains('hidden') && // Popup is visible
+    if (popup.classList.contains('popup') && // Popup is visible
         (event.target === popup || // Click is on popup background
-            (!popupContent.contains(event.target) && event.target !== impressumButton)) // Click outside content or button
-    ) {
+            (!popupContent.contains(event.target) && event.target !== impressumButton))) { // Click outside content or button
         closeImpressumPopup();
     }
 });
