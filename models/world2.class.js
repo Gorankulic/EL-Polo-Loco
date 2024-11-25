@@ -102,9 +102,11 @@ class World2 {
             if (currentIndex !== -1) {
                 this.world.level.enemies.splice(currentIndex, 1);
                 this.world.checkAllSmallChickensEliminated();
+                this.world.checkAllBrownChickensEliminated(); // Add this line
             }
         }, delay);
     }
+
 
     /**
      * Increases character energy by a fixed amount, up to a maximum of 100.

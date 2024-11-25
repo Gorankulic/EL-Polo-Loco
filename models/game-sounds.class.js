@@ -9,6 +9,7 @@ class GameSound {
     small_chicken_walk_sound = new Audio('audio/small chickens moving sound.mp3');
     bottle_collected_sound = new Audio('audio/coin.mp3');
     bottle_splash_sound = new Audio('audio/broken bottle.mp3');
+    normal_chicken_walking_sound = new Audio('audio/normal chicken coming sound.mp3');
     chicken_hit_sound = new Audio('audio/chicken hit sound.mp3');
     chicken_eliminated_from_player = new Audio('audio/chicken eliminated from player.mp3');
     endboss_hit_sound = new Audio('audio/enboss got hit.mp3');
@@ -75,6 +76,7 @@ class GameSound {
         this.pepe_eliminated_sound.pause();
         this.you_lost_music.pause();
         this.walking_sound.pause();
+        this.normal_chicken_walking_sound.pause();
     }
 
     /**
@@ -205,6 +207,17 @@ class GameSound {
             this.sleeping_sound.play();
         } else {
             this.sleeping_sound.pause();
+        }
+    }
+
+    /**
+     * Plays normal brown chicken walking sound
+     */
+    playNormalChickenWalkingSound() {
+        if (world.gameSoundActive) {
+            this.normal_chicken_walking_sound.play();
+        } else {
+            this.normal_chicken_walking_sound.pause();
         }
     }
 

@@ -22,7 +22,7 @@ class ThrowableObject extends MovableObject {
     accelerationX = 0;
     throwInterval = null;
     movementInterval = null;
-    intervalsCleared = false; // Flag to ensure intervals are only cleared once
+    intervalsCleared = false;
 
     /**
      * Constructs a ThrowableObject instance, initializes its position, dimensions, and starts the throw animation.

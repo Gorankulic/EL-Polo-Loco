@@ -509,10 +509,21 @@ class World {
      * Checks if all small chickens have been eliminated, and pauses sounds accordingly.
      */
     checkAllSmallChickensEliminated() {
-        const remainingSmallChickens = this.level.enemies.filter(enemy => enemy instanceof SmallChickens);
-        if (remainingSmallChickens.length === 0) {
-            this.pauseSmallChickenSound = true;
-            this.gameSounds.pauseSmallChickensMovingSound();
+            const remainingSmallChickens = this.level.enemies.filter(enemy => enemy instanceof SmallChickens);
+            if (remainingSmallChickens.length === 0) {
+                this.pauseSmallChickenSound = true;
+                this.gameSounds.pauseSmallChickensMovingSound();
+            }
+        }
+        /**
+         * Checks if all brown chickens have been eliminated, and pauses their sounds accordingly.
+         */
+    checkAllBrownChickensEliminated() {
+        const remainingBrownChickens = this.level.enemies.filter(enemy => enemy instanceof Chicken);
+        if (remainingBrownChickens.length === 0) {
+            this.pauseBrownChickenSound = true;
+            this.gameSounds.normal_chicken_walking_sound.pause();
         }
     }
+
 }

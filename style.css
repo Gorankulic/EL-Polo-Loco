@@ -33,7 +33,7 @@ body {
     /* Minimum height for responsiveness */
     margin: 0;
     height: 100vh;
-    background-image: url('img/background/desert.jpg');
+    background-image: url('img/background/desert.webp');
     font-family: game-font;
     /* Apply the custom game font */
 }

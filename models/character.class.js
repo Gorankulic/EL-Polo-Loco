@@ -109,28 +109,65 @@ class Character extends MovableObject {
      * Handles the character's movement and updates the camera position accordingly.
      */
     handleMovement() {
+        this.handleHorizontalMovement();
+        this.handleJumping();
+        this.updateCameraPosition();
+        this.restrictVerticalPosition();
+    }
+
+    /**
+     * Handles the horizontal movement of the character (left and right).
+     */
+    handleHorizontalMovement() {
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.moveRight();
+            this.gameSounds.sleeping_sound.pause();
             this.otherDirection = false;
-            this.lastMovedTimestamp = new Date().getTime();
+            this.updateLastMovedTimestamp();
         }
         if (this.world.keyboard.LEFT && this.x > 0) {
             this.moveLeft();
+            this.gameSounds.sleeping_sound.pause();
             this.otherDirection = true;
-            this.lastMovedTimestamp = new Date().getTime();
+            this.updateLastMovedTimestamp();
         }
+    }
+
+    /**
+     * Handles the jumping logic for the character.
+     */
+    handleJumping() {
         if (this.world.keyboard.SPACE && !this.isAboveGround() && this.characterCanJump) {
             this.jump();
+            this.gameSounds.sleeping_sound.pause();
             this.gameSounds.updateJumpSound();
-            this.lastMovedTimestamp = new Date().getTime();
+            this.updateLastMovedTimestamp();
         }
+    }
 
+    /**
+     * Updates the camera position based on the character's position.
+     */
+    updateCameraPosition() {
         this.world.camera_x = -this.x + 100;
+    }
 
+    /**
+     * Restricts the vertical position of the character to a maximum of 75.
+     */
+    restrictVerticalPosition() {
         if (this.y > 75) {
             this.y = 75;
         }
     }
+
+    /**
+     * Updates the timestamp of the last movement.
+     */
+    updateLastMovedTimestamp() {
+        this.lastMovedTimestamp = new Date().getTime();
+    }
+
 
     /**
      * Handles the character's animation based on its state (e.g., walking, jumping, idle, hurt, dead).

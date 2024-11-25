@@ -150,6 +150,20 @@ E-Mail: gorankulic@outlook.com</p>
 <h2>Urheberrechtliche Hinweise</h2>
 <p><em>Diese Datenschutzerklärung wurde mit Hilfe der activeMind AG erstellt – den Experten für <a href="https://www.activemind.de/datenschutz/datenschutzbeauftragter/" target="_blank" rel="noopener dofollow">externe Datenschutzbeauftragte</a> (Version #2024-10-25).</em></p>
 </div>
+<h1>Quellen der in diesem Projekt verwendeten Bilder</h1>
+<p>
+  Der Hintergrund ist ein KI-GENERIERTES Bild. Bildnachweis: Das verwendete Wüstenbild wurde mit DALL·E von OpenAI erstellt, einem generativen KI-Bildtool. Das Design zeigt eine Cartoon-Wüstenlandschaft mit einem Farbverlauf am Himmel, Kakteen und Wüstentieren, angepasst für die Nutzung im Projekt.
+</p>
+<ul>
+  <li><a href="https://www.flaticon.com/free-icons/restart" title="restart icons">Neustart-Symbole erstellt von Rakib Hassan Rahim - Flaticon</a></li>
+  <li><a href="https://www.flaticon.com/free-icons/keyboard-command" title="keyboard command icons">Tastaturbefehl-Symbole erstellt von shohanur.rahman13 - Flaticon</a></li>
+  <li><a target="_blank" href="https://icons8.com/icon/3Apt7KAlK2HU/space-key">Leertaste</a>-Symbol von <a target="_blank" href="https://icons8.com">Icons8</a></li>
+  <li><a href="https://www.flaticon.com/free-icons/keyboard-command" title="keyboard command icons">Tastaturbefehl-Symbole erstellt von shohanur.rahman13 - Flaticon</a> (D-Taste-Symbol)</li>
+  <li><a href="https://www.flaticon.com/free-icons/speaker" title="speaker icons">Lautsprecher-Symbole erstellt von Pixel perfect - Flaticon</a></li>
+  <li><a href="https://www.flaticon.com/free-icons/mute" title="mute icons">Stumm-Symbole erstellt von Mayor Icons - Flaticon</a></li>
+  <li><a href="https://fontmeme.com/fonts/zabars-font/">Im Spiel verwendete Schriftart</a> von FontMeme</li>
+</ul>
+
 </div>
         <h1>Impressum</h1>
         <p>Goran Kulic<br />
