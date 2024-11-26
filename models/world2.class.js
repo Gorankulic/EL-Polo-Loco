@@ -50,9 +50,11 @@ class World2 {
      */
     handleEnemyCollision(enemy) {
         this.world.playPepeHurtSound();
+
         if (enemy instanceof Endboss) {
             this.handleEndbossCollision(enemy);
-        } else if (this.world.character.isAboveGround()) {
+        } else if (this.world.character.isAboveGround() && this.world.character.speedY < 0) {
+            // Ensure the character is descending
             this.handleEnemyStomp(enemy);
         } else {
             this.world.character.hit();
