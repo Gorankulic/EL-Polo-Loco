@@ -19,6 +19,7 @@ class World2 {
             this.checkCollisions();
             this.checkThrowableObjects();
             this.checkCharacterXPosition();
+            this.preventBottleThrowWhenSleeping();
         }, 1000 / 60);
     }
 
@@ -417,13 +418,19 @@ class World2 {
      * Checks if the player can throw a bottle and manages the throw action.
      */
     checkThrowableObjects() {
-        if (this.world.keyboard.D && this.world.character.bottleCount > 0 && !this.world.character.throwCooldown) {
-            this.activateThrowCooldown();
+        const character = this.world.character;
+
+        if (
+            this.world.keyboard.D &&
+            character.playerCanThrowBottle &&
+            character.bottleCount > 0 &&
+            !character.throwCooldown
+        ) {
             this.throwBottles();
             this.updateBottleCount();
             this.world.playThrowSound();
             this.updateBottleStatusBar();
-            this.resetThrowCooldownAfterDelay();
+            this.activateThrowCooldown();
         }
     }
 
@@ -431,15 +438,28 @@ class World2 {
      * Activates a cooldown to prevent rapid bottle throwing.
      */
     activateThrowCooldown() {
-        this.world.character.throwCooldown = true;
+        const character = this.world.character;
+        character.throwCooldown = true; // Set cooldown to true
+
+        setTimeout(() => {
+            character.throwCooldown = false; // Reset cooldown after 1 second
+        }, 1000); // Cooldown duration: 1 second
     }
 
     /**
      * Throws a bottle based on the character's current direction and position.
      */
     throwBottles() {
-        let xOffset = this.world.character.lastDirection === 'right' ? 100 : 0;
-        let bottle = new ThrowableObject(this.world.character.x + xOffset, this.world.character.y + 100, this.world.character.lastDirection);
+        const character = this.world.character;
+        const xOffset = character.lastDirection === 'right' ? 100 : -50;
+
+        const bottle = new ThrowableObject(
+            character.x + xOffset,
+            character.y + 100,
+            character.lastDirection,
+            this.world // Pass the world instance
+        );
+
         this.world.throwableObjects.push(bottle);
     }
 
@@ -454,13 +474,18 @@ class World2 {
     }
 
     /**
-     * Resets the throw cooldown after a delay.
+     * Prevents bottle throwing when the character is sleeping.
      */
-    resetThrowCooldownAfterDelay() {
-        setTimeout(() => {
-            this.world.character.throwCooldown = false;
-        }, 1000);
+    preventBottleThrowWhenSleeping() {
+        const character = this.world.character;
+
+        if (character.isSleeping()) {
+            character.playerCanThrowBottle = false; // Disable bottle-throwing
+        } else {
+            character.playerCanThrowBottle = true; // Enable bottle-throwing if not sleeping
+        }
     }
+
 
     /**
      * Checks the character's X position and triggers enemy movement if character is near Endboss.
