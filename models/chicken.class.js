@@ -73,7 +73,7 @@ class Chicken extends MovableObject {
             if (!world.stopAllAnimations) {
                 this.moveLeft();
             }
-        }, 1000 / 60);
+        }, 500 / 40);
         this.stopAllAnimationsforChicken();
     }
 
@@ -89,7 +89,7 @@ class Chicken extends MovableObject {
                     this.playAnimation(this.IMAGES_WALKING);
                 }
             }
-        }, 1000 / 20);
+        }, 500 / 5);
     }
 
     /**

@@ -70,7 +70,7 @@ class SmallChickens extends MovableObject {
                     this.playAnimation(this.RUNNING_IMAGES_FOR_SMALL_CHICKEN);
                 }
             }
-        }, 1000 / 20);
+        }, 500 / 5);
     }
 
     clearAllIntervals() {
