@@ -50,11 +50,9 @@ class World2 {
      */
     handleEnemyCollision(enemy) {
         this.world.playPepeHurtSound();
-
         if (enemy instanceof Endboss) {
             this.handleEndbossCollision(enemy);
         } else if (this.world.character.isAboveGround() && this.world.character.speedY < 0) {
-            // Ensure the character is descending
             this.handleEnemyStomp(enemy);
         } else {
             this.world.character.hit();
@@ -371,7 +369,7 @@ class World2 {
      * @param {Endboss} endboss - The Endboss object.
      */
     reduceEndbossEnergy(endboss) {
-        endboss.endBossEnergy -= 25;
+        endboss.endBossEnergy -= 15;
         if (endboss.endBossEnergy <= 0) {
             this.world.endBossIsEliminated = true;
             endboss.endBossEnergy = 0;
