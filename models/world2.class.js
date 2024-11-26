@@ -486,7 +486,6 @@ class World2 {
         }
     }
 
-
     /**
      * Checks the character's X position and triggers enemy movement if character is near Endboss.
      */

@@ -518,6 +518,7 @@ canvas {
         justify-content: center;
         background-color: rgb(255 255 255 / 57%);
         font-size: 1.5em;
+        border-radius: 0px;
     }
     .start-screen-image {
         height: 100%;
