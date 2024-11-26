@@ -38,9 +38,16 @@ class World {
     constructor(canvas, keyboard) {
         this.canvas = canvas; // Store the canvas element reference
         this.ctx = canvas.getContext('2d'); // Get 2D rendering context for the canvas
-        this.gameSounds.playAmbientSounds(); // Play ambient sounds for background atmosphere
         this.keyboard = keyboard; // Store the keyboard input state
         this.throwCooldown = false; // Initialize throw cooldown to prevent rapid throwing
+
+        // Load saved sound state or default to true
+        const savedSoundState = localStorage.getItem('gameSoundActive');
+        this.gameSoundActive = savedSoundState === null ? true : savedSoundState === 'true';
+
+        this.gameSounds.toggleAllSounds(this.gameSoundActive); // Apply the saved sound state
+        this.updateMuteIcon(); // Update the mute/unmute icon
+
         this.world2 = new World2(this); // Instantiate World2 and pass the current world instance
         this.configureWorldForCharacter(); // Link the character to the world instance
         this.draw(); // Start the initial drawing and game loop
@@ -61,7 +68,6 @@ class World {
         this.checkOrientation(); // Initial orientation check to set warnings if needed
     }
 
-
     /**
      * Configures the character to have access to the world instance.
      */
@@ -70,13 +76,17 @@ class World {
     }
 
     /**
-     * Toggles the mute state of game sounds and updates the mute icon.
+     * Toggles the mute state of game sounds, updates the mute icon, and saves the state to local storage.
      */
     toggle_mute_sound() {
         this.gameSoundActive = !this.gameSoundActive;
         this.gameSounds.toggleAllSounds(this.gameSoundActive);
         this.updateMuteIcon();
+
+        // Save the current sound state to local storage
+        localStorage.setItem('gameSoundActive', this.gameSoundActive);
     }
+
 
     /**
      * Updates the mute/unmute icon based on the current sound state.
