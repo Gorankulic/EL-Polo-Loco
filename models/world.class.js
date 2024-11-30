@@ -139,23 +139,6 @@ class World {
     }
 
     /**
-     * Handles the victory state, stopping animations, and playing victory sounds.
-     */
-    handleVictory() {
-        this.stopAllAnimations = true;
-        this.endGameYouWon.draw(this.ctx);
-        this.stopCharacterAndEnemies();
-        this.resetCharacterBottleCount();
-        this.gameSounds.playVictorySound();
-        this.gameSounds.pauseAmbientSounds();
-
-        setTimeout(() => {
-            this.endGameRoutine();
-            reloadPage();
-        }, 4000);
-    }
-
-    /**
      * Pauses all game sounds.
      */
     pauseAllSounds() {
@@ -300,8 +283,40 @@ class World {
     }
 
     /**
-     * Handles game over state, stopping animations and playing game over sounds.
+     * Checks if the end boss has been eliminated.
+     * @returns {boolean} True if end boss is eliminated, false otherwise.
      */
+    isEndBossEliminated() {
+            return this.endBossIsEliminated;
+        }
+        //////////////////////////////////////////////////////////////////////////////////////////////////////
+        /**
+         * Handles victory conditions, stopping animations and playing victory sounds.
+         */
+    handleVictory() {
+            this.character.characterCanJump = false;
+            this.stopAllAnimations = true;
+            this.endGameYouWon.draw(this.ctx);
+            this.stopCharacterAndEnemies();
+            this.resetCharacterBottleCount();
+            this.gameSounds.walking_sound.pause();
+            this.stopAllAnimations = true;
+            if (this.gameSoundActive) {
+                this.gameSounds.game_won_sound.play();
+                this.gameSounds.desert_ambient_sound.pause();
+                this.gameSounds.background_game_music.pause();
+                this.gameSounds.small_chickens_move_sound.pause();
+            }
+
+            setTimeout(() => {
+                this.endGameRoutine();
+                this.resetGameChanges();
+            }, 4000);
+
+        }
+        /**
+         * Handles game over state, stopping animations and playing game over sounds.
+         */
     handleGameOver() {
         this.character.characterCanJump = false;
         this.stopAllAnimations = true;
@@ -315,72 +330,109 @@ class World {
 
         setTimeout(() => {
             this.endGameRoutine();
-            reloadPage();
+            this.resetGameChanges();
         }, 4000);
+
     }
 
     /**
-     * Checks if the end boss has been eliminated.
-     * @returns {boolean} True if end boss is eliminated, false otherwise.
+     * Resets the game state to its initial values after the game ends.
      */
-    isEndBossEliminated() {
-        return this.endBossIsEliminated;
+    endGameRoutine() {
+        // Clear all intervals and sounds
+        this.clearAllIntervals();
+        this.pauseAllSounds();
+
     }
 
-    /**
-     * Handles victory conditions, stopping animations and playing victory sounds.
-     */
-    handleVictory() {
-        this.character.characterCanJump = false;
-        this.stopAllAnimations = true;
-        this.endGameYouWon.draw(this.ctx);
-        this.stopCharacterAndEnemies();
-        this.resetCharacterBottleCount();
-        this.gameSounds.walking_sound.pause();
-        this.stopAllAnimations = true;
-        if (this.gameSoundActive) {
-            this.gameSounds.game_won_sound.play();
-            this.gameSounds.desert_ambient_sound.pause();
-            this.gameSounds.background_game_music.pause();
-            this.gameSounds.small_chickens_move_sound.pause();
-        }
+    resetGameChanges() {
+        // Reset global game state flags
+        this.gameOver = false;
+        this.characterIsDead = false;
+        this.endBossAttacking = false;
+        this.endBossGotHit = false;
+        this.endBossIsEliminated = false;
+        this.endBossMovesLeft = false;
+        this.stopAllAnimations = false;
+        this.pauseSmallChickenSound = false;
+        this.gameSoundActive = true;
 
-        setTimeout(() => {
-            this.endGameRoutine();
-            reloadPage();
-        }, 4000);
+        // Reset sounds
+        this.gameSounds.pauseAllSounds();
+        this.gameSounds.toggleAllSounds(this.gameSoundActive);
+
+        // Reset character
+        this.character.clearAllIntervals(); // Stop animations
+        this.character.reset(); // Reset character properties
+
+        // Recreate enemies
+        this.level.enemies = [
+            ...createInstances(Chicken, 5), // Replace with the initial number of chickens
+            ...createInstances(SmallChickens, 10), // Replace with the initial number of small chickens
+            new Endboss(this) // Add the end boss
+        ];
+
+        // Reset enemy intervals
+        this.level.enemies.forEach(enemy => {
+            enemy.clearAllIntervals(); // Stop any existing animations
+            enemy.reset(); // Reset their state
+            enemy.animate(); // Restart animations
+        });
+
+        // Reset clouds
+        this.level.clouds.forEach(cloud => {
+            cloud.clearAllIntervals();
+            cloud.reset();
+        });
+
+        // Reset throwable objects
+        this.clearAllBottleObjects();
+
+
+
+        // Reset status bars
+        this.statusBar.setPercentage(100); // Full health
+        this.statusBarForBottle.setPercentageForBottle(0); // Empty bottle bar
+        this.coinBar.setPercentageForCoins(0); // No coins collected
+
+        // Reset background objects
+        const imageWidth = 719;
+        const repetitions = Math.ceil(this.level.level_end_x / imageWidth) + 1;
+        this.level.backgroundObjects = createBackgroundObjects(imageWidth, repetitions);
+
+        // Reset camera position
+        this.camera_x = 0;
+
+        // Reset and reinitialize end boss
+        this.endboss.clearAllIntervals();
+        this.endboss.reset();
+        this.endboss.animate();
+
+        // Restart game loops
+        this.world2.run(); // Restart collision and logic loops
+        this.draw(); // Restart rendering
+
+
     }
+
+
 
     /**
      * Stops all character and enemy movement.
      */
     stopCharacterAndEnemies() {
-        this.character.speed = 0;
-        this.level.enemies.forEach(enemy => enemy.speed = 0);
-    }
-
-    /**
-     * Resets the character's bottle count to zero.
-     */
+            this.character.speed = 0;
+            this.level.enemies.forEach(enemy => enemy.speed = 0);
+        }
+        /**
+         * Restores the original speeds of the character and enemies after being stopped.
+         */
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /**
+         * Resets the character's bottle count to zero.
+         */
     resetCharacterBottleCount() {
         this.character.bottleCount = 0;
-    }
-
-    /**
-     * Executes routine actions when the game ends, clearing intervals and resetting state.
-     */
-    endGameRoutine() {
-        this.gameOver = true;
-        this.gameSoundActive = false;
-        this.pauseAllSounds();
-        this.clearAllBottleObjects();
-        this.clearAllChickenIntervals();
-        this.clearCharacterIntervals();
-        this.clearAllCloudIntervals();
-        this.clearEndBossIntervals();
-        this.clearAllMovableObjectIntervals();
-        this.clearAllIntervals();
-        this.characterIsDead = false;
     }
 
     /**

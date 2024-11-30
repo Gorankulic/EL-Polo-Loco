@@ -166,4 +166,12 @@ class Endboss extends MovableObject {
             clearInterval(this.animationInterval);
         }
     }
+    reset() {
+        this.endBossEnergy = 100;
+        this.endBossGotHit = false;
+        this.endBossMovesLeft = false;
+        this.clearAllIntervals();
+        this.animate();
+    }
+
 }

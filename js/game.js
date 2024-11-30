@@ -19,15 +19,8 @@ function init() {
     const faviconAnimator = new FaviconAnimator(walkingFrames); // Set to 16ms for max frame rate (60 FPS)
 
     startGame();
-    restartTheGame();
 }
 
-/**
- * Sets up an event listener on the restart game icon to reload the page and restart the game.
- */
-function restartTheGame() {
-    document.getElementById('restartGameIcon').addEventListener('click', reloadPage);
-}
 
 /**
  * Starts the game by hiding the start screen, showing control bars, hiding the Impressum button,
@@ -70,7 +63,6 @@ function hideImpressumButton() {
  */
 function reloadPage() {
     location.reload();
-    world.endGameRoutine();
 }
 
 /**

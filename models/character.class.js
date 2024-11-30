@@ -283,4 +283,23 @@ class Character extends MovableObject {
         this.x += this.speed;
         this.lastDirection = 'right';
     }
+    reset() {
+        // Reset character's properties
+        this.characterCanJump = true;
+        this.energy = 100; // Reset energy to full (or initial value)
+        this.bottleCount = 0; // Reset the number of bottles
+        this.coinCount = 0; // Reset the number of coins
+        this.x = 0; // Reset position (example starting x-coordinate)
+        this.y = 75; // Reset position (example starting y-coordinate)
+        this.speedY = 0; // Reset vertical speed
+        this.lastMovedTimestamp = new Date().getTime(); // Reset activity timestamp
+        this.speed = 5;
+
+        // Restart animations and gravity
+        this.applyGravity();
+        this.animate();
+        this.handleAnimation();
+    }
+
+
 }

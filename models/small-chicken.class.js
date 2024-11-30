@@ -47,7 +47,7 @@ class SmallChickens extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
+        this.moveInterval = setInterval(() => {
             if (!world.stopAllAnimations) {
                 this.moveLeft();
                 if (!world.pauseSmallChickenSound) { // Check global pause flag
@@ -56,8 +56,8 @@ class SmallChickens extends MovableObject {
             }
         }, 1000 / 80);
         this.stopAnimationsForChicken();
-
     }
+
     isCharacterColliding() {
         return this.characterEnemyCollision;
     }
@@ -80,5 +80,12 @@ class SmallChickens extends MovableObject {
         if (this.animationInterval) {
             clearInterval(this.animationInterval);
         }
+    }
+    reset() {
+        this.characterEnemyCollision = false;
+        this.x = this.getSpawnX();
+        this.speed = 0.15 + Math.random() * 0.25;
+        this.clearAllIntervals();
+        this.animate();
     }
 }

@@ -69,13 +69,14 @@ class Chicken extends MovableObject {
      * Starts the movement and animation for the chicken.
      */
     animate() {
-        setInterval(() => {
+        this.moveInterval = setInterval(() => {
             if (!world.stopAllAnimations) {
                 this.moveLeft();
             }
         }, 500 / 40);
         this.stopAllAnimationsforChicken();
     }
+
 
     /**
      * Manages the animation for the chicken, switching between walking and eliminated states.
@@ -103,4 +104,15 @@ class Chicken extends MovableObject {
             clearInterval(this.animationInterval);
         }
     }
+
+    reset() {
+        this.clearAllIntervals();
+        this.characterEnemyCollision = false;
+        this.x = this.getSpawnX();
+        this.speed = 0.15 + Math.random() * 0.25;
+
+        this.animate();
+    }
+
+
 }

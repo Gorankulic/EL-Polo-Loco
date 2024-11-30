@@ -61,4 +61,11 @@ class Cloud extends MovableObject {
             clearInterval(this.moveInterval); // Clear the cloud's movement interval
         }
     }
+    reset() {
+        this.clearAllIntervals(); // Stop current animations
+        this.setPosition(); // Reset position
+        this.animate(); // Restart movement
+    }
+
+
 }
