@@ -85,7 +85,7 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ENDBOSS_HIT);
         this.loadImages(this.IMAGES_BOSS_ELIMINATED);
         this.x = 5000;
-        this.speed = 7 + Math.random() * 0.25;
+        this.speed = 5;
         this.animate();
     }
 
@@ -120,7 +120,7 @@ class Endboss extends MovableObject {
             this.speed = 0;
             setTimeout(() => {
                 this.endBossGotHit = false;
-                this.speed = 7 + Math.random() * 0.25;
+                this.speed = 5;
             }, 500);
         }
     }
@@ -143,7 +143,7 @@ class Endboss extends MovableObject {
         this.jump();
         setTimeout(() => {
             this.endBossAttacking = false;
-            this.speed = 7 + Math.random() * 0.25;
+            this.speed = 5;
         }, 500);
     }
 
@@ -167,10 +167,11 @@ class Endboss extends MovableObject {
         }
     }
     reset() {
+        this.clearAllIntervals();
         this.endBossEnergy = 100;
         this.endBossGotHit = false;
         this.endBossMovesLeft = false;
-        this.clearAllIntervals();
+        this.percentageForEndBoss = 100; // Reset health percentage to 100%
         this.animate();
     }
 

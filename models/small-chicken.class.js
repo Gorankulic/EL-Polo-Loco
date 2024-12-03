@@ -30,7 +30,7 @@ class SmallChickens extends MovableObject {
             this.loadImages(this.ELIMINATED_CHICKEN_IMAGES);
             this.x = this.getSpawnX();
             // Set a random speed for the SmallChickens
-            this.speed = 0.15 + Math.random() * 0.25;
+            this.speed = 0.15;
             // Start the animation for the SmallChickens
         }
         // Method to calculate the spawn x position with minimum distance from the last SmallChickens
@@ -84,7 +84,7 @@ class SmallChickens extends MovableObject {
     reset() {
         this.characterEnemyCollision = false;
         this.x = this.getSpawnX();
-        this.speed = 0.15 + Math.random() * 0.25;
+        this.speed = 0.15;
         this.clearAllIntervals();
         this.animate();
     }

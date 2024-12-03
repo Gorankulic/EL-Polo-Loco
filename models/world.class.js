@@ -290,50 +290,6 @@ class World {
             return this.endBossIsEliminated;
         }
         //////////////////////////////////////////////////////////////////////////////////////////////////////
-        /**
-         * Handles victory conditions, stopping animations and playing victory sounds.
-         */
-    handleVictory() {
-            this.character.characterCanJump = false;
-            this.stopAllAnimations = true;
-            this.endGameYouWon.draw(this.ctx);
-            this.stopCharacterAndEnemies();
-            this.resetCharacterBottleCount();
-            this.gameSounds.walking_sound.pause();
-            this.stopAllAnimations = true;
-            if (this.gameSoundActive) {
-                this.gameSounds.game_won_sound.play();
-                this.gameSounds.desert_ambient_sound.pause();
-                this.gameSounds.background_game_music.pause();
-                this.gameSounds.small_chickens_move_sound.pause();
-            }
-
-            setTimeout(() => {
-                this.endGameRoutine();
-                this.resetGameChanges();
-            }, 4000);
-
-        }
-        /**
-         * Handles game over state, stopping animations and playing game over sounds.
-         */
-    handleGameOver() {
-        this.character.characterCanJump = false;
-        this.stopAllAnimations = true;
-        this.endGameYouLoose.draw(this.ctx);
-        this.stopCharacterAndEnemies();
-        this.resetCharacterBottleCount();
-        this.gameSounds.desert_ambient_sound.pause();
-        this.gameSounds.background_game_music.pause();
-        this.gameSounds.small_chickens_move_sound.pause();
-        this.gameSounds.walking_sound.pause();
-
-        setTimeout(() => {
-            this.endGameRoutine();
-            this.resetGameChanges();
-        }, 4000);
-
-    }
 
     /**
      * Resets the game state to its initial values after the game ends.
@@ -342,6 +298,50 @@ class World {
         // Clear all intervals and sounds
         this.clearAllIntervals();
         this.pauseAllSounds();
+    }
+
+    /**
+     * Handles game over state, stopping animations and playing game over sounds.
+     */
+    handleGameOver() {
+            this.character.characterCanJump = false;
+            this.stopAllAnimations = true;
+            this.endGameYouLoose.draw(this.ctx);
+            this.stopCharacterAndEnemies();
+            this.resetCharacterBottleCount();
+            this.gameSounds.desert_ambient_sound.pause();
+            this.gameSounds.background_game_music.pause();
+            this.gameSounds.small_chickens_move_sound.pause();
+            this.gameSounds.walking_sound.pause();
+
+            setTimeout(() => {
+                this.endGameRoutine();
+                this.resetGameChanges();
+            }, 4000);
+
+        }
+        /**
+         * Handles victory conditions, stopping animations and playing victory sounds.
+         */
+    handleVictory() {
+        this.character.characterCanJump = false;
+        this.stopAllAnimations = true;
+        this.endGameYouWon.draw(this.ctx);
+        this.stopCharacterAndEnemies();
+        this.resetCharacterBottleCount();
+        this.gameSounds.walking_sound.pause();
+        this.stopAllAnimations = true;
+        if (this.gameSoundActive) {
+            this.gameSounds.game_won_sound.play();
+            this.gameSounds.desert_ambient_sound.pause();
+            this.gameSounds.background_game_music.pause();
+            this.gameSounds.small_chickens_move_sound.pause();
+        }
+
+        setTimeout(() => {
+            this.endGameRoutine();
+            this.resetGameChanges();
+        }, 4000);
 
     }
 
@@ -364,6 +364,13 @@ class World {
         // Reset character
         this.character.clearAllIntervals(); // Stop animations
         this.character.reset(); // Reset character properties
+
+        // Reset bottles and coins
+        this.resetBottles();
+        this.resetCoins();
+        // Reset End Boss and Health Bar
+        this.endboss.reset();
+        this.endbossHealthBar.setPercentageForEndBoss(100);
 
         // Recreate enemies
         this.level.enemies = [
@@ -388,8 +395,6 @@ class World {
         // Reset throwable objects
         this.clearAllBottleObjects();
 
-
-
         // Reset status bars
         this.statusBar.setPercentage(100); // Full health
         this.statusBarForBottle.setPercentageForBottle(0); // Empty bottle bar
@@ -400,7 +405,7 @@ class World {
         const repetitions = Math.ceil(this.level.level_end_x / imageWidth) + 1;
         this.level.backgroundObjects = createBackgroundObjects(imageWidth, repetitions);
 
-        // Reset camera position
+        // Reset camera positionendbossHealthBar
         this.camera_x = 0;
 
         // Reset and reinitialize end boss
@@ -411,26 +416,33 @@ class World {
         // Restart game loops
         this.world2.run(); // Restart collision and logic loops
         this.draw(); // Restart rendering
-
-
     }
 
+    resetBottles() {
+        // Clear existing bottles
 
+        this.level.bottle = []; // Clear the bottle array
+
+        // Recreate bottles
+        this.level.bottle = createInstances(Bottle, 10); // Replace 10 with the number of bottles you want
+    }
+    resetCoins() {
+        this.level.coins = []; // Clear existing coins
+        this.level.coins.push(new Coins(), new Coins(), new Coins(), new Coins());
+    }
 
     /**
      * Stops all character and enemy movement.
      */
     stopCharacterAndEnemies() {
-            this.character.speed = 0;
-            this.level.enemies.forEach(enemy => enemy.speed = 0);
-        }
-        /**
-         * Restores the original speeds of the character and enemies after being stopped.
-         */
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /**
-         * Resets the character's bottle count to zero.
-         */
+        this.character.speed = 0;
+        this.level.enemies.forEach(enemy => enemy.speed = 0);
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Resets the character's bottle count to zero.
+     */
     resetCharacterBottleCount() {
         this.character.bottleCount = 0;
     }

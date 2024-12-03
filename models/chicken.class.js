@@ -44,7 +44,7 @@ class Chicken extends MovableObject {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.ELIMINATED_CHICKEN_IMAGES);
         this.x = this.getSpawnX();
-        this.speed = 0.15 + Math.random() * 0.25;
+        this.speed = 0.25;
     }
 
     /**
@@ -109,8 +109,7 @@ class Chicken extends MovableObject {
         this.clearAllIntervals();
         this.characterEnemyCollision = false;
         this.x = this.getSpawnX();
-        this.speed = 0.15 + Math.random() * 0.25;
-
+        this.speed = 0.25;
         this.animate();
     }
 

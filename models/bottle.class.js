@@ -31,27 +31,60 @@ class Bottle extends MovableObject {
     }
 
     /**
-     * Calculates the x-coordinate for spawning the bottle, ensuring a minimum distance 
-     * between bottles using the getRandomSpawnX method from the MovableObject class.
-     * @returns {number} The calculated x-coordinate for the bottle's spawn position.
+     * Generates a random x-coordinate within the specified range.
+     * @param {number} minX - Minimum x-coordinate for the range.
+     * @param {number} maxX - Maximum x-coordinate for the range.
+     * @returns {number} A random x-coordinate.
      */
-    getSpawnX() {
-        let minX = 600;
-        let maxX = 4500;
-        let minDistance = 300; // Minimum distance between bottles
+    generateRandomX(minX, maxX) {
+        return minX + Math.random() * (maxX - minX);
+    }
 
+    /**
+     * Checks if the distance between the new and last x-coordinate is valid.
+     * @param {number} newX - The new x-coordinate.
+     * @param {number} lastX - The last x-coordinate.
+     * @param {number} minDistance - Minimum distance between coordinates.
+     * @returns {boolean} True if the distance is valid, false otherwise.
+     */
+    isValidDistance(newX, lastX, minDistance) {
+        return Math.abs(newX - lastX) >= minDistance;
+    }
+
+    /**
+     * Attempts to calculate a valid x-coordinate within a given number of retries.
+     * @param {number} minX - Minimum x-coordinate for the range.
+     * @param {number} maxX - Maximum x-coordinate for the range.
+     * @param {number} minDistance - Minimum distance between coordinates.
+     * @param {number} maxRetries - Maximum number of retries.
+     * @returns {number} A valid x-coordinate or the last valid x-coordinate.
+     */
+    calculateSpawnX(minX, maxX, minDistance, maxRetries = 100) {
         let newX;
-        let validPosition = false;
+        let retries = 0;
 
-        // Repeat until a valid position is found
         do {
-            newX = this.getRandomSpawnX(minX, maxX, minDistance, 'Bottles');
-            // Check if the new x position is sufficiently far from all previous bottles
-            validPosition = Bottle.previousBottlePositions.every(position => {
-                return Math.abs(newX - position) >= minDistance;
-            });
-        } while (!validPosition);
+            newX = this.generateRandomX(minX, maxX);
+            retries++;
+            if (retries > maxRetries) {
+                console.warn("Max retries reached for Bottle spawn position");
+                return Bottle.previousBottlePositions.at(-1) || minX; // Return last position or default
+            }
+        } while (!this.isValidDistance(newX, Bottle.previousBottlePositions.at(-1) || minX, minDistance));
 
         return newX;
+    }
+
+    /**
+     * Determines the spawn x-coordinate for the bottle.
+     * @returns {number} The calculated spawn x-coordinate.
+     */
+    getSpawnX() {
+        const minX = 800;
+        const maxX = 4500;
+        const minDistance = 300;
+
+        const spawnX = this.calculateSpawnX(minX, maxX, minDistance);
+        return spawnX;
     }
 }
