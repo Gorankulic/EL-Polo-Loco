@@ -33,12 +33,13 @@ class GameSound {
      */
     toggleAllSounds(play) {
         if (play) {
+            this.desert_ambient_sound.currentTime = 0;
+            this.background_game_music.currentTime = 0;
             this.playAmbientSounds();
         } else {
             this.pauseAllSounds();
         }
     }
-
     /**
      * Plays all ambient and background sounds in the game.
      */
@@ -78,7 +79,6 @@ class GameSound {
         this.walking_sound.pause();
         this.normal_chicken_walking_sound.pause();
     }
-
     /**
      * Plays the sound for character elimination.
      */

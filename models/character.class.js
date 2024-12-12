@@ -182,7 +182,6 @@ class Character extends MovableObject {
         } else if (this.isAboveGround()) {
             this.playAnimation(this.IMAGES_JUMPING);
             this.gameSounds.sleeping_sound.pause();
-
         } else if (this.isSleeping() && this.world.character.energy > 0) {
             this.playAnimation(this.IMAGES_SLEEPING);
             this.gameSounds.playSleepingSound();

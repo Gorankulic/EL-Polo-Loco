@@ -318,12 +318,12 @@ class World {
                 this.endGameRoutine();
                 this.resetGameChanges();
             }, 4000);
-
-        }
-        /**
+         }
+    
+      /**
          * Handles victory conditions, stopping animations and playing victory sounds.
          */
-    handleVictory() {
+      handleVictory() {
         this.character.characterCanJump = false;
         this.stopAllAnimations = true;
         this.endGameYouWon.draw(this.ctx);
@@ -342,8 +342,7 @@ class World {
             this.endGameRoutine();
             this.resetGameChanges();
         }, 4000);
-
-    }
+    }   
 
     resetGameChanges() {
         // Reset global game state flags
@@ -355,11 +354,8 @@ class World {
         this.endBossMovesLeft = false;
         this.stopAllAnimations = false;
         this.pauseSmallChickenSound = false;
-        this.gameSoundActive = true;
 
-        // Reset sounds
-        this.gameSounds.pauseAllSounds();
-        this.gameSounds.toggleAllSounds(this.gameSoundActive);
+
 
         // Reset character
         this.character.clearAllIntervals(); // Stop animations
@@ -406,6 +402,13 @@ class World {
 
         // Reset camera positionendbossHealthBar
         this.camera_x = 0;
+
+            // Reset and start ambient and background sounds
+    if (this.gameSoundActive) {
+        this.gameSounds.desert_ambient_sound.currentTime = 0;
+        this.gameSounds.background_game_music.currentTime = 0;
+        this.gameSounds.playAmbientSounds();
+    }
 
         // Restart game loops
         this.world2.run(); // Restart collision and logic loops
