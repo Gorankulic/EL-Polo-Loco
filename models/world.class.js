@@ -383,7 +383,6 @@ class World {
         this.level.enemies.forEach(enemy => {
             enemy.clearAllIntervals(); // Stop any existing animations
             enemy.reset(); // Reset their state
-            enemy.animate(); // Restart animations
         });
 
         // Reset clouds
@@ -407,11 +406,6 @@ class World {
 
         // Reset camera positionendbossHealthBar
         this.camera_x = 0;
-
-        // Reset and reinitialize end boss
-        this.endboss.clearAllIntervals();
-        this.endboss.reset();
-        this.endboss.animate();
 
         // Restart game loops
         this.world2.run(); // Restart collision and logic loops
