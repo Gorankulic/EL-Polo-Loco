@@ -34,33 +34,63 @@ class World2 {
     }
 
     /**
-     * Detects and handles collisions between the character and enemies.
-     */
+    * Detects and handles collisions between the character and enemies.
+    */
     checkEnemyCollisions() {
-        this.world.level.enemies.forEach((enemy) => {
-            if (this.world.character.isColliding(enemy)) {
-                this.handleEnemyCollision(enemy);
-            }
-        });
-    }
-
+            this.world.level.enemies.forEach((enemy) => {
+                if (this.world.character.isColliding(enemy)) {
+                    this.handleEnemyCollision(enemy);
+                }
+            });
+     }
     /**
      * Manages collisions between the character and an enemy, including end boss interactions.
      * @param {Object} enemy - The enemy object colliding with the character.
      */
     handleEnemyCollision(enemy) {
-        this.world.playPepeHurtSound();
-        if (enemy instanceof Endboss) {
-            this.handleEndbossCollision(enemy);
-        } else if (this.world.character.isAboveGround() && this.world.character.speedY < 0) {
-            this.handleEnemyStomp(enemy);
-        } else {
-            this.world.character.hit();
-            this.world.statusBar.setPercentage(this.world.character.energy);
-            if (this.world.character.energy <= 0) {
-                this.world.characterIsDead = true;
-            }
+    this.world.playPepeHurtSound();
+    
+    if (enemy instanceof Endboss) {
+        this.handleEndbossCollision(enemy);
+    } else if (this.shouldStompEnemy()) {
+        this.handleEnemyStomp(enemy);
+    } else {
+        this.applyCharacterDamage();
+    }
+    }
+
+    /**
+     * Determines if the character should stomp the enemy.
+     * @returns {boolean} - True if the character should stomp, false otherwise.
+     */
+    shouldStompEnemy() {
+        return this.world.character.isAboveGround() && this.world.character.speedY < 0;
+    }
+
+    /**
+     * Applies damage to the character and checks if the character is dead.
+     */
+    applyCharacterDamage() {
+        this.world.character.hit();
+        this.updateCharacterStatusBar();
+
+        if (this.world.character.energy <= 0) {
+            this.markCharacterAsDead();
         }
+    }
+
+    /**
+     * Updates the character's energy status bar.
+     */
+    updateCharacterStatusBar() {
+        this.world.statusBar.setPercentage(this.world.character.energy);
+    }
+
+    /**
+     * Marks the character as dead.
+     */
+    markCharacterAsDead() {
+        this.world.characterIsDead = true;
     }
 
     /**
@@ -81,16 +111,59 @@ class World2 {
      */
     handleEnemyStomp(enemy) {
         this.world.character.secondJump();
-        if (!enemy.characterEnemyCollision) {
-            enemy.characterEnemyCollision = true;
-            this.world.playChickenHitSound();
-            enemy.stopMovementX();
-            this.removeEnemyAfterDelay(enemy, 250);
-            if (this.world.character.energy < 100) {
-                this.increaseCharacterEnergy();
-            }
+
+        if (!this.hasCollidedWithEnemyBefore(enemy)) {
+            this.markEnemyAsCollided(enemy);
+            this.playStompEffects(enemy);
+            this.removeEnemyWithDelay(enemy, 250);
+            this.restoreCharacterEnergy();
         }
     }
+
+    /**
+     * Checks if the character has already collided with this enemy.
+     * @param {Object} enemy - The enemy object to check.
+     * @returns {boolean} - True if the character has already collided, false otherwise.
+     */
+    hasCollidedWithEnemyBefore(enemy) {
+        return enemy.characterEnemyCollision;
+    }
+
+    /**
+     * Marks the enemy as collided to prevent duplicate actions.
+     * @param {Object} enemy - The enemy object to mark.
+     */
+    markEnemyAsCollided(enemy) {
+        enemy.characterEnemyCollision = true;
+    }
+
+    /**
+     * Plays sound effects and stops the enemy's movement after being stomped.
+     * @param {Object} enemy - The enemy object being stomped.
+     */
+    playStompEffects(enemy) {
+        this.world.playChickenHitSound();
+        enemy.stopMovementX();
+    }
+
+    /**
+     * Removes the enemy from the game after a delay.
+     * @param {Object} enemy - The enemy object to remove.
+     * @param {number} delay - The delay in milliseconds before removing the enemy.
+     */
+    removeEnemyWithDelay(enemy, delay) {
+        this.removeEnemyAfterDelay(enemy, delay);
+    }
+
+    /**
+     * Increases the character's energy if it's below the maximum value.
+     */
+    restoreCharacterEnergy() {
+        if (this.world.character.energy < 100) {
+            this.increaseCharacterEnergy();
+        }
+    }
+
 
     /**
      * Removes an enemy from the game after a specified delay.
@@ -244,25 +317,61 @@ class World2 {
 
     /**
      * Checks for a collision between a bottle and an enemy.
+     * Delegates specific actions to smaller functions.
+     *
      * @param {Object} bottle - The bottle object to check.
      * @param {number} index - Index of the bottle in the throwable objects array.
      * @returns {boolean} - True if the bottle collided with an enemy, false otherwise.
      */
     checkBottleEnemyCollision(bottle, index) {
         let isRemoved = false;
+
         this.world.level.enemies.forEach((enemy) => {
-            if (this.isCollision(bottle, enemy)) {
-                bottle.triggerSplash();
-                this.handleChickenBottleCollision(bottle, enemy);
-                this.world.playBottleChickenCollisionSound();
-                setTimeout(() => {
-                    this.removeThrowableObject(index);
-                    isRemoved = true;
-                }, 75);
+            if (this.isBottleCollidingWithEnemy(bottle, enemy)) {
+                this.handleBottleEnemyHit(bottle, enemy, index);
+                isRemoved = true;
             }
         });
+
         return isRemoved;
     }
+
+    /**
+     * Checks if a bottle is colliding with an enemy.
+     *
+     * @param {Object} bottle - The bottle object.
+     * @param {Object} enemy - The enemy object.
+     * @returns {boolean} - True if the bottle is colliding with the enemy, false otherwise.
+     */
+    isBottleCollidingWithEnemy(bottle, enemy) {
+        return this.isCollision(bottle, enemy);
+    }
+
+    /**
+     * Handles the logic for when a bottle hits an enemy.
+     *
+     * @param {Object} bottle - The bottle object colliding with the enemy.
+     * @param {Object} enemy - The enemy object being hit.
+     * @param {number} index - Index of the bottle in the throwable objects array.
+     */
+    handleBottleEnemyHit(bottle, enemy, index) {
+        bottle.triggerSplash(); // Trigger splash animation
+        this.handleChickenBottleCollision(bottle, enemy); // Handle bottle's effect on the enemy
+        this.world.playBottleChickenCollisionSound(); // Play collision sound
+        this.scheduleBottleRemoval(index); // Schedule the bottle's removal
+    }
+
+    /**
+     * Schedules the removal of the bottle after a short delay.
+     *
+     * @param {number} index - Index of the bottle in the throwable objects array.
+     */
+    scheduleBottleRemoval(index) {
+        setTimeout(() => {
+            this.removeThrowableObject(index);
+        }, 75); // Match the duration of the splash animation
+    }
+
 
     /**
      * Handles collision between a bottle and the ground.
@@ -316,28 +425,28 @@ class World2 {
         }
     }
 
-/**
- * Handles the collision effects when a throwable bottle hits the Endboss.
- * This includes triggering animations, disabling gravity for the bottle, 
- * processing the Endboss's hit effects, and removing the bottle after the animation.
- *
- * @param {ThrowableObject} bottle - The throwable bottle object that collided with the Endboss.
- * @param {Endboss} endboss - The Endboss object that was hit by the bottle.
- * @param {number} index - The index of the bottle in the array of throwable objects.
- */
-handleEndbossBottleCollision(bottle, endboss, index) {
-    endboss.endBossGotHit = true; 
-    bottle.triggerSplash(); 
-    bottle.isGravityEnabled = false; 
-    
-    setTimeout(() => {
-        this.processEndbossHitEffects(endboss);
-    }, 100);
-    
-    setTimeout(() => {
-        this.removeThrowableObject(index);
-    }, 250); 
-}
+    /**
+     * Handles the collision effects when a throwable bottle hits the Endboss.
+     * This includes triggering animations, disabling gravity for the bottle, 
+     * processing the Endboss's hit effects, and removing the bottle after the animation.
+     *
+     * @param {ThrowableObject} bottle - The throwable bottle object that collided with the Endboss.
+     * @param {Endboss} endboss - The Endboss object that was hit by the bottle.
+     * @param {number} index - The index of the bottle in the array of throwable objects.
+     */
+    handleEndbossBottleCollision(bottle, endboss, index) {
+        endboss.endBossGotHit = true; 
+        bottle.triggerSplash(); 
+        bottle.isGravityEnabled = false; 
+        
+        setTimeout(() => {
+            this.processEndbossHitEffects(endboss);
+        }, 1000);
+        
+        setTimeout(() => {
+            this.removeThrowableObject(index);
+        }, 250); 
+    }
 
     /**
      * Marks the Endboss as hit.
@@ -495,9 +604,9 @@ handleEndbossBottleCollision(bottle, endboss, index) {
         const character = this.world.character;
 
         if (character.isSleeping()) {
-            character.playerCanThrowBottle = false; // Disable bottle-throwing
+            character.playerCanThrowBottle = false; 
         } else {
-            character.playerCanThrowBottle = true; // Enable bottle-throwing if not sleeping
+            character.playerCanThrowBottle = true; 
         }
     }
 
