@@ -42,8 +42,8 @@ class MovableObject extends DrawableObject {
  */
 clearGravity() {
     if (this.gravityInterval) {
-        clearInterval(this.gravityInterval); // Stop the gravity interval
-        this.gravityInterval = null; // Reset the interval reference
+        clearInterval(this.gravityInterval); 
+        this.gravityInterval = null; 
     }
 }
 
@@ -56,7 +56,6 @@ clearGravity() {
      * @returns {number} The generated x-coordinate for the object's spawn position.
      */
     getRandomSpawnX(minX, maxX, minDistance = 200, objectType) {
-        // Initialize the lastPositions storage if it doesn't exist
         if (!MovableObject.lastPositions) {
             MovableObject.lastPositions = {};
         }
@@ -65,12 +64,10 @@ clearGravity() {
         }
 
         let newX;
-        // Generate a new x position until it meets the minimum distance requirement
         do {
             newX = minX + Math.random() * (maxX - minX);
         } while (Math.abs(newX - MovableObject.lastPositions[objectType]) < minDistance);
 
-        // Update the last position for this object type
         MovableObject.lastPositions[objectType] = newX;
         return newX;
     }
@@ -80,13 +77,11 @@ clearGravity() {
      * @param {string[]} images - An array of image paths for the animation.
      */
      playAnimation(images) {
-        if (!images || images.length === 0) return; // Exit if images is undefined or empty
+        if (!images || images.length === 0) return; 
 
         if (images.length === 1) {
-            // If there's only one image, simply use it without needing the modulus operation
             this.img = this.imageCache[images[0]];
         } else {
-            // Original logic for cycling through multiple images
             let i = this.currentImage % images.length;
             let path = images[i];
             this.img = this.imageCache[path];
@@ -128,11 +123,11 @@ clearGravity() {
      * Reduces the object's energy when it is hit. Updates the last hit timestamp.
      */
     hit() {
-        this.energy -= 2; // Deduct a small amount of energy on each hit
+        this.energy -= 2; 
         if (this.energy <= 0) {
-            this.energy = 0; // Ensure energy doesn't go negative
+            this.energy = 0;
         }
-        this.lastHit = new Date().getTime(); // Update the time of the last hit
+        this.lastHit = new Date().getTime(); 
     }
 
     /**
@@ -194,7 +189,7 @@ clearGravity() {
      */
     clearAllIntervals() {
         if (this.gravityInterval) {
-            clearInterval(this.gravityInterval); // Clear the gravity interval
+            clearInterval(this.gravityInterval); 
         }
     }
 }

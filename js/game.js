@@ -11,12 +11,10 @@ function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
 
-    // Assuming you have a Character instance available through the world object
     const character = world.character;
     const walkingFrames = character.IMAGES_WALKING;
 
-    // Create the FaviconAnimator instance
-    const faviconAnimator = new FaviconAnimator(walkingFrames); // Set to 16ms for max frame rate (60 FPS)
+    const faviconAnimator = new FaviconAnimator(walkingFrames); 
 
     startGame();
 }
@@ -84,7 +82,7 @@ function showImpressumPopup() {
     const popup = document.getElementById('impressumPopup');
     const popupText = document.getElementById('impressumText');
 
-    // Add content dynamically
+   
     popupText.innerHTML = `
         <div id='generator_results'>
 <div id='generator_results_content'>
@@ -166,7 +164,6 @@ E-Mail: gorankulic@outlook.com</p>
         E-Mail: gorankulic@outlook.com</p>
     `;
 
-    // Show the popup
     popup.classList.add('popup');
 }
 
@@ -186,9 +183,9 @@ document.addEventListener('click', function(event) {
     const popupContent = document.querySelector('.popup-content');
     const impressumButton = document.getElementById('impressumDatenschutzButton');
 
-    if (popup.classList.contains('popup') && // Popup is visible
-        (event.target === popup || // Click is on popup background
-            (!popupContent.contains(event.target) && event.target !== impressumButton))) { // Click outside content or button
+    if (popup.classList.contains('popup') && 
+        (event.target === popup || 
+            (!popupContent.contains(event.target) && event.target !== impressumButton))) { 
         closeImpressumPopup();
     }
 });

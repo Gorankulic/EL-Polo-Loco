@@ -3,12 +3,10 @@
  * Extends the DrawableObject class to display the victory screen.
  */
 class endGameUserWonGameScreenPicture extends DrawableObject {
-    // Image for the game won screen
     END_SCREEN_IMAGE = [
         `img/9_intro_outro_screens/game_over/game over.png`
     ];
 
-    // Coordinates and dimensions for the restart game icon
     RESTART_GAME_ICON = {
         x: 310,
         y: 380,

@@ -176,7 +176,7 @@ class World2 {
             if (currentIndex !== -1) {
                 this.world.level.enemies.splice(currentIndex, 1);
                 this.world.checkAllSmallChickensEliminated();
-                this.world.checkAllBrownChickensEliminated(); // Add this line
+                this.world.checkAllBrownChickensEliminated(); 
             }
         }, delay);
     }
@@ -355,10 +355,10 @@ class World2 {
      * @param {number} index - Index of the bottle in the throwable objects array.
      */
     handleBottleEnemyHit(bottle, enemy, index) {
-        bottle.triggerSplash(); // Trigger splash animation
-        this.handleChickenBottleCollision(bottle, enemy); // Handle bottle's effect on the enemy
-        this.world.playBottleChickenCollisionSound(); // Play collision sound
-        this.scheduleBottleRemoval(index); // Schedule the bottle's removal
+        bottle.triggerSplash(); 
+        this.handleChickenBottleCollision(bottle, enemy); 
+        this.world.playBottleChickenCollisionSound(); 
+        this.scheduleBottleRemoval(index); 
     }
 
     /**
@@ -369,7 +369,7 @@ class World2 {
     scheduleBottleRemoval(index) {
         setTimeout(() => {
             this.removeThrowableObject(index);
-        }, 75); // Match the duration of the splash animation
+        }, 75);
     }
 
 
@@ -563,11 +563,11 @@ class World2 {
      */
     activateThrowCooldown() {
         const character = this.world.character;
-        character.throwCooldown = true; // Set cooldown to true
+        character.throwCooldown = true; 
 
         setTimeout(() => {
-            character.throwCooldown = false; // Reset cooldown after 1 second
-        }, 1000); // Cooldown duration: 1 second
+            character.throwCooldown = false; 
+        }, 1000);
     }
 
     /**
@@ -581,7 +581,7 @@ class World2 {
             character.x + xOffset,
             character.y + 100,
             character.lastDirection,
-            this.world // Pass the world instance
+            this.world 
         );
 
         this.world.throwableObjects.push(bottle);
@@ -627,11 +627,11 @@ class World2 {
     exitFullScreen() {
         if (document.exitFullscreen) {
             document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) { // Firefox
+        } else if (document.mozCancelFullScreen) { 
             document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) { // Chrome, Safari & Opera
+        } else if (document.webkitExitFullscreen) {
             document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { // IE/Edge
+        } else if (document.msExitFullscreen) { 
             document.msExitFullscreen();
         }
     }
@@ -643,11 +643,11 @@ class World2 {
     requestFullScreen(element) {
         if (element.requestFullscreen) {
             element.requestFullscreen();
-        } else if (element.mozRequestFullScreen) { // Firefox
+        } else if (element.mozRequestFullScreen) { 
             element.mozRequestFullScreen();
-        } else if (element.webkitRequestFullscreen) { // Chrome, Safari & Opera
+        } else if (element.webkitRequestFullscreen) {
             element.webkitRequestFullscreen();
-        } else if (element.msRequestFullscreen) { // IE/Edge
+        } else if (element.msRequestFullscreen) { 
             element.msRequestFullscreen();
         }
     }

@@ -3,7 +3,6 @@
  * Extends the DrawableObject class and displays the End Boss's health status.
  */
 class EndBossHealthBar extends DrawableObject {
-    // Array of image paths representing the health bar states
     IMAGES_ENDBOSS_HEALTH_BAR = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png',
@@ -64,7 +63,6 @@ class EndBossHealthBar extends DrawableObject {
      */
     animate() {
         setInterval(() => {
-            // Placeholder for health bar animation logic
         }, 80);
     }
 
@@ -72,7 +70,7 @@ class EndBossHealthBar extends DrawableObject {
      * Shows the health bar, making it visible on the screen.
      */
     show() {
-        this.visible = true; // Assuming there is a 'visible' property controlling the draw
+        this.visible = true; 
     }
 
     /**

@@ -69,9 +69,9 @@ class ThrowableObject extends MovableObject {
     thrownBottleAnimation(direction) {
         this.playAnimation(this.FLYING_BOTTLE_IMAGES);
         if (direction === 'right') {
-            this.x += 10; // Move the bottle to the right
+            this.x += 10; 
         } else {
-            this.x -= 10; // Move the bottle to the left
+            this.x -= 10; 
         }
     }
 
@@ -80,7 +80,7 @@ class ThrowableObject extends MovableObject {
      */
     bottleFlyingDirection() {
         if (this.y >= 379) {
-            this.y = 380; // Ensure the bottle stays at ground level
+            this.y = 380; 
             this.speedY = 0;
 
             if (!this.intervalsCleared) {
@@ -88,11 +88,11 @@ class ThrowableObject extends MovableObject {
                 this.stopMovementX();
                 setTimeout(() => {
                     this.triggerSplash();
-                }, 200); // Delay to trigger splash animation
+                }, 200); 
 
                 setTimeout(() => {
                     this.clearAnimationInterval();
-                }, 1500); // Keep the splash animation visible for 1.5 seconds
+                }, 1500); 
             }
         }
     }
@@ -106,10 +106,10 @@ class ThrowableObject extends MovableObject {
         this.clearGravity();
         this.stopMovementXandY();
     
-        // Remove bottle after splash animation duration
+       
         setTimeout(() => {
-            this.markForRemoval(); // Custom logic to remove the bottle
-        }, 250); // Assuming the splash lasts 250ms
+            this.markForRemoval(); 
+        }, 250); 
     }
     markForRemoval() {
         if (this.world) {
@@ -142,7 +142,7 @@ class ThrowableObject extends MovableObject {
      * Stops both horizontal and vertical movement.
      */
     stopMovementXandY() {
-        this.clearAllBottleIntervals(); // Stop all intervals
+        this.clearAllBottleIntervals(); 
         this.speedX = 0; 
         this.speedY = 0; 
     }

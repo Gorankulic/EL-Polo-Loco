@@ -29,11 +29,9 @@ class SmallChickens extends MovableObject {
             this.loadImages(this.RUNNING_IMAGES_FOR_SMALL_CHICKEN);
             this.loadImages(this.ELIMINATED_CHICKEN_IMAGES);
             this.x = this.getSpawnX();
-            // Set a random speed for the SmallChickens
             this.speed = 0.15;
-            // Start the animation for the SmallChickens
         }
-        // Method to calculate the spawn x position with minimum distance from the last SmallChickens
+        
     getSpawnX() {
         let minX = 800;
         let maxX = 4500;
@@ -50,7 +48,7 @@ class SmallChickens extends MovableObject {
         this.moveInterval = setInterval(() => {
             if (!world.stopAllAnimations) {
                 this.moveLeft();
-                if (!world.pauseSmallChickenSound) { // Check global pause flag
+                if (!world.pauseSmallChickenSound) { 
                     world.gameSounds.playSmallChickenWalkSound();
                 }
             }

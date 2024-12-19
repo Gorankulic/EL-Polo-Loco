@@ -13,26 +13,21 @@ class Chicken extends MovableObject {
         bottom: 0
     };
 
-    // Width and height for the eliminated chicken images
     ELIMINATED_BROWN_CHICKEN_IMAGES_WIDTH = 50;
     ELIMINATED_BROWN_CHICKEN_IMAGES_HEIGHT = 40;
 
-    // Flag to indicate if the chicken has collided with the character
     characterEnemyCollision = false;
 
-    // Array of image paths for the walking animation
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
     ];
 
-    // Array of image paths for the eliminated chicken animation
     ELIMINATED_CHICKEN_IMAGES = [
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ];
 
-    // Static variable to keep track of the last chicken's position
     static lastX = 0;
 
     /**

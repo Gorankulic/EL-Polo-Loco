@@ -15,7 +15,6 @@ class Character extends MovableObject {
     lastMovedTimestamp = null;
     characterCanJump = true;
 
-    // Image arrays for different character animations
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -282,23 +281,23 @@ class Character extends MovableObject {
         this.x += this.speed;
         this.lastDirection = 'right';
     }
-    reset() {
-        // Reset character's properties
-        this.characterCanJump = true;
-        this.energy = 100; // Reset energy to full (or initial value)
-        this.bottleCount = 0; // Reset the number of bottles
-        this.coinCount = 0; // Reset the number of coins
-        this.x = 0; // Reset position (example starting x-coordinate)
-        this.y = 75; // Reset position (example starting y-coordinate)
-        this.speedY = 0; // Reset vertical speed
-        this.lastMovedTimestamp = new Date().getTime(); // Reset activity timestamp
-        this.speed = 5;
 
-        // Restart animations and gravity
+        /**
+     * Resets the state of the character to its initial values.
+     */
+    reset() {
+        this.characterCanJump = true;
+        this.energy = 100;
+        this.bottleCount = 0;
+        this.coinCount = 0;
+        this.x = 0;
+        this.y = 75;
+        this.speedY = 0;
+        this.lastMovedTimestamp = new Date().getTime();
+        this.speed = 5;
         this.applyGravity();
         this.animate();
         this.handleAnimation();
     }
-
 
 }

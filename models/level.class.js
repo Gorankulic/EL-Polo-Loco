@@ -8,7 +8,7 @@ class Level {
     bottle;
     clouds;
     backgroundObjects;
-    level_end_x = 5000; // The x-coordinate where the level ends
+    level_end_x = 5000;
 
     /**
      * Constructs a new Level instance with the specified game elements.

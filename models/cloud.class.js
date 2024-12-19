@@ -20,7 +20,7 @@ class Cloud extends MovableObject {
         );
         this.setPosition();
         this.animate();
-        Cloud.clouds.push(this); // Add the new cloud to the static array
+        Cloud.clouds.push(this); 
     }
 
     /**
@@ -58,13 +58,13 @@ class Cloud extends MovableObject {
      */
     clearAllIntervals() {
         if (this.moveInterval) {
-            clearInterval(this.moveInterval); // Clear the cloud's movement interval
+            clearInterval(this.moveInterval); 
         }
     }
     reset() {
-        this.clearAllIntervals(); // Stop current animations
-        this.setPosition(); // Reset position
-        this.animate(); // Restart movement
+        this.clearAllIntervals(); 
+        this.setPosition(); 
+        this.animate(); 
     }
 
 

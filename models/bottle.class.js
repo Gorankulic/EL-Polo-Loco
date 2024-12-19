@@ -7,13 +7,11 @@ class Bottle extends MovableObject {
     height = 50;
     width = 40;
 
-    // Array of image paths for the bottle sprites
     BOTTLE_IMAGES = [
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
     ];
 
-    // Static array to keep track of previous bottle positions
     static previousBottlePositions = [];
 
     /**
@@ -27,7 +25,7 @@ class Bottle extends MovableObject {
 
         this.loadImage(randomImage);
         this.x = this.getSpawnX();
-        Bottle.previousBottlePositions.push(this.x); // Store the bottle's x position
+        Bottle.previousBottlePositions.push(this.x); 
     }
 
     /**
@@ -68,7 +66,7 @@ class Bottle extends MovableObject {
             retries++;
             if (retries > maxRetries) {
                 console.warn("Max retries reached for Bottle spawn position");
-                return Bottle.previousBottlePositions.at(-1) || minX; // Return last position or default
+                return Bottle.previousBottlePositions.at(-1) || minX; 
             }
         } while (!this.isValidDistance(newX, Bottle.previousBottlePositions.at(-1) || minX, minDistance));
 

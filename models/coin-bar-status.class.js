@@ -4,7 +4,6 @@
  * Displays the status of how many coins the player has collected.
  */
 class CoinBar extends DrawableObject {
-    // Array of image paths for the different states of the coin bar
     IMAGES_FOR_COINS = [
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png',

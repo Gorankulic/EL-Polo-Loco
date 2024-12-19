@@ -87,7 +87,6 @@ class World {
         localStorage.setItem('gameSoundActive', this.gameSoundActive);
     }
 
-
     /**
      * Updates the mute/unmute icon based on the current sound state.
      */
@@ -178,23 +177,52 @@ class World {
      * Primary game rendering loop, responsible for drawing game elements and handling state transitions.
      */
     draw() {
+        this.prepareCanvas();
+        this.drawGameElements();
+        this.handleGameStateTransitions();
+        this.requestNextFrame();
+    }
+
+    /**
+     * Clears the canvas and translates the camera for rendering.
+     */
+    prepareCanvas() {
         this.clearCanvas();
         this.translateCamera();
+    }
+
+    /**
+     * Draws all game elements, including background and game objects, and resets the camera position.
+     */
+    drawGameElements() {
         this.drawBackgroundObjects();
         this.drawGameObjects();
         this.resetCamera();
+    }
+
+    /**
+     * Handles game state transitions like drawing status bars or handling victory/game over conditions.
+     */
+    handleGameStateTransitions() {
         if (this.isGameInProgress()) {
             this.drawStatusBars();
-            this.handleEndBossHealthBar();
+            this.updateEndBossHealthBar();
         } else {
             this.hideEndBossHealthBar();
         }
+
         if (this.isCharacterDead()) {
             this.handleGameOver();
         } else if (this.isEndBossEliminated()) {
             this.handleVictory();
         }
-        this.requestNextFrame();
+    }
+
+    /**
+     * Updates the End Boss health bar visibility and state.
+     */
+    updateEndBossHealthBar() {
+        this.handleEndBossHealthBar();
     }
 
     /**
@@ -289,7 +317,6 @@ class World {
     isEndBossEliminated() {
             return this.endBossIsEliminated;
         }
-        //////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Resets the game state to its initial values after the game ends.
@@ -304,48 +331,122 @@ class World {
      * Handles game over state, stopping animations and playing game over sounds.
      */
     handleGameOver() {
-            this.character.characterCanJump = false;
-            this.stopAllAnimations = true;
-            this.endGameYouLoose.draw(this.ctx);
-            this.stopCharacterAndEnemies();
-            this.resetCharacterBottleCount();
-            this.gameSounds.desert_ambient_sound.pause();
-            this.gameSounds.background_game_music.pause();
-            this.gameSounds.small_chickens_move_sound.pause();
-            this.gameSounds.walking_sound.pause();
-
-            setTimeout(() => {
-                this.endGameRoutine();
-                this.resetGameChanges();
-            }, 4000);
-         }
-    
-      /**
-         * Handles victory conditions, stopping animations and playing victory sounds.
-         */
-      handleVictory() {
-        this.character.characterCanJump = false;
-        this.stopAllAnimations = true;
-        this.endGameYouWon.draw(this.ctx);
+        this.disableCharacterActions();
+        this.stopAllGameSounds();
+        this.displayGameOverScreen();
         this.stopCharacterAndEnemies();
         this.resetCharacterBottleCount();
+
+        this.scheduleEndGameRoutine();
+    }
+
+    /**
+     * Disables character actions like jumping after the game ends.
+     */
+    disableCharacterActions() {
+        this.character.characterCanJump = false;
+        this.stopAllAnimations = true;
+    }
+
+    /**
+     * Stops all game sounds to signify the end of the game.
+     */
+    stopAllGameSounds() {
+        this.gameSounds.desert_ambient_sound.pause();
+        this.gameSounds.background_game_music.pause();
+        this.gameSounds.small_chickens_move_sound.pause();
+        this.gameSounds.walking_sound.pause();
+    }
+
+    /**
+     * Displays the game over screen.
+     */
+    displayGameOverScreen() {
+        this.endGameYouLoose.draw(this.ctx);
+    }
+
+    /**
+     * Schedules the end game routine and resets game changes after a delay.
+     */
+    scheduleEndGameRoutine() {
+        setTimeout(() => {
+            this.endGameRoutine();
+            this.resetGameChanges();
+        }, 4000); // Delay in milliseconds
+    }
+
+    /**
+     * Handles victory conditions, stopping animations and playing victory sounds.
+     */
+    handleVictory() {
+        this.disableCharacterActions();
+        this.displayVictoryScreen();
+        this.stopCharacterAndEnemies();
+        this.resetCharacterBottleCount();
+        this.handleVictorySounds();
+        this.scheduleVictoryRoutine();
+    }
+
+    /**
+     * Disables character actions like jumping after achieving victory.
+     */
+    disableCharacterActions() {
+        this.character.characterCanJump = false;
+        this.stopAllAnimations = true;
+    }
+
+    /**
+     * Displays the victory screen.
+     */
+    displayVictoryScreen() {
+        this.endGameYouWon.draw(this.ctx);
+    }
+
+    /**
+     * Handles all sound-related logic for the victory condition.
+     */
+    handleVictorySounds() {
         this.gameSounds.walking_sound.pause();
         this.stopAllAnimations = true;
+
         if (this.gameSoundActive) {
             this.gameSounds.game_won_sound.play();
             this.gameSounds.desert_ambient_sound.pause();
             this.gameSounds.background_game_music.pause();
             this.gameSounds.small_chickens_move_sound.pause();
         }
+    }
 
+    /**
+     * Schedules the routine to end the game and reset game changes after a delay.
+     */
+    scheduleVictoryRoutine() {
         setTimeout(() => {
             this.endGameRoutine();
             this.resetGameChanges();
-        }, 4000);
-    }   
+        }, 4000); // Delay in milliseconds
+    }
+    
 
+
+    /**
+     * Resets the game state to its initial values.
+     */
     resetGameChanges() {
-        // Reset global game state flags
+        this.resetGlobalFlags();
+        this.resetCharacter();
+        this.resetGameEntities();
+        this.resetStatusBars();
+        this.resetBackgroundObjects();
+        this.resetCameraPosition();
+        this.resetGameSounds();
+        this.restartGameLoops();
+    }
+
+    /**
+     * Resets global game state flags to their default values.
+     */
+    resetGlobalFlags() {
         this.gameOver = false;
         this.characterIsDead = false;
         this.endBossAttacking = false;
@@ -354,65 +455,118 @@ class World {
         this.endBossMovesLeft = false;
         this.stopAllAnimations = false;
         this.pauseSmallChickenSound = false;
+    }
 
+    /**
+     * Resets the character's state and intervals.
+     */
+    resetCharacter() {
+        this.character.clearAllIntervals();
+        this.character.reset();
+    }
 
+    /**
+     * Resets game entities like bottles, coins, enemies, and clouds.
+     */
+    resetGameEntities() {
+        this.resetCollectibleItems();
+        this.resetEndBoss();
+        this.resetEnemies();
+        this.resetClouds();
+        this.clearThrowableObjects();
+    }
 
-        // Reset character
-        this.character.clearAllIntervals(); // Stop animations
-        this.character.reset(); // Reset character properties
-
-        // Reset bottles and coins
+    /**
+     * Resets collectible items like bottles and coins.
+     */
+    resetCollectibleItems() {
         this.resetBottles();
         this.resetCoins();
-        // Reset End Boss and Health Bar
+    }
+
+    /**
+     * Resets the End Boss and its health bar.
+     */
+    resetEndBoss() {
         this.endboss.reset();
         this.endbossHealthBar.setPercentageForEndBoss(100);
+    }
 
-        // Recreate enemies
+    /**
+     * Recreates and resets all enemies.
+     */
+    resetEnemies() {
         this.level.enemies = [
-            ...createInstances(Chicken, 5), // Replace with the initial number of chickens
-            ...createInstances(SmallChickens, 10), // Replace with the initial number of small chickens
-            new Endboss(this) // Add the end boss
+            ...createInstances(Chicken, 5),
+            ...createInstances(SmallChickens, 10),
+            new Endboss(this)
         ];
 
-        // Reset enemy intervals
         this.level.enemies.forEach(enemy => {
-            enemy.clearAllIntervals(); // Stop any existing animations
-            enemy.reset(); // Reset their state
+            enemy.clearAllIntervals();
+            enemy.reset();
         });
+    }
 
-        // Reset clouds
+    /**
+     * Resets all clouds to their default state.
+     */
+    resetClouds() {
         this.level.clouds.forEach(cloud => {
             cloud.clearAllIntervals();
             cloud.reset();
         });
+    }
 
-        // Reset throwable objects
+    /**
+     * Clears all throwable objects from the game.
+     */
+    clearThrowableObjects() {
         this.clearAllBottleObjects();
+    }
 
-        // Reset status bars
-        this.statusBar.setPercentage(100); // Full health
-        this.statusBarForBottle.setPercentageForBottle(0); // Empty bottle bar
-        this.coinBar.setPercentageForCoins(0); // No coins collected
+    /**
+     * Resets all status bars to their default values.
+     */
+    resetStatusBars() {
+        this.statusBar.setPercentage(100);
+        this.statusBarForBottle.setPercentageForBottle(0);
+        this.coinBar.setPercentageForCoins(0);
+    }
 
-        // Reset background objects
+    /**
+     * Resets the background objects in the level.
+     */
+    resetBackgroundObjects() {
         const imageWidth = 719;
         const repetitions = Math.ceil(this.level.level_end_x / imageWidth) + 1;
         this.level.backgroundObjects = createBackgroundObjects(imageWidth, repetitions);
-
-        // Reset camera positionendbossHealthBar
-        this.camera_x = 0;
-
-            // Reset and start ambient and background sounds
-    if (this.gameSoundActive) {
-        this.gameSounds.desert_ambient_sound.currentTime = 0;
-        this.gameSounds.background_game_music.currentTime = 0;
-        this.gameSounds.playAmbientSounds();
     }
 
-        // Restart game loops
-        this.world2.run(); // Restart collision and logic loops
-        this.draw(); // Restart rendering
+    /**
+     * Resets the camera position to the starting point.
+     */
+    resetCameraPosition() {
+        this.camera_x = 0;
+    }
+
+    /**
+     * Resets and restarts game sounds if enabled.
+     */
+    resetGameSounds() {
+        if (this.gameSoundActive) {
+            this.gameSounds.desert_ambient_sound.currentTime = 0;
+            this.gameSounds.background_game_music.currentTime = 0;
+            this.gameSounds.playAmbientSounds();
+        }
+    }
+
+    /**
+     * Restarts the game loops for collision, logic, and rendering.
+     */
+    restartGameLoops() {
+        this.world2.run();
+        this.draw();
     }
 
     resetBottles() {
@@ -436,7 +590,6 @@ class World {
         this.level.enemies.forEach(enemy => enemy.speed = 0);
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Resets the character's bottle count to zero.
      */

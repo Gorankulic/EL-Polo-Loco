@@ -7,11 +7,8 @@
 function createBackgroundObjects(imageWidth, repetitions) {
     const backgroundObjects = [];
 
-    // Start at -imageWidth to ensure the background extends before the visible area
     for (let i = -1; i <= repetitions; i++) {
-        // Alternate groups based on the index pattern
         if (i % 2 === 0) {
-            // Group with variation 2
             backgroundObjects.push(
                 new BackgroundObject('img/5_background/layers/air.png', i * imageWidth),
                 new BackgroundObject('img/5_background/layers/3_third_layer/2.png', i * imageWidth),
@@ -19,7 +16,6 @@ function createBackgroundObjects(imageWidth, repetitions) {
                 new BackgroundObject('img/5_background/layers/1_first_layer/2.png', i * imageWidth)
             );
         } else {
-            // Group with variation 1
             backgroundObjects.push(
                 new BackgroundObject('img/5_background/layers/air.png', i * imageWidth),
                 new BackgroundObject('img/5_background/layers/3_third_layer/1.png', i * imageWidth),
@@ -33,12 +29,11 @@ function createBackgroundObjects(imageWidth, repetitions) {
     return backgroundObjects;
 }
 
-// Set up constants for image width and level end x position
 const imageWidth = 719;
 const levelEndX = 5000;
-const repetitions = Math.ceil(levelEndX / imageWidth) + 1; // Add one extra repetition to cover the end
+const repetitions = Math.ceil(levelEndX / imageWidth) + 1; 
 
-// Generate the background objects
+
 const backgroundObjects = createBackgroundObjects(imageWidth, repetitions);
 
 /**
@@ -51,7 +46,7 @@ function createInstances(classType, count) {
     return Array.from({ length: count }, () => new classType());
 }
 
-// Instantiate the level with all elements
+
 const level1 = new Level(
     [
         ...createInstances(Chicken, 5),
@@ -61,5 +56,5 @@ const level1 = new Level(
     createInstances(Coins, 4),
     createInstances(Bottle, 10),
     createInstances(Cloud, 20),
-    backgroundObjects // Pass the dynamically generated background objects
+    backgroundObjects 
 );

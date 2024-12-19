@@ -9,9 +9,8 @@ class Endboss extends MovableObject {
     endBossMovesLeft = false;
     endBossAttacking = false;
     endBossGotHit = false;
-    gameSounds = new GameSound(); // Instance of GameSound class
+    gameSounds = new GameSound(); 
 
-    // Offset for collision detection
     offset = {
         right: 85,
         left: 50,
@@ -19,7 +18,6 @@ class Endboss extends MovableObject {
         top: 200
     };
 
-    // Image arrays for different end boss animations
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
@@ -72,8 +70,8 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
-    moveInterval = null; // Track movement interval
-    animationInterval = null; // Track animation interval
+    moveInterval = null; 
+    animationInterval = null; 
 
     /**
      * Constructs an Endboss instance and initializes its properties, including loading images and starting animations.
@@ -171,7 +169,7 @@ class Endboss extends MovableObject {
         this.endBossEnergy = 100;
         this.endBossGotHit = false;
         this.endBossMovesLeft = false;
-        this.percentageForEndBoss = 100; // Reset health percentage to 100%
+        this.percentageForEndBoss = 100; 
         this.animate();
     }
 
