@@ -11,6 +11,8 @@ class MovableObject extends DrawableObject {
     lastHit = 0;
     endBossEnergy = 100;
     gravityInterval = null;
+    isGravityEnabled = true; // Flag to control gravity
+
 
     offset = {
         top: 0,
@@ -24,13 +26,26 @@ class MovableObject extends DrawableObject {
      * Sets up an interval to update the object's position based on gravity.
      */
     applyGravity() {
-        this.gravityInterval = setInterval(() => {
-            if (this.isAboveGround() || this.speedY > 0) {
-                this.y -= this.speedY;
-                this.speedY -= this.acceleration;
-            }
-        }, 1000 / 120);
+        if (this.isGravityEnabled) {
+            this.gravityInterval = setInterval(() => {
+                if (this.isAboveGround() || this.speedY > 0) {
+                    this.y -= this.speedY;
+                    this.speedY -= this.acceleration;
+                }
+            }, 1000 / 120);
+        }
     }
+/**
+ * Clears the gravity interval for the object.
+ * This method stops any ongoing updates to the object's vertical position due to gravity.
+ * Ensures that the gravity interval is properly terminated and reset.
+ */
+clearGravity() {
+    if (this.gravityInterval) {
+        clearInterval(this.gravityInterval); // Stop the gravity interval
+        this.gravityInterval = null; // Reset the interval reference
+    }
+}
 
     /**
      * Generates a random x-coordinate for spawning the object, ensuring a minimum distance from the last spawn.
@@ -60,11 +75,11 @@ class MovableObject extends DrawableObject {
         return newX;
     }
 
-    /**
+     /**
      * Plays the animation for the object using the provided array of images.
      * @param {string[]} images - An array of image paths for the animation.
      */
-    playAnimation(images) {
+     playAnimation(images) {
         if (!images || images.length === 0) return; // Exit if images is undefined or empty
 
         if (images.length === 1) {
@@ -85,12 +100,17 @@ class MovableObject extends DrawableObject {
      * @returns {boolean} True if a collision is detected, otherwise false.
      */
     isColliding(mo) {
-        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+        const withinXBounds =
             this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
-            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
+            this.x + this.width - this.offset.right > mo.x + mo.offset.left;
+    
+        const withinYBounds =
+            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom &&
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top;
+    
+        return withinXBounds && withinYBounds;
     }
-
+    
     /**
      * Checks if the object is above the ground.
      * For ThrowableObject instances, it always returns true.

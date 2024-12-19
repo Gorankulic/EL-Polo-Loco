@@ -102,8 +102,24 @@ class ThrowableObject extends MovableObject {
      */
     triggerSplash() {
         this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
+        this.isGravityEnabled = false;
+        this.clearGravity();
+        this.stopMovementXandY();
+    
+        // Remove bottle after splash animation duration
+        setTimeout(() => {
+            this.markForRemoval(); // Custom logic to remove the bottle
+        }, 250); // Assuming the splash lasts 250ms
     }
-
+    markForRemoval() {
+        if (this.world) {
+            const index = this.world.throwableObjects.indexOf(this);
+            if (index !== -1) {
+                this.world.throwableObjects.splice(index, 1);
+            }
+        }
+    }
+        
     /**
      * Stops the horizontal movement of the bottle.
      */
@@ -126,9 +142,11 @@ class ThrowableObject extends MovableObject {
      * Stops both horizontal and vertical movement.
      */
     stopMovementXandY() {
-        this.speedX = 0;
-        this.speedY = 0;
+        this.clearAllBottleIntervals(); // Stop all intervals
+        this.speedX = 0; 
+        this.speedY = 0; 
     }
+    
 
     /**
      * Clears all intervals related to the bottle's movement and animations.

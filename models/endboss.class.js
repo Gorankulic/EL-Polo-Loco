@@ -13,8 +13,8 @@ class Endboss extends MovableObject {
 
     // Offset for collision detection
     offset = {
-        right: 55,
-        left: 155,
+        right: 85,
+        left: 50,
         bottom: 30,
         top: 200
     };

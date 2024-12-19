@@ -287,11 +287,17 @@ class World2 {
      * @returns {boolean} - True if there is a collision, false otherwise.
      */
     isCollision(bottle, enemy) {
-        const xCollision = bottle.x + bottle.width >= enemy.x && bottle.x <= enemy.x + enemy.width;
-        const yCollision = bottle.y + bottle.height >= enemy.y && bottle.y <= enemy.y + enemy.height;
+        const xCollision =
+            bottle.x + bottle.width >= enemy.x + enemy.offset.left &&
+            bottle.x <= enemy.x + enemy.width - enemy.offset.right;
+    
+        const yCollision =
+            bottle.y + bottle.height >= enemy.y + enemy.offset.top &&
+            bottle.y <= enemy.y + enemy.height - enemy.offset.bottom;
+    
         return xCollision && yCollision;
     }
-
+    
     /**
      * Handles the collision between a thrown bottle and an enemy.
      * If the enemy is an Endboss, specific actions are taken.
@@ -310,19 +316,28 @@ class World2 {
         }
     }
 
-    /**
-     * Handles collision effects when a bottle hits the Endboss.
-     * @param {Object} bottle - The bottle colliding with the Endboss.
-     * @param {Endboss} endboss - The Endboss object.
-     */
-    handleEndbossBottleCollision(bottle, endboss) {
-        this.markEndbossAsHit(endboss);
-        this.triggerBottleSplashIfHit(bottle, endboss);
-        setTimeout(() => {
-            this.processEndbossHitEffects(endboss);
-        }, 500);
-        this.resetEndbossHitStateAfterDelay(endboss, 750);
-    }
+/**
+ * Handles the collision effects when a throwable bottle hits the Endboss.
+ * This includes triggering animations, disabling gravity for the bottle, 
+ * processing the Endboss's hit effects, and removing the bottle after the animation.
+ *
+ * @param {ThrowableObject} bottle - The throwable bottle object that collided with the Endboss.
+ * @param {Endboss} endboss - The Endboss object that was hit by the bottle.
+ * @param {number} index - The index of the bottle in the array of throwable objects.
+ */
+handleEndbossBottleCollision(bottle, endboss, index) {
+    endboss.endBossGotHit = true; 
+    bottle.triggerSplash(); 
+    bottle.isGravityEnabled = false; 
+    
+    setTimeout(() => {
+        this.processEndbossHitEffects(endboss);
+    }, 100);
+    
+    setTimeout(() => {
+        this.removeThrowableObject(index);
+    }, 250); 
+}
 
     /**
      * Marks the Endboss as hit.

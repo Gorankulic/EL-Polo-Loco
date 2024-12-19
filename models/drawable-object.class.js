@@ -34,7 +34,7 @@ class DrawableObject {
      * @param {CanvasRenderingContext2D} ctx - The canvas context where the frame will be drawn.
      */
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof SmallChickens) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof SmallChickens || this instanceof Endboss) {
             ctx.beginPath();
             ctx.rect(this.x, this.y, this.width, this.height);
         }
