@@ -79,6 +79,16 @@ class World2 {
             enemy.characterEnemyCollision = true;
         }
 
+      /**
+     * Removes an enemy from the level after a delay.
+     * @param {Object} enemy - The enemy to remove.
+     */
+      removeEnemy(enemy) {
+        setTimeout(() => {
+            this.world.level.enemies = this.world.level.enemies.filter(e => e !== enemy);
+        }, 500);
+    }
+
     /**
      * Triggers a splash effect for the bottle if the Endboss was hit.
      * @param {Object} bottle - The bottle object.
@@ -89,6 +99,19 @@ class World2 {
             bottle.triggerSplash();
         }
     }
+       /**
+     * Handles the logic for when a bottle hits an enemy.
+     *
+     * @param {Object} bottle - The bottle object colliding with the enemy.
+     * @param {Object} enemy - The enemy object being hit.
+     * @param {number} index - Index of the bottle in the throwable objects array.
+     */
+   handleBottleEnemyHit(bottle, enemy, index) {
+    bottle.triggerSplash(); 
+    this.collisions.handleChickenBottleCollision(bottle, enemy); 
+    this.world.playBottleChickenCollisionSound(); 
+    this.collisions.scheduleBottleRemoval(index); 
+}
 
     /**
      * Processes the effects on the Endboss after being hit by a bottle.

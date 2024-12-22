@@ -271,27 +271,13 @@ class Collisions {
 
         this.world.level.enemies.forEach((enemy) => {
             if (this.isBottleCollidingWithEnemy(bottle, enemy)) {
-                this.handleBottleEnemyHit(bottle, enemy, index);
+                this.world2.handleBottleEnemyHit(bottle, enemy, index);
                 isRemoved = true;
             }
         });
 
         return isRemoved;
     }
-
-   /**
-     * Handles the logic for when a bottle hits an enemy.
-     *
-     * @param {Object} bottle - The bottle object colliding with the enemy.
-     * @param {Object} enemy - The enemy object being hit.
-     * @param {number} index - Index of the bottle in the throwable objects array.
-     */
-   handleBottleEnemyHit(bottle, enemy, index) {
-    bottle.triggerSplash(); 
-    this.handleChickenBottleCollision(bottle, enemy); 
-    this.world.playBottleChickenCollisionSound(); 
-    this.scheduleBottleRemoval(index); 
-}
 
     /**
      * Handles the collision between a thrown bottle and an enemy.
@@ -306,7 +292,7 @@ class Collisions {
             if (enemy instanceof Endboss) {
                 this.handleEndbossBottleCollision(bottle, enemy);
             } else {
-                this.removeEnemy(enemy);
+                this.world2.removeEnemy(enemy);
             }
         }
     }
@@ -322,15 +308,7 @@ class Collisions {
         }, 75);
     }
 
-      /**
-     * Removes an enemy from the level after a delay.
-     * @param {Object} enemy - The enemy to remove.
-     */
-      removeEnemy(enemy) {
-        setTimeout(() => {
-            this.world.level.enemies = this.world.level.enemies.filter(e => e !== enemy);
-        }, 500);
-    }
+
 
         /**
      * Handles the collision effects when a throwable bottle hits the Endboss.
