@@ -33,13 +33,6 @@ class World2 {
     }
 
     /**
-     * Marks the character as dead.
-     */
-    markCharacterAsDead() {
-        this.world.characterIsDead = true;
-    }
-
-    /**
      * Increases character energy by a fixed amount, up to a maximum of 100.
      */
     increaseCharacterEnergy() {

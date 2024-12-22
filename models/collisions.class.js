@@ -147,6 +147,13 @@ class Collisions {
 }
 
     /**
+     * Marks the character as dead.
+     */
+    markCharacterAsDead() {
+        this.world.characterIsDead = true;
+    }
+
+    /**
      * Detects and handles collisions between the character and coins.
      */
     checkCoinCollisions() {
