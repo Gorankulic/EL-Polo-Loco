@@ -119,8 +119,8 @@ class Collisions {
         const currentIndex = this.world.level.enemies.indexOf(enemy);
         if (currentIndex !== -1) {
             this.world.level.enemies.splice(currentIndex, 1);
-            this.world.checkAllSmallChickensEliminated();
-            this.world.checkAllBrownChickensEliminated(); 
+            this.world2.checkAllSmallChickensEliminated();
+            this.world2.checkAllBrownChickensEliminated(); 
         }
     }, delay);
 }
