@@ -48,7 +48,10 @@ class World {
         this.gameSounds.toggleAllSounds(this.gameSoundActive); // Apply the saved sound state
         this.updateMuteIcon(); // Update the mute/unmute icon
 
-        this.world2 = new World2(this); // Instantiate World2 and pass the current world instance
+        this.world2 = new World2(this); // Initialize World2 with a placeholder
+        this.collisions = new Collisions(this, this.world2); // Properly initialize Collisions
+        this.world2.collisions = this.collisions; // Assign collisions back to World2
+        
         this.configureWorldForCharacter(); // Link the character to the world instance
         this.draw(); // Start the initial drawing and game loop
         this.world2.run(); // Begin game logic processes managed by World2
