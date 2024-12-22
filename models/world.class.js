@@ -50,6 +50,7 @@ class World {
 
         this.world2 = new World2(this); // Initialize World2 with a placeholder
         this.collisions = new Collisions(this, this.world2); // Properly initialize Collisions
+        this.resetGameRules = new ResetGameRules(this); // Initialize ResetGameRules
         this.world2.collisions = this.collisions; // Assign collisions back to World2
         
         this.configureWorldForCharacter(); // Link the character to the world instance
@@ -374,8 +375,8 @@ class World {
     scheduleEndGameRoutine() {
         setTimeout(() => {
             this.endGameRoutine();
-            this.resetGameChanges();
-        }, 4000); // Delay in milliseconds
+            this.resetGameRules.resetGameChanges();
+            }, 4000); // Delay in milliseconds
     }
 
     /**
@@ -426,25 +427,10 @@ class World {
     scheduleVictoryRoutine() {
         setTimeout(() => {
             this.endGameRoutine();
-            this.resetGameChanges();
+            this.resetGameRules.resetGameChanges();
         }, 4000); // Delay in milliseconds
     }
     
-
-
-    /**
-     * Resets the game state to its initial values.
-     */
-    resetGameChanges() {
-        this.resetGlobalFlags();
-        this.resetCharacter();
-        this.resetGameEntities();
-        this.resetStatusBars();
-        this.resetBackgroundObjects();
-        this.resetCameraPosition();
-        this.resetGameSounds();
-        this.restartGameLoops();
-    }
 
     /**
      * Resets global game state flags to their default values.
@@ -461,128 +447,12 @@ class World {
     }
 
     /**
-     * Resets the character's state and intervals.
-     */
-    resetCharacter() {
-        this.character.clearAllIntervals();
-        this.character.reset();
-    }
-
-    /**
-     * Resets game entities like bottles, coins, enemies, and clouds.
-     */
-    resetGameEntities() {
-        this.resetCollectibleItems();
-        this.resetEndBoss();
-        this.resetEnemies();
-        this.resetClouds();
-        this.clearThrowableObjects();
-    }
-
-    /**
-     * Resets collectible items like bottles and coins.
-     */
-    resetCollectibleItems() {
-        this.resetBottles();
-        this.resetCoins();
-    }
-
-    /**
-     * Resets the End Boss and its health bar.
-     */
-    resetEndBoss() {
-        this.endboss.reset();
-        this.endbossHealthBar.setPercentageForEndBoss(100);
-    }
-
-    /**
-     * Recreates and resets all enemies.
-     */
-    resetEnemies() {
-        this.level.enemies = [
-            ...createInstances(Chicken, 5),
-            ...createInstances(SmallChickens, 10),
-            new Endboss(this)
-        ];
-
-        this.level.enemies.forEach(enemy => {
-            enemy.clearAllIntervals();
-            enemy.reset();
-        });
-    }
-
-    /**
-     * Resets all clouds to their default state.
-     */
-    resetClouds() {
-        this.level.clouds.forEach(cloud => {
-            cloud.clearAllIntervals();
-            cloud.reset();
-        });
-    }
-
-    /**
-     * Clears all throwable objects from the game.
-     */
-    clearThrowableObjects() {
-        this.clearAllBottleObjects();
-    }
-
-    /**
      * Resets all status bars to their default values.
      */
     resetStatusBars() {
         this.statusBar.setPercentage(100);
         this.statusBarForBottle.setPercentageForBottle(0);
         this.coinBar.setPercentageForCoins(0);
-    }
-
-    /**
-     * Resets the background objects in the level.
-     */
-    resetBackgroundObjects() {
-        const imageWidth = 719;
-        const repetitions = Math.ceil(this.level.level_end_x / imageWidth) + 1;
-        this.level.backgroundObjects = createBackgroundObjects(imageWidth, repetitions);
-    }
-
-    /**
-     * Resets the camera position to the starting point.
-     */
-    resetCameraPosition() {
-        this.camera_x = 0;
-    }
-
-    /**
-     * Resets and restarts game sounds if enabled.
-     */
-    resetGameSounds() {
-        if (this.gameSoundActive) {
-            this.gameSounds.desert_ambient_sound.currentTime = 0;
-            this.gameSounds.background_game_music.currentTime = 0;
-            this.gameSounds.playAmbientSounds();
-        }
-    }
-
-    /**
-     * Restarts the game loops for collision, logic, and rendering.
-     */
-    restartGameLoops() {
-        this.world2.run();
-        this.draw();
-    }
-
-    resetBottles() {
-        // Clear existing bottles
-
-        this.level.bottle = []; // Clear the bottle array
-
-        // Recreate bottles
-        this.level.bottle = createInstances(Bottle, 10); // Replace 10 with the number of bottles you want
-    }
-    resetCoins() {
-        this.level.coins = []; // Clear existing coins
-        this.level.coins.push(new Coins(), new Coins(), new Coins(), new Coins());
     }
 
     /**

@@ -315,8 +315,6 @@ class Collisions {
         }, 75);
     }
 
-
-
         /**
      * Handles the collision effects when a throwable bottle hits the Endboss.
      * This includes triggering animations, disabling gravity for the bottle, 
