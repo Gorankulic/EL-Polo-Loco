@@ -8,17 +8,19 @@ class World2 {
      * @param {World} world - The main World instance for accessing shared game objects.
      */
 
-    constructor(world, collisions) {
+    constructor(world, collisions, gameSounds) {
         this.world = world;
         this.collisions = collisions;
+        this.gameSounds = gameSounds;
+
     }
-    
+
     /**
      * Starts the game loop for checking collisions, throwable objects, and character position.
      */
     run() {
         setInterval(() => {
-            this.collisions.checkCollisions(); 
+            this.collisions.checkCollisions();
             this.checkThrowableObjects();
             this.checkCharacterXPosition();
             this.preventBottleThrowWhenSleeping();
@@ -49,14 +51,14 @@ class World2 {
         const xCollision =
             bottle.x + bottle.width >= enemy.x + enemy.offset.left &&
             bottle.x <= enemy.x + enemy.width - enemy.offset.right;
-    
+
         const yCollision =
             bottle.y + bottle.height >= enemy.y + enemy.offset.top &&
             bottle.y <= enemy.y + enemy.height - enemy.offset.bottom;
-    
+
         return xCollision && yCollision;
     }
-    
+
     /**
      * Marks the Endboss as hit.
      * @param {Endboss} endboss - The Endboss object.
@@ -64,19 +66,19 @@ class World2 {
     markEndbossAsHit(endboss) {
         endboss.endBossGotHit = true;
     }
-         /**
-     * Marks the enemy as collided to prevent duplicate actions.
-     * @param {Object} enemy - The enemy object to mark.
-     */
-         markEnemyAsCollided(enemy) {
-            enemy.characterEnemyCollision = true;
-        }
+    /**
+* Marks the enemy as collided to prevent duplicate actions.
+* @param {Object} enemy - The enemy object to mark.
+*/
+    markEnemyAsCollided(enemy) {
+        enemy.characterEnemyCollision = true;
+    }
 
-      /**
-     * Removes an enemy from the level after a delay.
-     * @param {Object} enemy - The enemy to remove.
-     */
-      removeEnemy(enemy) {
+    /**
+   * Removes an enemy from the level after a delay.
+   * @param {Object} enemy - The enemy to remove.
+   */
+    removeEnemy(enemy) {
         setTimeout(() => {
             this.world.level.enemies = this.world.level.enemies.filter(e => e !== enemy);
         }, 500);
@@ -92,19 +94,19 @@ class World2 {
             bottle.triggerSplash();
         }
     }
-       /**
-     * Handles the logic for when a bottle hits an enemy.
-     *
-     * @param {Object} bottle - The bottle object colliding with the enemy.
-     * @param {Object} enemy - The enemy object being hit.
-     * @param {number} index - Index of the bottle in the throwable objects array.
-     */
-   handleBottleEnemyHit(bottle, enemy, index) {
-    bottle.triggerSplash(); 
-    this.collisions.handleChickenBottleCollision(bottle, enemy); 
-    this.world.playBottleChickenCollisionSound(); 
-    this.collisions.scheduleBottleRemoval(index); 
-}
+    /**
+  * Handles the logic for when a bottle hits an enemy.
+  *
+  * @param {Object} bottle - The bottle object colliding with the enemy.
+  * @param {Object} enemy - The enemy object being hit.
+  * @param {number} index - Index of the bottle in the throwable objects array.
+  */
+    handleBottleEnemyHit(bottle, enemy, index) {
+        bottle.triggerSplash();
+        this.collisions.handleChickenBottleCollision(bottle, enemy);
+        this.world.playBottleChickenCollisionSound();
+        this.collisions.scheduleBottleRemoval(index);
+    }
 
     /**
      * Processes the effects on the Endboss after being hit by a bottle.
@@ -156,7 +158,7 @@ class World2 {
         endboss.characterEnemyCollision = false;
     }
 
-  
+
 
     /**
      * Removes a throwable object from the game by its index.
@@ -194,10 +196,10 @@ class World2 {
      */
     activateThrowCooldown() {
         const character = this.world.character;
-        character.throwCooldown = true; 
+        character.throwCooldown = true;
 
         setTimeout(() => {
-            character.throwCooldown = false; 
+            character.throwCooldown = false;
         }, 1000);
     }
 
@@ -212,7 +214,7 @@ class World2 {
             character.x + xOffset,
             character.y + 100,
             character.lastDirection,
-            this.world 
+            this.world
         );
 
         this.world.throwableObjects.push(bottle);
@@ -235,9 +237,9 @@ class World2 {
         const character = this.world.character;
 
         if (character.isSleeping()) {
-            character.playerCanThrowBottle = false; 
+            character.playerCanThrowBottle = false;
         } else {
-            character.playerCanThrowBottle = true; 
+            character.playerCanThrowBottle = true;
         }
     }
 
@@ -258,11 +260,11 @@ class World2 {
     exitFullScreen() {
         if (document.exitFullscreen) {
             document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) { 
+        } else if (document.mozCancelFullScreen) {
             document.mozCancelFullScreen();
         } else if (document.webkitExitFullscreen) {
             document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { 
+        } else if (document.msExitFullscreen) {
             document.msExitFullscreen();
         }
     }
@@ -274,33 +276,129 @@ class World2 {
     requestFullScreen(element) {
         if (element.requestFullscreen) {
             element.requestFullscreen();
-        } else if (element.mozRequestFullScreen) { 
+        } else if (element.mozRequestFullScreen) {
             element.mozRequestFullScreen();
         } else if (element.webkitRequestFullscreen) {
             element.webkitRequestFullscreen();
-        } else if (element.msRequestFullscreen) { 
+        } else if (element.msRequestFullscreen) {
             element.msRequestFullscreen();
         }
     }
 
-        /**
-     * Checks if all small chickens have been eliminated, and pauses sounds accordingly.
-     */
-        checkAllSmallChickensEliminated() {
-            const remainingSmallChickens = this.world.level.enemies.filter(enemy => enemy instanceof SmallChickens);
-            if (remainingSmallChickens.length === 0) {
-                this.world.pauseSmallChickenSound = true;
-                this.world.gameSounds.pauseSmallChickensMovingSound();
-            }
+    /**
+ * Checks if all small chickens have been eliminated, and pauses sounds accordingly.
+ */
+    checkAllSmallChickensEliminated() {
+        const remainingSmallChickens = this.world.level.enemies.filter(enemy => enemy instanceof SmallChickens);
+        if (remainingSmallChickens.length === 0) {
+            this.world.pauseSmallChickenSound = true;
+            this.world.gameSounds.pauseSmallChickensMovingSound();
         }
-        /**
-         * Checks if all brown chickens have been eliminated, and pauses their sounds accordingly.
-         */
+    }
+    /**
+     * Checks if all brown chickens have been eliminated, and pauses their sounds accordingly.
+     */
     checkAllBrownChickensEliminated() {
         const remainingBrownChickens = this.world.level.enemies.filter(enemy => enemy instanceof Chicken);
         if (remainingBrownChickens.length === 0) {
             this.world.pauseBrownChickenSound = true;
             this.world.gameSounds.normal_chicken_walking_sound.pause();
         }
+    }
+
+    /**
+   * Clears all running intervals to reset the game.
+   */
+    clearAllIntervals() {
+        const highestIntervalId = setInterval(() => { }, 0);
+        for (let i = 0; i <= highestIntervalId; i++) {
+            clearInterval(i);
+        }
+    }
+
+    /**
+     * Handles all sound-related logic for the victory condition.
+     */
+    handleVictorySounds() {
+        this.world.gameSounds.walking_sound.pause();
+        this.world.stopAllAnimations = true;
+
+        if (this.world.gameSoundActive) {
+            this.world.gameSounds.game_won_sound.play();
+            this.world.gameSounds.desert_ambient_sound.pause();
+            this.world.gameSounds.background_game_music.pause();
+            this.world.gameSounds.small_chickens_move_sound.pause();
+        }
+    }
+    /**
+  * Resets the character's bottle count to zero.
+  */
+    resetCharacterBottleCount() {
+        this.world.character.bottleCount = 0;
+    }
+
+    /**
+  * Schedules the routine to end the game and reset game changes after a delay.
+  */
+    scheduleVictoryRoutine() {
+        setTimeout(() => {
+            this.world.endGameRoutine();
+            this.world.resetGameRules.resetGameChanges();
+        }, 4000); // Delay in milliseconds
+    }
+
+    /**
+   * Stops all character and enemy movement.
+   */
+    stopCharacterAndEnemies() {
+        this.world.character.speed = 0;
+        this.world.level.enemies.forEach(enemy => enemy.speed = 0);
+    }
+
+    /**
+    * Disables character actions like jumping after the game ends.
+    */
+    disableCharacterActions() {
+        this.world.character.characterCanJump = false;
+        this.world.stopAllAnimations = true;
+    }
+
+    /**
+ * Handles game state transitions like drawing status bars or handling victory/game over conditions.
+ */
+    handleGameStateTransitions() {
+        if (this.world.isGameInProgress()) {
+            this.world.drawStatusBars();
+            this.world.updateEndBossHealthBar();
+        } else {
+            this.world.hideEndBossHealthBar();
+        }
+
+        if (this.world.isCharacterDead()) {
+            this.world.handleGameOver();
+        } else if (this.world.isEndBossEliminated()) {
+            this.handleVictory();
+        }
+    }
+    /**
+ * Handles victory conditions, stopping animations and playing victory sounds.
+ */
+    handleVictory() {
+        this.disableCharacterActions();
+        this.world.displayVictoryScreen();
+        this.stopCharacterAndEnemies();
+        this.resetCharacterBottleCount();
+        this.handleVictorySounds();
+        this.scheduleVictoryRoutine();
+    }
+
+    /**
+* Stops all game sounds to signify the end of the game.
+*/
+    stopAllGameSounds() {
+        this.world.gameSounds.desert_ambient_sound.pause();
+        this.world.gameSounds.background_game_music.pause();
+        this.world.gameSounds.small_chickens_move_sound.pause();
+        this.world.gameSounds.walking_sound.pause();
     }
 }

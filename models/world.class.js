@@ -29,7 +29,6 @@ class World {
     stopAllAnimations = false; // Controls whether animations should be stopped
     throwableObjects = []; // Array of throwable objects (like bottles) currently in play
 
-
     /**
      * Initializes the World instance with specified canvas and keyboard, sets up event listeners, and starts the game loop.
      * @param {HTMLCanvasElement} canvas - The canvas element where the game is rendered.
@@ -40,34 +39,23 @@ class World {
         this.ctx = canvas.getContext('2d'); // Get 2D rendering context for the canvas
         this.keyboard = keyboard; // Store the keyboard input state
         this.throwCooldown = false; // Initialize throw cooldown to prevent rapid throwing
-
-        // Load saved sound state or default to true
         const savedSoundState = localStorage.getItem('gameSoundActive');
         this.gameSoundActive = savedSoundState === null ? true : savedSoundState === 'true';
-
         this.gameSounds.toggleAllSounds(this.gameSoundActive); // Apply the saved sound state
         this.updateMuteIcon(); // Update the mute/unmute icon
-
         this.world2 = new World2(this); // Initialize World2 with a placeholder
         this.collisions = new Collisions(this, this.world2); // Properly initialize Collisions
         this.resetGameRules = new ResetGameRules(this); // Initialize ResetGameRules
         this.world2.collisions = this.collisions; // Assign collisions back to World2
-        
         this.configureWorldForCharacter(); // Link the character to the world instance
         this.draw(); // Start the initial drawing and game loop
         this.world2.run(); // Begin game logic processes managed by World2
-
-        // Bind fullscreen toggle to button click
         const btn = document.querySelector('.full-screen-button'); // Select fullscreen button
         btn.addEventListener('click', this.toggleFullScreen.bind(this)); // Toggle fullscreen on button click
-
-        // Select mute/unmute buttons and bind sound toggle event
         const muteButton = document.getElementById('muteIcon'); // Select mute icon
         const unmuteButton = document.getElementById('unmuteIcon'); // Select unmute icon
         muteButton.addEventListener('click', () => this.toggle_mute_sound()); // Mute sound on click
         unmuteButton.addEventListener('click', () => this.toggle_mute_sound()); // Unmute sound on click
-
-        // Add event listener for orientation change and initial check
         window.addEventListener('orientationchange', this.checkOrientation.bind(this)); // Adjust for screen rotation
         this.checkOrientation(); // Initial orientation check to set warnings if needed
     }
@@ -106,8 +94,6 @@ class World {
             unmuteIcon.style.display = 'none';
         }
     }
-
-    // Sound-playing methods for various game events
 
     playPepeHurtSound() {
         this.gameSounds.playPepeHurtSound();
@@ -183,7 +169,7 @@ class World {
     draw() {
         this.prepareCanvas();
         this.drawGameElements();
-        this.handleGameStateTransitions();
+        this.world2.handleGameStateTransitions();
         this.requestNextFrame();
     }
 
@@ -202,24 +188,6 @@ class World {
         this.drawBackgroundObjects();
         this.drawGameObjects();
         this.resetCamera();
-    }
-
-    /**
-     * Handles game state transitions like drawing status bars or handling victory/game over conditions.
-     */
-    handleGameStateTransitions() {
-        if (this.isGameInProgress()) {
-            this.drawStatusBars();
-            this.updateEndBossHealthBar();
-        } else {
-            this.hideEndBossHealthBar();
-        }
-
-        if (this.isCharacterDead()) {
-            this.handleGameOver();
-        } else if (this.isEndBossEliminated()) {
-            this.handleVictory();
-        }
     }
 
     /**
@@ -319,15 +287,15 @@ class World {
      * @returns {boolean} True if end boss is eliminated, false otherwise.
      */
     isEndBossEliminated() {
-            return this.endBossIsEliminated;
-        }
+        return this.endBossIsEliminated;
+    }
 
     /**
      * Resets the game state to its initial values after the game ends.
      */
     endGameRoutine() {
         // Clear all intervals and sounds
-        this.clearAllIntervals();
+        this.world2.clearAllIntervals();
         this.pauseAllSounds();
     }
 
@@ -335,31 +303,12 @@ class World {
      * Handles game over state, stopping animations and playing game over sounds.
      */
     handleGameOver() {
-        this.disableCharacterActions();
-        this.stopAllGameSounds();
+        this.world2.disableCharacterActions();
+        this.world2.stopAllGameSounds();
         this.displayGameOverScreen();
-        this.stopCharacterAndEnemies();
-        this.resetCharacterBottleCount();
-
+        this.world2.stopCharacterAndEnemies();
+        this.world2.resetCharacterBottleCount();
         this.scheduleEndGameRoutine();
-    }
-
-    /**
-     * Disables character actions like jumping after the game ends.
-     */
-    disableCharacterActions() {
-        this.character.characterCanJump = false;
-        this.stopAllAnimations = true;
-    }
-
-    /**
-     * Stops all game sounds to signify the end of the game.
-     */
-    stopAllGameSounds() {
-        this.gameSounds.desert_ambient_sound.pause();
-        this.gameSounds.background_game_music.pause();
-        this.gameSounds.small_chickens_move_sound.pause();
-        this.gameSounds.walking_sound.pause();
     }
 
     /**
@@ -376,100 +325,15 @@ class World {
         setTimeout(() => {
             this.endGameRoutine();
             this.resetGameRules.resetGameChanges();
-            }, 4000); // Delay in milliseconds
+        }, 4000); // Delay in milliseconds
     }
 
     /**
-     * Handles victory conditions, stopping animations and playing victory sounds.
-     */
-    handleVictory() {
-        this.disableCharacterActions();
-        this.displayVictoryScreen();
-        this.stopCharacterAndEnemies();
-        this.resetCharacterBottleCount();
-        this.handleVictorySounds();
-        this.scheduleVictoryRoutine();
-    }
-
-    /**
-     * Disables character actions like jumping after achieving victory.
-     */
-    disableCharacterActions() {
-        this.character.characterCanJump = false;
-        this.stopAllAnimations = true;
-    }
-
-    /**
-     * Displays the victory screen.
-     */
+       * Displays the victory screen.
+       */
     displayVictoryScreen() {
         this.endGameYouWon.draw(this.ctx);
     }
-
-    /**
-     * Handles all sound-related logic for the victory condition.
-     */
-    handleVictorySounds() {
-        this.gameSounds.walking_sound.pause();
-        this.stopAllAnimations = true;
-
-        if (this.gameSoundActive) {
-            this.gameSounds.game_won_sound.play();
-            this.gameSounds.desert_ambient_sound.pause();
-            this.gameSounds.background_game_music.pause();
-            this.gameSounds.small_chickens_move_sound.pause();
-        }
-    }
-
-    /**
-     * Schedules the routine to end the game and reset game changes after a delay.
-     */
-    scheduleVictoryRoutine() {
-        setTimeout(() => {
-            this.endGameRoutine();
-            this.resetGameRules.resetGameChanges();
-        }, 4000); // Delay in milliseconds
-    }
-    
-
-    /**
-     * Resets global game state flags to their default values.
-     */
-    resetGlobalFlags() {
-        this.gameOver = false;
-        this.characterIsDead = false;
-        this.endBossAttacking = false;
-        this.endBossGotHit = false;
-        this.endBossIsEliminated = false;
-        this.endBossMovesLeft = false;
-        this.stopAllAnimations = false;
-        this.pauseSmallChickenSound = false;
-    }
-
-    /**
-     * Resets all status bars to their default values.
-     */
-    resetStatusBars() {
-        this.statusBar.setPercentage(100);
-        this.statusBarForBottle.setPercentageForBottle(0);
-        this.coinBar.setPercentageForCoins(0);
-    }
-
-    /**
-     * Stops all character and enemy movement.
-     */
-    stopCharacterAndEnemies() {
-        this.character.speed = 0;
-        this.level.enemies.forEach(enemy => enemy.speed = 0);
-    }
-
-    /**
-     * Resets the character's bottle count to zero.
-     */
-    resetCharacterBottleCount() {
-        this.character.bottleCount = 0;
-    }
-
     /**
      * Requests the next frame to be drawn.
      */
@@ -535,16 +399,6 @@ class World {
     }
 
     /**
-     * Clears all running intervals to reset the game.
-     */
-    clearAllIntervals() {
-        const highestIntervalId = setInterval(() => {}, 0);
-        for (let i = 0; i <= highestIntervalId; i++) {
-            clearInterval(i);
-        }
-    }
-
-    /**
      * Clears all intervals associated with throwable objects.
      */
     clearAllBottleObjects() {
@@ -555,53 +409,6 @@ class World {
             this.throwableObjects = [];
         }
     }
-
-    /**
-     * Clears intervals associated with all chicken enemies.
-     */
-    clearAllChickenIntervals() {
-        this.level.enemies.forEach(enemy => {
-            if (enemy instanceof SmallChickens || enemy instanceof Chicken) {
-                enemy.clearAllIntervals();
-            }
-        });
-    }
-
-    /**
-     * Clears all intervals associated with the main character.
-     */
-    clearCharacterIntervals() {
-        this.character.clearAllIntervals();
-    }
-
-    /**
-     * Clears all intervals associated with cloud objects.
-     */
-    clearAllCloudIntervals() {
-        this.level.clouds.forEach(cloud => {
-            cloud.clearAllIntervals();
-        });
-    }
-
-    /**
-     * Clears all intervals associated with the end boss.
-     */
-    clearEndBossIntervals() {
-        this.endboss.clearAllIntervals();
-    }
-
-    /**
-     * Clears all intervals for movable objects in the level.
-     */
-    clearAllMovableObjectIntervals() {
-        if (this.level && this.level.movableObjects && this.level.movableObjects.length > 0) {
-            const movableObject = this.level.movableObjects[0];
-            if (movableObject.clearAllIntervals) {
-                movableObject.clearAllIntervals();
-            }
-        }
-    }
-
 
 
 }

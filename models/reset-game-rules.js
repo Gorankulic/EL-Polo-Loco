@@ -1,6 +1,7 @@
 class ResetGameRules {
-    constructor(world) {
+    constructor(world, world2) { // Make sure you pass world2 to the constructor
         this.world = world;
+        this.world2 = world2; // Assign the world2 object here
     }
 
     resetGameChanges() {
