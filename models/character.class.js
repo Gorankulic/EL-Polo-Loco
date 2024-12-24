@@ -105,6 +105,19 @@ class Character extends MovableObject {
     }
 
     /**
+       * Handles the character's animations and intervals for movement.
+       */
+    animate() {
+        this.moveInterval = setInterval(() => {
+            this.handleMovement();
+        }, 500 / 20);
+
+        this.animationInterval = setInterval(() => {
+            this.handleAnimation();
+        }, 500 / 10);
+    }
+
+    /**
      * Handles the character's movement and updates the camera position accordingly.
      */
     handleMovement() {
@@ -118,20 +131,64 @@ class Character extends MovableObject {
      * Handles the horizontal movement of the character (left and right).
      */
     handleHorizontalMovement() {
-        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-            this.moveRight();
-            this.gameSounds.sleeping_sound.pause();
-            this.otherDirection = false;
-            this.updateLastMovedTimestamp();
+        if (this.shouldMoveRight()) {
+            this.performRightMovement();
         }
-        if (this.world.keyboard.LEFT && this.x > 0) {
-            this.moveLeft();
-            this.gameSounds.sleeping_sound.pause();
-            this.otherDirection = true;
-            this.updateLastMovedTimestamp();
+        if (this.shouldMoveLeft()) {
+            this.performLeftMovement();
         }
     }
 
+    /**
+     * Checks if the character should move to the right.
+     * @returns {boolean} True if the character should move right, false otherwise.
+     */
+    shouldMoveRight() {
+        return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
+    }
+
+    /**
+     * Executes the right movement logic.
+     */
+    performRightMovement() {
+        this.moveRight();
+        this.pauseSleepingSound();
+        this.setDirection(false);
+        this.updateLastMovedTimestamp();
+    }
+
+    /**
+     * Checks if the character should move to the left.
+     * @returns {boolean} True if the character should move left, false otherwise.
+     */
+    shouldMoveLeft() {
+        return this.world.keyboard.LEFT && this.x > 0;
+    }
+
+    /**
+     * Executes the left movement logic.
+     */
+    performLeftMovement() {
+        this.moveLeft();
+        this.pauseSleepingSound();
+        this.setDirection(true);
+        this.updateLastMovedTimestamp();
+    }
+
+    /**
+     * Pauses the sleeping sound.
+     */
+    pauseSleepingSound() {
+        this.gameSounds.sleeping_sound.pause();
+    }
+
+    /**
+     * Sets the character's direction.
+     * @param {boolean} isLeft - True if the character is moving left, false if right.
+     */
+    setDirection(isLeft) {
+        this.otherDirection = isLeft;
+    }
     /**
      * Handles the jumping logic for the character.
      */
@@ -167,45 +224,103 @@ class Character extends MovableObject {
         this.lastMovedTimestamp = new Date().getTime();
     }
 
-
     /**
      * Handles the character's animation based on its state (e.g., walking, jumping, idle, hurt, dead).
      */
     handleAnimation() {
         if (this.isDead()) {
-            this.gameSounds.playCharacterEliminatedSounds();
-            this.gameSounds.pauseAmbientSounds();
+            this.handleDeathState();
         } else if (this.isHurt()) {
-            this.playAnimation(this.IMAGES_HURT);
-            this.gameSounds.playPepeHurtSound();
+            this.handleHurtState();
         } else if (this.isAboveGround()) {
-            this.playAnimation(this.IMAGES_JUMPING);
-            this.gameSounds.sleeping_sound.pause();
-        } else if (this.isSleeping() && this.world.character.energy > 0) {
-            this.playAnimation(this.IMAGES_SLEEPING);
-            this.gameSounds.playSleepingSound();
+            this.handleJumpingState();
+        } else if (this.isSleepingState()) {
+            this.handleSleepingState();
         } else if (this.isBored()) {
-            this.playAnimation(this.IMAGES_IDLE);
-        } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-            this.playAnimation(this.IMAGES_WALKING);
-            this.gameSounds.updateWalkingSound();
+            this.handleBoredState();
+        } else if (this.isWalking()) {
+            this.handleWalkingState();
         } else {
-            this.gameSounds.walking_sound.pause();
-            this.playAnimation(this.IMAGES_IDLE);
+            this.handleIdleState();
         }
     }
 
     /**
-     * Handles the character's animations and intervals for movement.
+     * Handles the death state animation and sound effects.
      */
-    animate() {
-        this.moveInterval = setInterval(() => {
-            this.handleMovement();
-        }, 500 / 20);
+    handleDeathState() {
+        this.gameSounds.playCharacterEliminatedSounds();
+        this.gameSounds.pauseAmbientSounds();
+    }
 
-        this.animationInterval = setInterval(() => {
-            this.handleAnimation();
-        }, 500 / 10);
+    /**
+     * Handles the hurt state animation and sound effects.
+     */
+    handleHurtState() {
+        this.playAnimation(this.IMAGES_HURT);
+        this.gameSounds.playPepeHurtSound();
+    }
+
+    /**
+     * Handles the jumping state animation and sound effects.
+     */
+    handleJumpingState() {
+        this.playAnimation(this.IMAGES_JUMPING);
+        this.pauseSleepingSound();
+    }
+
+    /**
+     * Handles the sleeping state animation and sound effects.
+     */
+    handleSleepingState() {
+        this.playAnimation(this.IMAGES_SLEEPING);
+        this.gameSounds.playSleepingSound();
+    }
+
+    /**
+     * Handles the bored state animation.
+     */
+    handleBoredState() {
+        this.playAnimation(this.IMAGES_IDLE);
+    }
+
+    /**
+     * Handles the walking state animation and sound effects.
+     */
+    handleWalkingState() {
+        this.playAnimation(this.IMAGES_WALKING);
+        this.gameSounds.updateWalkingSound();
+    }
+
+    /**
+     * Handles the idle state animation and pauses the walking sound.
+     */
+    handleIdleState() {
+        this.gameSounds.walking_sound.pause();
+        this.playAnimation(this.IMAGES_IDLE);
+    }
+
+    /**
+     * Pauses the sleeping sound.
+     */
+    pauseSleepingSound() {
+        this.gameSounds.sleeping_sound.pause();
+    }
+
+    /**
+     * Checks if the character is in a sleeping state.
+     * @returns {boolean} True if the character is sleeping, false otherwise.
+     */
+    isSleepingState() {
+        return this.isSleeping() && this.world.character.energy > 0;
+    }
+
+    /**
+     * Checks if the character is walking based on keyboard input.
+     * @returns {boolean} True if the character is walking, false otherwise.
+     */
+    isWalking() {
+        return this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
     }
 
     /**
@@ -282,9 +397,9 @@ class Character extends MovableObject {
         this.lastDirection = 'right';
     }
 
-        /**
-     * Resets the state of the character to its initial values.
-     */
+    /**
+ * Resets the state of the character to its initial values.
+ */
     reset() {
         this.characterCanJump = true;
         this.energy = 100;

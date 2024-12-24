@@ -4,15 +4,15 @@
  */
 class World2 {
     /**
-     * Initializes the World2 class with a reference to the main World instance.
-     * @param {World} world - The main World instance for accessing shared game objects.
+     * Initializes the World2 class with references to the main World instance, collisions, and game sounds.
+     * @param {World} world - The main World instance for accessing shared game objects and state.
+     * @param {Collisions} collisions - The collisions instance for handling collision detection and responses.
+     * @param {GameSound} gameSounds - The game sounds instance for managing audio effects and background music.
      */
-
     constructor(world, collisions, gameSounds) {
-        this.world = world;
-        this.collisions = collisions;
-        this.gameSounds = gameSounds;
-
+        this.world = world; // Reference to the main World instance
+        this.collisions = collisions; // Collision handling instance
+        this.gameSounds = gameSounds; // Game sound management instance
     }
 
     /**
@@ -159,7 +159,6 @@ class World2 {
     }
 
 
-
     /**
      * Removes a throwable object from the game by its index.
      * @param {number} index - The index of the throwable object.
@@ -172,23 +171,38 @@ class World2 {
     }
 
     /**
-     * Checks if the player can throw a bottle and manages the throw action.
+     * Checks if the character can throw a bottle and manages the throw action.
      */
     checkThrowableObjects() {
+        if (this.canThrowBottle()) {
+            this.handleBottleThrow();
+        }
+    }
+
+    /**
+     * Determines if the character can throw a bottle.
+     * @returns {boolean} True if the character can throw a bottle, otherwise false.
+     */
+    canThrowBottle() {
         const character = this.world.character;
 
-        if (
-            this.world.keyboard.D &&
-            character.playerCanThrowBottle &&
-            character.bottleCount > 0 &&
-            !character.throwCooldown
-        ) {
-            this.throwBottles();
-            this.updateBottleCount();
-            this.world.playThrowSound();
-            this.collisions.updateBottleStatusBar();
-            this.activateThrowCooldown();
-        }
+        return (
+            this.world.keyboard.D && // Check if the "D" key is pressed
+            character.playerCanThrowBottle && // Ensure the character is allowed to throw
+            character.bottleCount > 0 && // Ensure the character has bottles available
+            !character.throwCooldown // Ensure the throw cooldown is not active
+        );
+    }
+
+    /**
+     * Handles the bottle throw action and updates the game state.
+     */
+    handleBottleThrow() {
+        this.throwBottles(); // Handle the bottle throw
+        this.updateBottleCount(); // Decrease the bottle count
+        this.world.playThrowSound(); // Play the throw sound
+        this.collisions.updateBottleStatusBar(); // Update the bottle status bar
+        this.activateThrowCooldown(); // Activate a cooldown to prevent rapid throws
     }
 
     /**
@@ -209,14 +223,12 @@ class World2 {
     throwBottles() {
         const character = this.world.character;
         const xOffset = character.lastDirection === 'right' ? 100 : -50;
-
         const bottle = new ThrowableObject(
             character.x + xOffset,
             character.y + 100,
             character.lastDirection,
             this.world
         );
-
         this.world.throwableObjects.push(bottle);
     }
 
@@ -400,5 +412,15 @@ class World2 {
         this.world.gameSounds.background_game_music.pause();
         this.world.gameSounds.small_chickens_move_sound.pause();
         this.world.gameSounds.walking_sound.pause();
+    }
+    /**
+   * Draws game elements like characters, coins, enemies, and throwable objects.
+   */
+    drawGameObjects() {
+        this.world.addObjectsToMap(this.world.level.bottle);
+        this.world.addObjectsToMap(this.world.level.coins);
+        this.world.addObjectsToMap(this.world.level.enemies);
+        this.world.addObjectsToMap(this.world.throwableObjects);
+        this.world.addToMap(this.world.character);
     }
 }

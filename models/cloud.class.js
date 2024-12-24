@@ -20,7 +20,7 @@ class Cloud extends MovableObject {
         );
         this.setPosition();
         this.animate();
-        Cloud.clouds.push(this); 
+        Cloud.clouds.push(this);
     }
 
     /**
@@ -58,13 +58,13 @@ class Cloud extends MovableObject {
      */
     clearAllIntervals() {
         if (this.moveInterval) {
-            clearInterval(this.moveInterval); 
+            clearInterval(this.moveInterval);
         }
     }
     reset() {
-        this.clearAllIntervals(); 
-        this.setPosition(); 
-        this.animate(); 
+        this.clearAllIntervals();
+        this.setPosition();
+        this.animate();
     }
 
 

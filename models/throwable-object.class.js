@@ -46,7 +46,7 @@ class ThrowableObject extends MovableObject {
      * Initiates the throw animation and physics for the bottle.
      * @param {string} direction - The direction ('right' or 'left') in which the bottle is thrown.
      */
-    throw (direction) {
+    throw(direction) {
         this.thrownBottle = true;
         this.applyGravity();
         this.speedY = 8;
@@ -69,9 +69,9 @@ class ThrowableObject extends MovableObject {
     thrownBottleAnimation(direction) {
         this.playAnimation(this.FLYING_BOTTLE_IMAGES);
         if (direction === 'right') {
-            this.x += 10; 
+            this.x += 10;
         } else {
-            this.x -= 10; 
+            this.x -= 10;
         }
     }
 
@@ -80,7 +80,7 @@ class ThrowableObject extends MovableObject {
      */
     bottleFlyingDirection() {
         if (this.y >= 379) {
-            this.y = 380; 
+            this.y = 380;
             this.speedY = 0;
 
             if (!this.intervalsCleared) {
@@ -88,11 +88,11 @@ class ThrowableObject extends MovableObject {
                 this.stopMovementX();
                 setTimeout(() => {
                     this.triggerSplash();
-                }, 200); 
+                }, 200);
 
                 setTimeout(() => {
                     this.clearAnimationInterval();
-                }, 1500); 
+                }, 1500);
             }
         }
     }
@@ -105,11 +105,11 @@ class ThrowableObject extends MovableObject {
         this.isGravityEnabled = false;
         this.clearGravity();
         this.stopMovementXandY();
-    
-       
+
+
         setTimeout(() => {
-            this.markForRemoval(); 
-        }, 250); 
+            this.markForRemoval();
+        }, 250);
     }
     markForRemoval() {
         if (this.world) {
@@ -119,7 +119,7 @@ class ThrowableObject extends MovableObject {
             }
         }
     }
-        
+
     /**
      * Stops the horizontal movement of the bottle.
      */
@@ -142,11 +142,11 @@ class ThrowableObject extends MovableObject {
      * Stops both horizontal and vertical movement.
      */
     stopMovementXandY() {
-        this.clearAllBottleIntervals(); 
-        this.speedX = 0; 
-        this.speedY = 0; 
+        this.clearAllBottleIntervals();
+        this.speedX = 0;
+        this.speedY = 0;
     }
-    
+
 
     /**
      * Clears all intervals related to the bottle's movement and animations.

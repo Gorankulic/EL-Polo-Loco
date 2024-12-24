@@ -12,7 +12,7 @@ class FaviconAnimator {
         this.currentFrame = 0;
         this.canvas = document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d');
-        this.canvas.width = 32; 
+        this.canvas.width = 32;
         this.canvas.height = 32;
         this.faviconElement = document.getElementById('dynamic-favicon');
 
@@ -28,18 +28,47 @@ class FaviconAnimator {
      * This method clears the canvas, draws the current image, and updates the favicon's href.
      */
     updateFavicon() {
+        const image = this.createImage();
+        image.onload = () => {
+            this.drawImageOnCanvas(image);
+            this.updateFaviconHref();
+            this.updateAnimationFrame();
+        };
+    }
+
+    /**
+     * Creates a new Image object for the current animation frame.
+     * @returns {HTMLImageElement} The Image object for the current frame.
+     */
+    createImage() {
         const image = new Image();
         image.src = this.animationFrames[this.currentFrame];
-        image.onload = () => {
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.ctx.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);
+        return image;
+    }
 
-            if (this.faviconElement) {
-                this.faviconElement.href = this.canvas.toDataURL('image/png');
-            }
+    /**
+     * Draws the given image onto the canvas.
+     * @param {HTMLImageElement} image - The image to draw on the canvas.
+     */
+    drawImageOnCanvas(image) {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.drawImage(image, 0, 0, this.canvas.width, this.canvas.height);
+    }
 
-            this.currentFrame = (this.currentFrame + 1) % this.animationFrames.length;
-        };
+    /**
+     * Updates the href attribute of the favicon element to the canvas data URL.
+     */
+    updateFaviconHref() {
+        if (this.faviconElement) {
+            this.faviconElement.href = this.canvas.toDataURL('image/png');
+        }
+    }
+
+    /**
+     * Updates the current frame index to the next frame in the animation sequence.
+     */
+    updateAnimationFrame() {
+        this.currentFrame = (this.currentFrame + 1) % this.animationFrames.length;
     }
 
     /**

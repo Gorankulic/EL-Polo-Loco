@@ -95,34 +95,58 @@ class World {
         }
     }
 
+    /**
+  * Plays the sound effect for the character getting hurt.
+  */
     playPepeHurtSound() {
         this.gameSounds.playPepeHurtSound();
     }
 
+    /**
+     * Plays the sound effect for collecting a coin.
+     */
     playCoinCollectedSound() {
         this.gameSounds.playCoinCollectedSound();
     }
 
+    /**
+     * Plays the sound effect for throwing an object.
+     */
     playThrowSound() {
         this.gameSounds.playThrowSound();
     }
 
+    /**
+     * Plays the sound effect for hitting a chicken enemy.
+     */
     playChickenHitSound() {
         this.gameSounds.playChickenHitSound();
     }
 
+    /**
+     * Plays the sound effect when the End Boss is approaching.
+     */
     playEndBossComingSound() {
         this.gameSounds.playEndBossComingSound();
     }
 
+    /**
+     * Plays the sound effect for a bottle colliding with a chicken.
+     */
     playBottleChickenCollisionSound() {
         this.gameSounds.playBottleChickenCollisionSound();
     }
 
+    /**
+     * Plays the sound effect for a bottle hitting the ground.
+     */
     playBottleGroundCollisionSound() {
         this.gameSounds.playBottleGroundCollisionSound();
     }
 
+    /**
+     * Plays the sound effect for collecting a bottle.
+     */
     playBottleCollectedSound() {
         this.gameSounds.playBottleCollectedSound();
     }
@@ -186,7 +210,7 @@ class World {
      */
     drawGameElements() {
         this.drawBackgroundObjects();
-        this.drawGameObjects();
+        this.world2.drawGameObjects();
         this.resetCamera();
     }
 
@@ -224,17 +248,6 @@ class World {
     drawBackgroundObjects() {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
-    }
-
-    /**
-     * Draws game elements like characters, coins, enemies, and throwable objects.
-     */
-    drawGameObjects() {
-        this.addObjectsToMap(this.level.bottle);
-        this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.throwableObjects);
-        this.addToMap(this.character);
     }
 
     /**

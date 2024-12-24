@@ -1,333 +1,506 @@
 /* Define a custom font for the game */
 
 @font-face {
-    font-family: 'game-font';
-    src: url('fonts/ZABARS/Zabars.ttf') format('truetype');
+  font-family: "game-font";
+  src: url("fonts/ZABARS/Zabars.ttf") format("truetype");
 }
 
 @keyframes zoomInOut {
-    0% {
-        transform: scale(1);
-        /* Normal size */
-    }
-    50% {
-        transform: scale(1.2);
-        /* Zoomed in */
-    }
-    100% {
-        transform: scale(1);
-        /* Back to normal size */
-    }
+  0% {
+    transform: scale(1);
+    /* Normal size */
+  }
+  50% {
+    transform: scale(1.2);
+    /* Zoomed in */
+  }
+  100% {
+    transform: scale(1);
+    /* Back to normal size */
+  }
 }
-
 
 /* Body styling for the main game layout */
 
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-size: cover;
-    min-height: 100vh;
-    /* Minimum height for responsiveness */
-    margin: 0;
-    height: 100vh;
-    background-image: url('img/background/desert.webp');
-    font-family: game-font;
-    /* Apply the custom game font */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  min-height: 100vh;
+  /* Minimum height for responsiveness */
+  margin: 0;
+  height: 100vh;
+  background-image: url("img/background/desert.webp");
+  font-family: game-font;
+  /* Apply the custom game font */
 }
-
 
 /* Style for the canvas where the game is rendered */
 
 canvas {
-    border-radius: 15px;
-    /* Rounded corners for the canvas */
+  border-radius: 15px;
+  /* Rounded corners for the canvas */
 }
-
 
 /* Styling for the start screen layout */
 
 .start-screen {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 1000;
-    background-color: transparent;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1000;
+  background-color: transparent;
 }
-
 
 /* Style for the start screen image */
 
 .start-screen-image {
-    height: 480px;
-    width: 720px;
-    border-radius: 15px;
-    /* Rounded corners */
+  height: 480px;
+  width: 720px;
+  border-radius: 15px;
+  /* Rounded corners */
 }
-
 
 /* Styling for the top button bar */
 
 .top-button-bar {
-    display: flex;
-    justify-content: space-around;
-    width: 125px;
-    margin-top: 20px;
-    margin-right: 10px;
+  display: flex;
+  justify-content: space-around;
+  width: 125px;
+  margin-top: 20px;
+  margin-right: 10px;
 }
-
 
 /* Orientation warning hidden by default */
 
 .orientation-warning {
-    display: none;
+  display: none;
 }
-
 
 /* Text for the orientation warning */
 
 .please-rotate-device-text {
-    display: none;
+  display: none;
 }
-
 
 /* Style for the start button */
 
 .start-button {
-    padding: 1em 2em;
-    font-size: 2em;
-    cursor: pointer;
-    position: absolute;
-    width: 270px;
-    border-radius: 15px;
-    text-align: center;
-    text-transform: uppercase;
-    background-color: #FFA500 !important;
-    border: none;
-    color: white;
-    margin-top: 20px;
-    font-family: game-font;
-    animation: zoomInOut 2s infinite;
-    /* Continuous zoom animation */
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    /* Smooth transition for hover */
+  padding: 1em 2em;
+  font-size: 2em;
+  cursor: pointer;
+  position: absolute;
+  width: 270px;
+  border-radius: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  background-color: #ffa500 !important;
+  border: none;
+  color: white;
+  margin-top: 20px;
+  font-family: game-font;
+  animation: zoomInOut 2s infinite;
+  /* Continuous zoom animation */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  /* Smooth transition for hover */
 }
-
 
 /* Hover effect for the start button */
 
 .start-button:hover {
-    background-color: #E59400 !important;
-    /* Darker orange on hover */
-    transform: scale(1.3);
-    /* Slightly larger zoom on hover */
+  background-color: #e59400 !important;
+  /* Darker orange on hover */
+  transform: scale(1.3);
+  /* Slightly larger zoom on hover */
 }
-
 
 /* Fullscreen style for .game-div */
 
 .game-div:fullscreen {
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
-
 
 /* Fullscreen style for the canvas */
 
 .game-div:fullscreen canvas {
-    height: 100%;
-    /* Full height for canvas */
+  height: 100%;
+  /* Full height for canvas */
 }
-
 
 /* Control buttons on the home page */
 
 .control-buttons-home-page {
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  bottom: 0px;
+  display: flex;
+  justify-content: center;
+  background-color: rgb(255 255 255 / 57%);
+  border-radius: 15px;
+}
+
+/* Style for the right button on the start screen */
+
+.right-button-on-start-screen {
+  width: fit-content;
+}
+
+/* Style for the left button on the start screen */
+
+.left-button-on-start-screen {
+  width: fit-content;
+  transform: rotate(180deg);
+  /* Flip horizontally */
+}
+
+/* Style for the jump button on the start screen */
+
+.jump-button-on-start-screen {
+  height: fit-content;
+  bottom: 10px;
+}
+
+/* Style for button descriptions with text */
+
+.button-description-with-text {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  transition: transform 0.3s ease;
+  margin: 10px;
+}
+
+/* Hover effect for button descriptions */
+
+.button-description-with-text:hover {
+  transform: scale(1.2);
+  /* Slight zoom-in effect */
+}
+
+/* Fullscreen style for .on-display-icons in .game-div */
+
+.game-div:fullscreen .on-display-icons {
+  width: 95%;
+  height: 95%;
+  position: absolute;
+  align-items: end;
+  bottom: 0;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* General style for .game-div */
+
+.game-div {
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Rotate and transition styles for the right button */
+
+.right-button {
+  transform: rotate(360deg);
+  /* Full rotation */
+  transition: border-color 0.2s;
+}
+
+/* Rotate and transition styles for the left button */
+
+.left-button {
+  transform: rotate(180deg);
+  /* Flip horizontally */
+  transition: border-color 0.2s;
+}
+
+/* Rotate and transition styles for the jump button */
+
+.jump-button {
+  transform: rotate(-90deg);
+  /* Rotate upwards */
+  transition: border-color 0.2s;
+}
+
+/* Transition styles for the throw button */
+
+.throw-button {
+  transition: border-color 0.2s;
+}
+
+/* Styles for the bottom control bar */
+
+.bottom-control-bar {
+  display: none;
+  /* Hidden by default */
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 5px;
+}
+
+/* Style for the on-display icons */
+
+.on-display-icons {
+  display: flex;
+  width: 720px;
+  height: 480px;
+  position: absolute;
+  align-items: end;
+  bottom: 0px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* General button styles */
+
+.button-universal {
+  width: 32px;
+  opacity: 0.5;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effect for general buttons */
+
+.button-universal:hover {
+  cursor: pointer;
+  opacity: 0.7;
+  transform: scale(1.2);
+  /* Slight zoom-in effect */
+}
+
+.impressum-and-datendschutzt {
+  display: flex;
+  align-self: self-end;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 0.8rem;
+  cursor: pointer;
+  z-index: 1001;
+  border-radius: 5px;
+  background-color: burlywood;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  border-width: 0px;
+  /* Smooth transitions */
+}
+
+.impressum-and-datendschutzt:hover {
+  background-color: #d2a366;
+  /* Slightly darker burlywood */
+  transform: scale(1.02);
+  /* Slightly larger button */
+}
+
+.hidden {
+  display: none;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-content {
+  background-color: white;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 600px;
+  padding: 20px;
+  position: relative;
+  text-align: left;
+  max-height: 80%;
+  overflow-y: auto;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 1em;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.close-button:hover {
+  color: red;
+  transform: scale(1.2);
+}
+
+/* Media query for small screens (max-width: 720px) */
+
+@media only screen and (max-width: 720px) {
+  body {
+    margin: 0;
+    height: 100vh;
+  }
+  .orientation-warning {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #e59400;
+    color: rgb(0, 0, 0);
+    font-size: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    flex-direction: column;
+  }
+  .please-rotate-device-text {
+    display: flex;
+  }
+  .game-div {
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+  }
+  .on-display-icons {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    align-items: end;
+    bottom: 0px;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .button-universal {
+    width: 50px;
+    opacity: 0.5;
+  }
+  .button-universal:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+  #canvas {
+    width: 100vw;
+  }
+  .bottom-control-bar {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-bottom: 5px;
+  }
+}
+
+/* Media query for small height screens (max-height: 480px) */
+
+@media only screen and (max-height: 480px) {
+  canvas {
+    height: 100vh;
+  }
+  body {
+    margin: 0;
+    height: 100vh;
+  }
+  .game-div:fullscreen .on-display-icons {
+    width: 95%;
+    height: 95%;
+    position: absolute;
+    bottom: 0;
+    flex-direction: column;
+  }
+  .bottom-control-bar {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+  }
+  .hidden {
+    display: none;
+  }
+  .game-div {
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+  .on-display-icons {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+  .button-universal {
+    width: 32px;
+    opacity: 0.5;
+  }
+  .start-button {
+    padding: 1em 2em;
+    font-size: 1.5em;
+    cursor: pointer;
+    position: absolute;
+    width: 270px;
+    margin-bottom: 280px;
+    border-radius: 15px;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: #ffa500 !important;
+    border: none;
+    color: white;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  .button-universal:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+  .start-screen {
     position: absolute;
     width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    z-index: 1000;
+    height: 100vh;
+    background-color: transparent;
+  }
+  .control-buttons-home-page {
+    position: absolute;
+    width: 100vw;
     z-index: 1;
     bottom: 0px;
     display: flex;
     justify-content: center;
     background-color: rgb(255 255 255 / 57%);
-    border-radius: 15px;
-}
-
-
-/* Style for the right button on the start screen */
-
-.right-button-on-start-screen {
-    width: fit-content;
-}
-
-
-/* Style for the left button on the start screen */
-
-.left-button-on-start-screen {
-    width: fit-content;
-    transform: rotate(180deg);
-    /* Flip horizontally */
-}
-
-
-/* Style for the jump button on the start screen */
-
-.jump-button-on-start-screen {
-    height: fit-content;
-    bottom: 10px;
-}
-
-
-/* Style for button descriptions with text */
-
-.button-description-with-text {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    transition: transform 0.3s ease;
-    margin: 10px;
-}
-
-
-/* Hover effect for button descriptions */
-
-.button-description-with-text:hover {
-    transform: scale(1.2);
-    /* Slight zoom-in effect */
-}
-
-
-/* Fullscreen style for .on-display-icons in .game-div */
-
-.game-div:fullscreen .on-display-icons {
-    width: 95%;
-    height: 95%;
-    position: absolute;
-    align-items: end;
-    bottom: 0;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-
-/* General style for .game-div */
-
-.game-div {
-    position: relative;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-}
-
-
-/* Rotate and transition styles for the right button */
-
-.right-button {
-    transform: rotate(360deg);
-    /* Full rotation */
-    transition: border-color 0.2s;
-}
-
-
-/* Rotate and transition styles for the left button */
-
-.left-button {
-    transform: rotate(180deg);
-    /* Flip horizontally */
-    transition: border-color 0.2s;
-}
-
-
-/* Rotate and transition styles for the jump button */
-
-.jump-button {
-    transform: rotate(-90deg);
-    /* Rotate upwards */
-    transition: border-color 0.2s;
-}
-
-
-/* Transition styles for the throw button */
-
-.throw-button {
-    transition: border-color 0.2s;
-}
-
-
-/* Styles for the bottom control bar */
-
-.bottom-control-bar {
+    font-size: 1.5em;
+    border-radius: 0px;
+  }
+  .start-screen-image {
+    height: 100%;
+    max-width: -webkit-fill-available;
+  }
+  .hidden {
     display: none;
-    /* Hidden by default */
-    width: 100%;
-    justify-content: space-around;
-    margin-bottom: 5px;
-}
-
-
-/* Style for the on-display icons */
-
-.on-display-icons {
-    display: flex;
-    width: 720px;
-    height: 480px;
-    position: absolute;
-    align-items: end;
-    bottom: 0px;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-
-/* General button styles */
-
-.button-universal {
-    width: 32px;
-    opacity: 0.5;
-    transition: transform 0.3s ease;
-}
-
-
-/* Hover effect for general buttons */
-
-.button-universal:hover {
-    cursor: pointer;
-    opacity: 0.7;
-    transform: scale(1.2);
-    /* Slight zoom-in effect */
-}
-
-.impressum-and-datendschutzt {
-    display: flex;
-    align-self: self-end;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 0.8rem;
-    cursor: pointer;
-    z-index: 1001;
-    border-radius: 5px;
-    background-color: burlywood;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    border-width: 0px;
-    /* Smooth transitions */
-}
-
-.impressum-and-datendschutzt:hover {
-    background-color: #d2a366;
-    /* Slightly darker burlywood */
-    transform: scale(1.02);
-    /* Slightly larger button */
-}
-
-.hidden {
-    display: none;
-}
-
-.popup {
+  }
+  .popup {
     position: fixed;
     top: 0;
     left: 0;
@@ -338,9 +511,8 @@ canvas {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.popup-content {
+  }
+  .popup-content {
     background-color: white;
     border-radius: 10px;
     width: 80%;
@@ -350,11 +522,10 @@ canvas {
     text-align: left;
     max-height: 80%;
     overflow-y: auto;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 1em;
-}
-
-.close-button {
+  }
+  .close-button {
     position: absolute;
     top: 10px;
     right: 15px;
@@ -363,207 +534,9 @@ canvas {
     color: #333;
     cursor: pointer;
     transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.close-button:hover {
+  }
+  .close-button:hover {
     color: red;
     transform: scale(1.2);
-}
-
-
-/* Media query for small screens (max-width: 720px) */
-
-@media only screen and (max-width: 720px) {
-    body {
-        margin: 0;
-        height: 100vh;
-    }
-    .orientation-warning {
-        display: none;
-        /* Hidden by default */
-        position: fixed;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #e59400;
-        color: rgb(0, 0, 0);
-        font-size: 2em;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1001;
-        flex-direction: column;
-    }
-    .please-rotate-device-text {
-        display: flex;
-    }
-    .game-div {
-        position: relative;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        width: 100vw;
-        height: 100vh;
-    }
-    .on-display-icons {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        align-items: end;
-        bottom: 0px;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    .button-universal {
-        width: 50px;
-        opacity: 0.5;
-    }
-    .button-universal:hover {
-        cursor: pointer;
-        opacity: 0.7;
-    }
-    #canvas {
-        width: 100vw;
-    }
-    .bottom-control-bar {
-        display: flex;
-        width: 100%;
-        justify-content: space-around;
-        margin-bottom: 5px;
-    }
-}
-
-
-/* Media query for small height screens (max-height: 480px) */
-
-@media only screen and (max-height: 480px) {
-    canvas {
-        height: 100vh;
-    }
-    body {
-        margin: 0;
-        height: 100vh;
-    }
-    .game-div:fullscreen .on-display-icons {
-        width: 95%;
-        height: 95%;
-        position: absolute;
-        bottom: 0;
-        flex-direction: column;
-    }
-    .bottom-control-bar {
-        display: flex;
-        width: 100%;
-        justify-content: space-around;
-    }
-    .hidden {
-        display: none;
-    }
-    .game-div {
-        position: relative;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-    }
-    .on-display-icons {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-    }
-    .button-universal {
-        width: 32px;
-        opacity: 0.5;
-    }
-    .start-button {
-        padding: 1em 2em;
-        font-size: 1.5em;
-        cursor: pointer;
-        position: absolute;
-        width: 270px;
-        margin-bottom: 280px;
-        border-radius: 15px;
-        text-align: center;
-        text-transform: uppercase;
-        background-color: #FFA500 !important;
-        border: none;
-        color: white;
-        transition: background-color 0.3s ease;
-        margin-top: 20px;
-        transition: transform 0.3s ease, background-color 0.3s ease;
-    }
-    .button-universal:hover {
-        cursor: pointer;
-        opacity: 0.7;
-    }
-    .start-screen {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        display: flex;
-        flex-direction: column;
-        /* justify-content: center; */
-        align-items: center;
-        z-index: 1000;
-        height: 100vh;
-        background-color: transparent;
-    }
-    .control-buttons-home-page {
-        position: absolute;
-        width: 100vw;
-        z-index: 1;
-        bottom: 0px;
-        display: flex;
-        justify-content: center;
-        background-color: rgb(255 255 255 / 57%);
-        font-size: 1.5em;
-        border-radius: 0px;
-    }
-    .start-screen-image {
-        height: 100%;
-        max-width: -webkit-fill-available;
-    }
-    .hidden {
-        display: none;
-    }
-    .popup {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        z-index: 1001;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .popup-content {
-        background-color: white;
-        border-radius: 10px;
-        width: 80%;
-        max-width: 600px;
-        padding: 20px;
-        position: relative;
-        text-align: left;
-        max-height: 80%;
-        overflow-y: auto;
-        font-family: Arial, sans-serif;
-        font-size: 1em;
-    }
-    .close-button {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        font-size: 1.5em;
-        font-weight: bold;
-        color: #333;
-        cursor: pointer;
-        transition: color 0.2s ease, transform 0.2s ease;
-    }
-    .close-button:hover {
-        color: red;
-        transform: scale(1.2);
-    }
+  }
 }

@@ -31,7 +31,7 @@ function createBackgroundObjects(imageWidth, repetitions) {
 
 const imageWidth = 719;
 const levelEndX = 5000;
-const repetitions = Math.ceil(levelEndX / imageWidth) + 1; 
+const repetitions = Math.ceil(levelEndX / imageWidth) + 1;
 
 
 const backgroundObjects = createBackgroundObjects(imageWidth, repetitions);
@@ -56,5 +56,5 @@ const level1 = new Level(
     createInstances(Coins, 4),
     createInstances(Bottle, 10),
     createInstances(Cloud, 20),
-    backgroundObjects 
+    backgroundObjects
 );

@@ -9,7 +9,7 @@ class Endboss extends MovableObject {
     endBossMovesLeft = false;
     endBossAttacking = false;
     endBossGotHit = false;
-    gameSounds = new GameSound(); 
+    gameSounds = new GameSound();
 
     offset = {
         right: 85,
@@ -70,8 +70,8 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
-    moveInterval = null; 
-    animationInterval = null; 
+    moveInterval = null;
+    animationInterval = null;
 
     /**
      * Constructs an Endboss instance and initializes its properties, including loading images and starting animations.
@@ -93,20 +93,55 @@ class Endboss extends MovableObject {
     animate() {
         this.moveInterval = setInterval(() => {
             if (this.endBossIsDead()) {
-                this.endBossIsEliminatedAnimation();
-                if (world.gameSoundActive) {
-                    this.gameSounds.endboss_got_eliminated.play();
-                } else {
-                    this.gameSounds.endboss_got_eliminated.pause();
-                }
+                this.handleEndBossDeath();
             } else if (this.endBossGotHit) {
-                this.endBossGotHitAnimation();
+                this.handleEndBossHit();
             } else if (this.endBossAttacking) {
-                this.endBossAttackingAnimation();
+                this.handleEndBossAttack();
             } else if (this.endBossMovesLeft && !this.endBossGotHit) {
-                this.endBossRunningAnimation();
+                this.handleEndBossMovement();
             }
         }, 100);
+    }
+
+    /**
+     * Handles the End Boss's death animation and sound effects.
+     */
+    handleEndBossDeath() {
+        this.endBossIsEliminatedAnimation();
+        this.toggleEndBossDeathSound();
+    }
+
+    /**
+     * Plays the End Boss's hit animation and temporarily stops movement.
+     */
+    handleEndBossHit() {
+        this.endBossGotHitAnimation();
+    }
+
+    /**
+     * Plays the End Boss's attacking animation.
+     */
+    handleEndBossAttack() {
+        this.endBossAttackingAnimation();
+    }
+
+    /**
+     * Handles the End Boss's running animation when moving left.
+     */
+    handleEndBossMovement() {
+        this.endBossRunningAnimation();
+    }
+
+    /**
+     * Toggles the End Boss's death sound based on the game's sound state.
+     */
+    toggleEndBossDeathSound() {
+        if (world.gameSoundActive) {
+            this.gameSounds.endboss_got_eliminated.play();
+        } else {
+            this.gameSounds.endboss_got_eliminated.pause();
+        }
     }
 
     /**
@@ -169,7 +204,7 @@ class Endboss extends MovableObject {
         this.endBossEnergy = 100;
         this.endBossGotHit = false;
         this.endBossMovesLeft = false;
-        this.percentageForEndBoss = 100; 
+        this.percentageForEndBoss = 100;
         this.animate();
     }
 

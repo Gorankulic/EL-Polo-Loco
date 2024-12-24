@@ -15,7 +15,6 @@ class Chicken extends MovableObject {
 
     ELIMINATED_BROWN_CHICKEN_IMAGES_WIDTH = 50;
     ELIMINATED_BROWN_CHICKEN_IMAGES_HEIGHT = 40;
-
     characterEnemyCollision = false;
 
     IMAGES_WALKING = [
@@ -72,7 +71,6 @@ class Chicken extends MovableObject {
         this.stopAllAnimationsforChicken();
     }
 
-
     /**
      * Manages the animation for the chicken, switching between walking and eliminated states.
      */
@@ -107,6 +105,5 @@ class Chicken extends MovableObject {
         this.speed = 0.25;
         this.animate();
     }
-
 
 }

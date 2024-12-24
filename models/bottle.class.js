@@ -25,7 +25,7 @@ class Bottle extends MovableObject {
 
         this.loadImage(randomImage);
         this.x = this.getSpawnX();
-        Bottle.previousBottlePositions.push(this.x); 
+        Bottle.previousBottlePositions.push(this.x);
     }
 
     /**
@@ -66,7 +66,7 @@ class Bottle extends MovableObject {
             retries++;
             if (retries > maxRetries) {
                 console.warn("Max retries reached for Bottle spawn position");
-                return Bottle.previousBottlePositions.at(-1) || minX; 
+                return Bottle.previousBottlePositions.at(-1) || minX;
             }
         } while (!this.isValidDistance(newX, Bottle.previousBottlePositions.at(-1) || minX, minDistance));
 

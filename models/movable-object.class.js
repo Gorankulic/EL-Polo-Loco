@@ -35,49 +35,87 @@ class MovableObject extends DrawableObject {
             }, 1000 / 120);
         }
     }
-/**
- * Clears the gravity interval for the object.
- * This method stops any ongoing updates to the object's vertical position due to gravity.
- * Ensures that the gravity interval is properly terminated and reset.
- */
-clearGravity() {
-    if (this.gravityInterval) {
-        clearInterval(this.gravityInterval); 
-        this.gravityInterval = null; 
+    /**
+     * Clears the gravity interval for the object.
+     * This method stops any ongoing updates to the object's vertical position due to gravity.
+     * Ensures that the gravity interval is properly terminated and reset.
+     */
+    clearGravity() {
+        if (this.gravityInterval) {
+            clearInterval(this.gravityInterval);
+            this.gravityInterval = null;
+        }
     }
-}
 
     /**
-     * Generates a random x-coordinate for spawning the object, ensuring a minimum distance from the last spawn.
-     * @param {number} minX - The minimum x-coordinate for the spawn area.
-     * @param {number} maxX - The maximum x-coordinate for the spawn area.
-     * @param {number} [minDistance=200] - The minimum distance between the current and last spawned object.
-     * @param {string} objectType - The type of the object being spawned (e.g., 'Bottles', 'Clouds').
-     * @returns {number} The generated x-coordinate for the object's spawn position.
-     */
+    * Generates a random x-coordinate for spawning the object, ensuring a minimum distance from the last spawn.
+    * @param {number} minX - The minimum x-coordinate for the spawn area.
+    * @param {number} maxX - The maximum x-coordinate for the spawn area.
+    * @param {number} [minDistance=200] - The minimum distance between the current and last spawned object.
+    * @param {string} objectType - The type of the object being spawned (e.g., 'Bottles', 'Clouds').
+    * @returns {number} The generated x-coordinate for the object's spawn position.
+    */
     getRandomSpawnX(minX, maxX, minDistance = 200, objectType) {
+        this.initializeLastPositions(objectType);
+
+        let newX;
+        do {
+            newX = this.generateRandomX(minX, maxX);
+        } while (this.isTooClose(newX, objectType, minDistance));
+
+        this.updateLastPosition(newX, objectType);
+        return newX;
+    }
+
+    /**
+     * Initializes the last positions map for a given object type if not already set.
+     * @param {string} objectType - The type of the object.
+     */
+    initializeLastPositions(objectType) {
         if (!MovableObject.lastPositions) {
             MovableObject.lastPositions = {};
         }
         if (!MovableObject.lastPositions[objectType]) {
             MovableObject.lastPositions[objectType] = 0;
         }
-
-        let newX;
-        do {
-            newX = minX + Math.random() * (maxX - minX);
-        } while (Math.abs(newX - MovableObject.lastPositions[objectType]) < minDistance);
-
-        MovableObject.lastPositions[objectType] = newX;
-        return newX;
     }
 
-     /**
-     * Plays the animation for the object using the provided array of images.
-     * @param {string[]} images - An array of image paths for the animation.
+    /**
+     * Generates a random x-coordinate within the specified range.
+     * @param {number} minX - The minimum x-coordinate.
+     * @param {number} maxX - The maximum x-coordinate.
+     * @returns {number} A random x-coordinate.
      */
-     playAnimation(images) {
-        if (!images || images.length === 0) return; 
+    generateRandomX(minX, maxX) {
+        return minX + Math.random() * (maxX - minX);
+    }
+
+    /**
+     * Checks if the generated x-coordinate is too close to the last position.
+     * @param {number} newX - The newly generated x-coordinate.
+     * @param {string} objectType - The type of the object.
+     * @param {number} minDistance - The minimum required distance.
+     * @returns {boolean} True if the new x-coordinate is too close, otherwise false.
+     */
+    isTooClose(newX, objectType, minDistance) {
+        return Math.abs(newX - MovableObject.lastPositions[objectType]) < minDistance;
+    }
+
+    /**
+     * Updates the last position for a given object type.
+     * @param {number} newX - The new x-coordinate.
+     * @param {string} objectType - The type of the object.
+     */
+    updateLastPosition(newX, objectType) {
+        MovableObject.lastPositions[objectType] = newX;
+    }
+
+    /**
+    * Plays the animation for the object using the provided array of images.
+    * @param {string[]} images - An array of image paths for the animation.
+    */
+    playAnimation(images) {
+        if (!images || images.length === 0) return;
 
         if (images.length === 1) {
             this.img = this.imageCache[images[0]];
@@ -98,14 +136,14 @@ clearGravity() {
         const withinXBounds =
             this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
             this.x + this.width - this.offset.right > mo.x + mo.offset.left;
-    
+
         const withinYBounds =
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom &&
             this.y + this.height - this.offset.bottom > mo.y + mo.offset.top;
-    
+
         return withinXBounds && withinYBounds;
     }
-    
+
     /**
      * Checks if the object is above the ground.
      * For ThrowableObject instances, it always returns true.
@@ -123,11 +161,11 @@ clearGravity() {
      * Reduces the object's energy when it is hit. Updates the last hit timestamp.
      */
     hit() {
-        this.energy -= 2; 
+        this.energy -= 2;
         if (this.energy <= 0) {
             this.energy = 0;
         }
-        this.lastHit = new Date().getTime(); 
+        this.lastHit = new Date().getTime();
     }
 
     /**
@@ -189,7 +227,7 @@ clearGravity() {
      */
     clearAllIntervals() {
         if (this.gravityInterval) {
-            clearInterval(this.gravityInterval); 
+            clearInterval(this.gravityInterval);
         }
     }
 }

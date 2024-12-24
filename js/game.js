@@ -14,11 +14,10 @@ function init() {
     const character = world.character;
     const walkingFrames = character.IMAGES_WALKING;
 
-    const faviconAnimator = new FaviconAnimator(walkingFrames); 
+    const faviconAnimator = new FaviconAnimator(walkingFrames);
 
     startGame();
 }
-
 
 /**
  * Starts the game by hiding the start screen, showing control bars, hiding the Impressum button,
@@ -82,7 +81,7 @@ function showImpressumPopup() {
     const popup = document.getElementById('impressumPopup');
     const popupText = document.getElementById('impressumText');
 
-   
+
     popupText.innerHTML = `
         <div id='generator_results'>
 <div id='generator_results_content'>
@@ -178,14 +177,14 @@ function closeImpressumPopup() {
 /**
  * Closes the Impressum popup when clicking on the body, except on popup content or the Impressum button.
  */
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
     const popup = document.getElementById('impressumPopup');
     const popupContent = document.querySelector('.popup-content');
     const impressumButton = document.getElementById('impressumDatenschutzButton');
 
-    if (popup.classList.contains('popup') && 
-        (event.target === popup || 
-            (!popupContent.contains(event.target) && event.target !== impressumButton))) { 
+    if (popup.classList.contains('popup') &&
+        (event.target === popup ||
+            (!popupContent.contains(event.target) && event.target !== impressumButton))) {
         closeImpressumPopup();
     }
 });
