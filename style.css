@@ -287,7 +287,8 @@ canvas {
   background-color: burlywood;
   transition: background-color 0.3s ease, transform 0.3s ease;
   border-width: 0px;
-  /* Smooth transitions */
+  position: absolute;
+  bottom: 10px;
 }
 
 .impressum-and-datendschutzt:hover {

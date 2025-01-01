@@ -29,12 +29,19 @@ function startGame() {
     hideImpressumButton();
     startAnimations();
 }
-
+function returnToHomeSite() {
+    showStartScreen();
+}
 /**
  * Hides the start screen by setting its display style to 'none'.
  */
 function hideStartScreen() {
     document.getElementById('startScreen').style.display = 'none';
+}
+function showStartScreen() {
+    document.getElementById('impressumDatenschutzButton').classList.remove('hidden');
+    document.getElementById('startScreen').style.display = 'flex';
+
 }
 
 /**
@@ -145,6 +152,7 @@ E-Mail: gorankulic@outlook.com</p>
 </p>
 <ul>
   <li><a href="https://www.flaticon.com/free-icons/restart" title="restart icons">Neustart-Symbole erstellt von Rakib Hassan Rahim - Flaticon</a></li>
+  <li><a target="_blank" href="https://icons8.com/icon/2797/home">Home</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a></li>
   <li><a href="https://www.flaticon.com/free-icons/keyboard-command" title="keyboard command icons">Tastaturbefehl-Symbole erstellt von shohanur.rahman13 - Flaticon</a></li>
   <li><a target="_blank" href="https://icons8.com/icon/3Apt7KAlK2HU/space-key">Leertaste</a>-Symbol von <a target="_blank" href="https://icons8.com">Icons8</a></li>
   <li><a href="https://www.flaticon.com/free-icons/keyboard-command" title="keyboard command icons">Tastaturbefehl-Symbole erstellt von shohanur.rahman13 - Flaticon</a> (D-Taste-Symbol)</li>
