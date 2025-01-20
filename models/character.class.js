@@ -250,8 +250,8 @@ class Character extends MovableObject {
      */
     handleDeathState() {
         this.gameSounds.playCharacterEliminatedSounds();
-        this.gameSounds.pauseAmbientSounds();
     }
+
 
     /**
      * Handles the hurt state animation and sound effects.

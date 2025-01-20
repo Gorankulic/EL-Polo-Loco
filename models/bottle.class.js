@@ -65,7 +65,6 @@ class Bottle extends MovableObject {
             newX = this.generateRandomX(minX, maxX);
             retries++;
             if (retries > maxRetries) {
-                console.warn("Max retries reached for Bottle spawn position");
                 return Bottle.previousBottlePositions.at(-1) || minX;
             }
         } while (!this.isValidDistance(newX, Bottle.previousBottlePositions.at(-1) || minX, minDistance));

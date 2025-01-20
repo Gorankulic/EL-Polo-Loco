@@ -1,21 +1,19 @@
 let canvas;
 let world;
 let keyboard;
+let gameStarted = false; // Tracks whether the game has started
+
 
 /**
  * Initializes the game by setting up the keyboard, canvas, and world objects.
- * Also initializes the favicon animation and starts the game setup.
+
  */
 function init() {
     keyboard = new Keyboard();
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
-
+    window.world = world; // Make the world instance globally accessible
     const character = world.character;
-    const walkingFrames = character.IMAGES_WALKING;
-
-    const faviconAnimator = new FaviconAnimator(walkingFrames);
-
     startGame();
 }
 
@@ -28,21 +26,79 @@ function startGame() {
     showControlBars();
     hideImpressumButton();
     startAnimations();
+    hideBigHomeButton();
 }
 function returnToHomeSite() {
+    world.endGameRoutine();
     showStartScreen();
+
+    hideBigHomeButton();
 }
 /**
  * Hides the start screen by setting its display style to 'none'.
  */
 function hideStartScreen() {
     document.getElementById('startScreen').style.display = 'none';
+
 }
+
+function handleStartButtonClick() {
+    if (!gameStarted) {
+        init(); // Start a new game
+    } else {
+        restartGame(); // Reset and restart the game
+    }
+    gameStarted = true; // Set to true after the first click
+}
+
+function restartGame() {
+    // Clear all global intervals
+    clearAllGlobalIntervals();
+
+    // Remove old world instance
+    if (window.world) {
+        world.scheduleEndGameRoutine();; // Ensure old intervals and sounds are stopped
+        //world = null; // Clear old world reference
+    }
+
+    // Reset keyboard and canvas
+    keyboard = new Keyboard();
+    canvas = document.getElementById('canvas');
+
+    // Create a new world instance
+    world = new World(canvas, keyboard);
+    window.world = world;
+
+    // Start the game from scratch
+    startGame();
+}
+
+
+function clearAllGlobalIntervals() {
+    const highestIntervalId = setInterval(() => { }, 0);
+    for (let i = 0; i <= highestIntervalId; i++) {
+        clearInterval(i);
+    }
+}
+
+
 function showStartScreen() {
     document.getElementById('impressumDatenschutzButton').classList.remove('hidden');
     document.getElementById('startScreen').style.display = 'flex';
+    hideBigHomeButton();
 
 }
+function showBigHomeButton() {
+    const homeButton = document.getElementById('home-restart-button-at-the-end-of-the-game');
+    homeButton.classList.remove('hidden'); // Add the 'hidden' class to hide the button
+
+}
+function hideBigHomeButton() {
+    const homeButton = document.getElementById('home-restart-button-at-the-end-of-the-game');
+    homeButton.classList.add('hidden');
+}
+
+
 
 /**
  * Displays all elements with the class 'bottom-control-bar' by removing the 'hidden' class.

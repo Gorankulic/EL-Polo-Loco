@@ -27,7 +27,8 @@ class World {
     statusBar = new StatusBar(); // Status bar for character health or energy
     statusBarForBottle = new BottleBar(); // Status bar for bottle items
     stopAllAnimations = false; // Controls whether animations should be stopped
-    throwableObjects = []; // Array of throwable objects (like bottles) currently in play
+    throwableObjects = []; // Array of throwable objects (like bottles) currently in play#
+    showEndGameScreen = false;
 
     /**
      * Initializes the World instance with specified canvas and keyboard, sets up event listeners, and starts the game loop.
@@ -58,6 +59,15 @@ class World {
         unmuteButton.addEventListener('click', () => this.toggle_mute_sound()); // Unmute sound on click
         window.addEventListener('orientationchange', this.checkOrientation.bind(this)); // Adjust for screen rotation
         this.checkOrientation(); // Initial orientation check to set warnings if needed
+    }
+    /**
+     * Primary game rendering loop, responsible for drawing game elements and handling state transitions.
+     */
+    draw() {
+        this.prepareCanvas();
+        this.drawGameElements();
+        this.world2.handleGameStateTransitions();
+        this.requestNextFrame();
     }
 
     /**
@@ -188,16 +198,6 @@ class World {
     }
 
     /**
-     * Primary game rendering loop, responsible for drawing game elements and handling state transitions.
-     */
-    draw() {
-        this.prepareCanvas();
-        this.drawGameElements();
-        this.world2.handleGameStateTransitions();
-        this.requestNextFrame();
-    }
-
-    /**
      * Clears the canvas and translates the camera for rendering.
      */
     prepareCanvas() {
@@ -304,24 +304,17 @@ class World {
     }
 
     /**
-     * Resets the game state to its initial values after the game ends.
-     */
-    endGameRoutine() {
-        // Clear all intervals and sounds
-        this.world2.clearAllIntervals();
-        this.pauseAllSounds();
-    }
-
-    /**
      * Handles game over state, stopping animations and playing game over sounds.
      */
     handleGameOver() {
+        this.showEndGameScreen = true; // Show the menu
         this.world2.disableCharacterActions();
-        this.world2.stopAllGameSounds();
         this.displayGameOverScreen();
         this.world2.stopCharacterAndEnemies();
         this.world2.resetCharacterBottleCount();
-        this.scheduleEndGameRoutine();
+        setTimeout(() => {
+            this.world2.stopAllGameSounds();
+        }, 2000);
     }
 
     /**
@@ -335,10 +328,20 @@ class World {
      * Schedules the end game routine and resets game changes after a delay.
      */
     scheduleEndGameRoutine() {
-        setTimeout(() => {
-            this.endGameRoutine();
-            this.resetGameRules.resetGameChanges();
-        }, 4000); // Delay in milliseconds
+        hideBigHomeButton();
+        this.endGameRoutine();
+        this.resetGameRules.resetGameChanges();
+        this.gameSounds.stopAndResetAllSounds(); // Completely reset all sounds
+        this.showEndGameScreen = false; // Show the menu
+    }
+
+    /**
+     * Resets the game state to its initial values after the game ends.
+     */
+    endGameRoutine() {
+        // Clear all intervals and sounds
+        this.world2.clearAllIntervals();
+        this.pauseAllSounds();
     }
 
     /**
@@ -410,6 +413,13 @@ class World {
             this.world2.exitFullScreen();
         }
     }
+    toggleEndGameMenu() {
+        setInterval(() => {
+            if (this.showEndGameScreen) {
+                showBigHomeButton(); // Show the endgame menu
+            }
+        }, 250);
+    }
 
     /**
      * Clears all intervals associated with throwable objects.
@@ -417,6 +427,7 @@ class World {
     clearAllBottleObjects() {
         if (this.throwableObjects.length > 0) {
             this.throwableObjects.forEach(bottle => {
+
                 bottle.clearAllBottleIntervals();
             });
             this.throwableObjects = [];

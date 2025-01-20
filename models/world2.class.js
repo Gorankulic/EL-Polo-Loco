@@ -24,6 +24,7 @@ class World2 {
             this.checkThrowableObjects();
             this.checkCharacterXPosition();
             this.preventBottleThrowWhenSleeping();
+            this.world.toggleEndGameMenu();
         }, 1000 / 60);
     }
 
@@ -385,7 +386,6 @@ class World2 {
         } else {
             this.world.hideEndBossHealthBar();
         }
-
         if (this.world.isCharacterDead()) {
             this.world.handleGameOver();
         } else if (this.world.isEndBossEliminated()) {
@@ -396,12 +396,14 @@ class World2 {
  * Handles victory conditions, stopping animations and playing victory sounds.
  */
     handleVictory() {
+        this.world.showEndGameScreen = true; // Show the menu
         this.disableCharacterActions();
         this.world.displayVictoryScreen();
         this.stopCharacterAndEnemies();
         this.resetCharacterBottleCount();
         this.handleVictorySounds();
-        this.scheduleVictoryRoutine();
+        this.world.gameSoundActive = false;
+
     }
 
     /**
@@ -412,6 +414,7 @@ class World2 {
         this.world.gameSounds.background_game_music.pause();
         this.world.gameSounds.small_chickens_move_sound.pause();
         this.world.gameSounds.walking_sound.pause();
+        this.world.gameSounds.character_eliminated_sound.pause();
     }
     /**
    * Draws game elements like characters, coins, enemies, and throwable objects.

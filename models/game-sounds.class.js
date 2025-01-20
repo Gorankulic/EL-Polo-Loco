@@ -44,9 +44,14 @@ class GameSound {
      * Plays all ambient and background sounds in the game.
      */
     playAmbientSounds() {
+        if (!this.background_game_music.paused || this.background_game_music.currentTime > 0) {
+            this.background_game_music.pause();
+            this.background_game_music.currentTime = 0; // Reset to start
+        }
         this.desert_ambient_sound.play();
         this.background_game_music.play();
     }
+
 
     /**
      * Pauses all ambient and background sounds in the game.
@@ -78,13 +83,64 @@ class GameSound {
         this.you_lost_music.pause();
         this.walking_sound.pause();
         this.normal_chicken_walking_sound.pause();
+
     }
+
+    stopAndResetAllSounds() {
+        // Stop and reset all sounds
+        this.pepe_hurt.pause();
+        this.pepe_throw.pause();
+        this.coin_sound.pause();
+        this.bottle_collected_sound.pause();
+        this.bottle_splash_sound.pause();
+        this.chicken_hit_sound.pause();
+        this.chicken_eliminated_from_player.pause();
+        this.endboss_hit_sound.pause();
+        this.small_chickens_move_sound.pause();
+        this.endboss_coming_sound.pause();
+        this.desert_ambient_sound.pause();
+        this.background_game_music.pause();
+        this.game_won_sound.pause();
+        this.endboss_got_eliminated.pause();
+        this.pepe_eliminated_sound.pause();
+        this.you_lost_music.pause();
+        this.walking_sound.pause();
+        this.normal_chicken_walking_sound.pause();
+
+        // Reset all sounds to the beginning
+        this.pepe_hurt.currentTime = 0;
+        this.pepe_throw.currentTime = 0;
+        this.coin_sound.currentTime = 0;
+        this.bottle_collected_sound.currentTime = 0;
+        this.bottle_splash_sound.currentTime = 0;
+        this.chicken_hit_sound.currentTime = 0;
+        this.chicken_eliminated_from_player.currentTime = 0;
+        this.endboss_hit_sound.currentTime = 0;
+        this.small_chickens_move_sound.currentTime = 0;
+        this.endboss_coming_sound.currentTime = 0;
+        this.desert_ambient_sound.currentTime = 0;
+        this.background_game_music.currentTime = 0;
+        this.game_won_sound.currentTime = 0;
+        this.endboss_got_eliminated.currentTime = 0;
+        this.pepe_eliminated_sound.currentTime = 0;
+        this.you_lost_music.currentTime = 0;
+        this.walking_sound.currentTime = 0;
+        this.normal_chicken_walking_sound.currentTime = 0;
+    }
+
+
     /**
      * Plays the sound for character elimination.
      */
     playCharacterEliminatedSounds() {
         if (world.gameSoundActive) {
             this.pepe_eliminated_sound.play();
+            console.log('pepe sound is playing');
+            setTimeout(() => {
+                this.pauseAllSounds();
+                world.gameSoundActive = false;
+
+            }, 3000);
             this.you_lost_music.play();
         } else {
             this.pepe_eliminated_sound.pause();
