@@ -105,8 +105,8 @@ class Character extends MovableObject {
     }
 
     /**
-       * Handles the character's animations and intervals for movement.
-       */
+     * Handles the character's animations and intervals for movement.
+     */
     animate() {
         this.moveInterval = setInterval(() => {
             this.handleMovement();
@@ -189,6 +189,7 @@ class Character extends MovableObject {
     setDirection(isLeft) {
         this.otherDirection = isLeft;
     }
+
     /**
      * Handles the jumping logic for the character.
      */
@@ -251,7 +252,6 @@ class Character extends MovableObject {
     handleDeathState() {
         this.gameSounds.playCharacterEliminatedSounds();
     }
-
 
     /**
      * Handles the hurt state animation and sound effects.
@@ -398,8 +398,8 @@ class Character extends MovableObject {
     }
 
     /**
- * Resets the state of the character to its initial values.
- */
+     * Resets the state of the character to its initial values.
+     */
     reset() {
         this.characterCanJump = true;
         this.energy = 100;

@@ -39,15 +39,15 @@ class World2 {
      * Increases character energy by a fixed amount, up to a maximum of 100.
      */
     increaseCharacterEnergy() {
-        this.world.character.energy = Math.min(this.world.character.energy + 20, 100);
-        this.world.statusBar.setPercentage(this.world.character.energy);
-    }
-    /**
-     * Determines if there is a collision between two objects based on their coordinates.
-     * @param {Object} bottle - The bottle object.
-     * @param {Object} enemy - The enemy object.
-     * @returns {boolean} - True if there is a collision, false otherwise.
-     */
+            this.world.character.energy = Math.min(this.world.character.energy + 20, 100);
+            this.world.statusBar.setPercentage(this.world.character.energy);
+        }
+        /**
+         * Determines if there is a collision between two objects based on their coordinates.
+         * @param {Object} bottle - The bottle object.
+         * @param {Object} enemy - The enemy object.
+         * @returns {boolean} - True if there is a collision, false otherwise.
+         */
     isCollision(bottle, enemy) {
         const xCollision =
             bottle.x + bottle.width >= enemy.x + enemy.offset.left &&
@@ -65,20 +65,20 @@ class World2 {
      * @param {Endboss} endboss - The Endboss object.
      */
     markEndbossAsHit(endboss) {
-        endboss.endBossGotHit = true;
-    }
-    /**
-* Marks the enemy as collided to prevent duplicate actions.
-* @param {Object} enemy - The enemy object to mark.
-*/
+            endboss.endBossGotHit = true;
+        }
+        /**
+         * Marks the enemy as collided to prevent duplicate actions.
+         * @param {Object} enemy - The enemy object to mark.
+         */
     markEnemyAsCollided(enemy) {
         enemy.characterEnemyCollision = true;
     }
 
     /**
-   * Removes an enemy from the level after a delay.
-   * @param {Object} enemy - The enemy to remove.
-   */
+     * Removes an enemy from the level after a delay.
+     * @param {Object} enemy - The enemy to remove.
+     */
     removeEnemy(enemy) {
         setTimeout(() => {
             this.world.level.enemies = this.world.level.enemies.filter(e => e !== enemy);
@@ -91,17 +91,17 @@ class World2 {
      * @param {Endboss} endboss - The Endboss object.
      */
     triggerBottleSplashIfHit(bottle, endboss) {
-        if (endboss.endBossGotHit) {
-            bottle.triggerSplash();
+            if (endboss.endBossGotHit) {
+                bottle.triggerSplash();
+            }
         }
-    }
-    /**
-  * Handles the logic for when a bottle hits an enemy.
-  *
-  * @param {Object} bottle - The bottle object colliding with the enemy.
-  * @param {Object} enemy - The enemy object being hit.
-  * @param {number} index - Index of the bottle in the throwable objects array.
-  */
+        /**
+         * Handles the logic for when a bottle hits an enemy.
+         *
+         * @param {Object} bottle - The bottle object colliding with the enemy.
+         * @param {Object} enemy - The enemy object being hit.
+         * @param {number} index - Index of the bottle in the throwable objects array.
+         */
     handleBottleEnemyHit(bottle, enemy, index) {
         bottle.triggerSplash();
         this.collisions.handleChickenBottleCollision(bottle, enemy);
@@ -260,12 +260,16 @@ class World2 {
      * Checks the character's X position and triggers enemy movement if character is near Endboss.
      */
     checkCharacterXPosition() {
-        this.world.level.enemies.forEach(enemy => {
-            if (enemy instanceof Endboss && this.world.character.x > 4000) {
-                enemy.endBossMovesLeft = true;
-            }
-        });
-    }
+            this.world.level.enemies.forEach(enemy => {
+                if (enemy instanceof Endboss) {
+                    if (this.world.character.x > 4000) {
+                        enemy.endBossMovesLeft = true;
+                    }
+                }
+            });
+        }
+        ////////////////////baustela nakon pobjede i nakon sto pobacam sve flase napolje, i izgubim od endbosa i onda idem na menu i na play, pojavi mi se endgame menu
+
 
     /**
      * Exits full-screen mode for the game.
@@ -299,18 +303,18 @@ class World2 {
     }
 
     /**
- * Checks if all small chickens have been eliminated, and pauses sounds accordingly.
- */
-    checkAllSmallChickensEliminated() {
-        const remainingSmallChickens = this.world.level.enemies.filter(enemy => enemy instanceof SmallChickens);
-        if (remainingSmallChickens.length === 0) {
-            this.world.pauseSmallChickenSound = true;
-            this.world.gameSounds.pauseSmallChickensMovingSound();
-        }
-    }
-    /**
-     * Checks if all brown chickens have been eliminated, and pauses their sounds accordingly.
+     * Checks if all small chickens have been eliminated, and pauses sounds accordingly.
      */
+    checkAllSmallChickensEliminated() {
+            const remainingSmallChickens = this.world.level.enemies.filter(enemy => enemy instanceof SmallChickens);
+            if (remainingSmallChickens.length === 0) {
+                this.world.pauseSmallChickenSound = true;
+                this.world.gameSounds.pauseSmallChickensMovingSound();
+            }
+        }
+        /**
+         * Checks if all brown chickens have been eliminated, and pauses their sounds accordingly.
+         */
     checkAllBrownChickensEliminated() {
         const remainingBrownChickens = this.world.level.enemies.filter(enemy => enemy instanceof Chicken);
         if (remainingBrownChickens.length === 0) {
@@ -320,39 +324,29 @@ class World2 {
     }
 
     /**
-   * Clears all running intervals to reset the game.
-   */
-    clearAllIntervals() {
-        const highestIntervalId = setInterval(() => { }, 0);
-        for (let i = 0; i <= highestIntervalId; i++) {
-            clearInterval(i);
-        }
-    }
-
-    /**
      * Handles all sound-related logic for the victory condition.
      */
     handleVictorySounds() {
-        this.world.gameSounds.walking_sound.pause();
-        this.world.stopAllAnimations = true;
+            this.world.gameSounds.walking_sound.pause();
+            this.world.stopAllAnimations = true;
 
-        if (this.world.gameSoundActive) {
-            this.world.gameSounds.game_won_sound.play();
-            this.world.gameSounds.desert_ambient_sound.pause();
-            this.world.gameSounds.background_game_music.pause();
-            this.world.gameSounds.small_chickens_move_sound.pause();
+            if (this.world.gameSoundActive) {
+                this.world.gameSounds.game_won_sound.play();
+                this.world.gameSounds.desert_ambient_sound.pause();
+                this.world.gameSounds.background_game_music.pause();
+                this.world.gameSounds.small_chickens_move_sound.pause();
+            }
         }
-    }
-    /**
-  * Resets the character's bottle count to zero.
-  */
+        /**
+         * Resets the character's bottle count to zero.
+         */
     resetCharacterBottleCount() {
         this.world.character.bottleCount = 0;
     }
 
     /**
-  * Schedules the routine to end the game and reset game changes after a delay.
-  */
+     * Schedules the routine to end the game and reset game changes after a delay.
+     */
     scheduleVictoryRoutine() {
         setTimeout(() => {
             this.world.endGameRoutine();
@@ -361,40 +355,40 @@ class World2 {
     }
 
     /**
-   * Stops all character and enemy movement.
-   */
+     * Stops all character and enemy movement.
+     */
     stopCharacterAndEnemies() {
         this.world.character.speed = 0;
         this.world.level.enemies.forEach(enemy => enemy.speed = 0);
     }
 
     /**
-    * Disables character actions like jumping after the game ends.
-    */
+     * Disables character actions like jumping after the game ends.
+     */
     disableCharacterActions() {
         this.world.character.characterCanJump = false;
         this.world.stopAllAnimations = true;
     }
 
     /**
- * Handles game state transitions like drawing status bars or handling victory/game over conditions.
- */
+     * Handles game state transitions like drawing status bars or handling victory/game over conditions.
+     */
     handleGameStateTransitions() {
-        if (this.world.isGameInProgress()) {
-            this.world.drawStatusBars();
-            this.world.updateEndBossHealthBar();
-        } else {
-            this.world.hideEndBossHealthBar();
+            if (this.world.isGameInProgress()) {
+                this.world.drawStatusBars();
+                this.world.updateEndBossHealthBar();
+            } else {
+                this.world.hideEndBossHealthBar();
+            }
+            if (this.world.isCharacterDead()) {
+                this.world.handleGameOver();
+            } else if (this.world.isEndBossEliminated()) {
+                this.handleVictory();
+            }
         }
-        if (this.world.isCharacterDead()) {
-            this.world.handleGameOver();
-        } else if (this.world.isEndBossEliminated()) {
-            this.handleVictory();
-        }
-    }
-    /**
- * Handles victory conditions, stopping animations and playing victory sounds.
- */
+        /**
+         * Handles victory conditions, stopping animations and playing victory sounds.
+         */
     handleVictory() {
         this.world.showEndGameScreen = true; // Show the menu
         this.disableCharacterActions();
@@ -407,18 +401,18 @@ class World2 {
     }
 
     /**
-* Stops all game sounds to signify the end of the game.
-*/
+     * Stops all game sounds to signify the end of the game.
+     */
     stopAllGameSounds() {
-        this.world.gameSounds.desert_ambient_sound.pause();
-        this.world.gameSounds.background_game_music.pause();
-        this.world.gameSounds.small_chickens_move_sound.pause();
-        this.world.gameSounds.walking_sound.pause();
-        this.world.gameSounds.character_eliminated_sound.pause();
-    }
-    /**
-   * Draws game elements like characters, coins, enemies, and throwable objects.
-   */
+            this.world.gameSounds.desert_ambient_sound.pause();
+            this.world.gameSounds.background_game_music.pause();
+            this.world.gameSounds.small_chickens_move_sound.pause();
+            this.world.gameSounds.walking_sound.pause();
+            this.world.gameSounds.character_eliminated_sound.pause();
+        }
+        /**
+         * Draws game elements like characters, coins, enemies, and throwable objects.
+         */
     drawGameObjects() {
         this.world.addObjectsToMap(this.world.level.bottle);
         this.world.addObjectsToMap(this.world.level.coins);

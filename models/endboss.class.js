@@ -91,6 +91,10 @@ class Endboss extends MovableObject {
      * Handles the animation of the End Boss based on its state (e.g., dead, hit, attacking, or moving).
      */
     animate() {
+        if (this.moveInterval) {
+            return;
+        }
+
         this.moveInterval = setInterval(() => {
             if (this.endBossIsDead()) {
                 this.handleEndBossDeath();
@@ -103,6 +107,8 @@ class Endboss extends MovableObject {
             }
         }, 100);
     }
+
+
 
     /**
      * Handles the End Boss's death animation and sound effects.
@@ -194,18 +200,25 @@ class Endboss extends MovableObject {
     clearAllIntervals() {
         if (this.moveInterval) {
             clearInterval(this.moveInterval);
+            this.moveInterval = null;
         }
         if (this.animationInterval) {
             clearInterval(this.animationInterval);
+            this.animationInterval = null;
         }
     }
+
+
     reset() {
         this.clearAllIntervals();
+        this.x = 5000; // Reset position
+        this.speed = 5;
         this.endBossEnergy = 100;
         this.endBossGotHit = false;
         this.endBossMovesLeft = false;
         this.percentageForEndBoss = 100;
         this.animate();
     }
+
 
 }

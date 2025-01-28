@@ -26,20 +26,20 @@ class MovableObject extends DrawableObject {
      * Sets up an interval to update the object's position based on gravity.
      */
     applyGravity() {
-        if (this.isGravityEnabled) {
-            this.gravityInterval = setInterval(() => {
-                if (this.isAboveGround() || this.speedY > 0) {
-                    this.y -= this.speedY;
-                    this.speedY -= this.acceleration;
-                }
-            }, 1000 / 120);
+            if (this.isGravityEnabled) {
+                this.gravityInterval = setInterval(() => {
+                    if (this.isAboveGround() || this.speedY > 0) {
+                        this.y -= this.speedY;
+                        this.speedY -= this.acceleration;
+                    }
+                }, 1000 / 120);
+            }
         }
-    }
-    /**
-     * Clears the gravity interval for the object.
-     * This method stops any ongoing updates to the object's vertical position due to gravity.
-     * Ensures that the gravity interval is properly terminated and reset.
-     */
+        /**
+         * Clears the gravity interval for the object.
+         * This method stops any ongoing updates to the object's vertical position due to gravity.
+         * Ensures that the gravity interval is properly terminated and reset.
+         */
     clearGravity() {
         if (this.gravityInterval) {
             clearInterval(this.gravityInterval);
@@ -48,13 +48,13 @@ class MovableObject extends DrawableObject {
     }
 
     /**
-    * Generates a random x-coordinate for spawning the object, ensuring a minimum distance from the last spawn.
-    * @param {number} minX - The minimum x-coordinate for the spawn area.
-    * @param {number} maxX - The maximum x-coordinate for the spawn area.
-    * @param {number} [minDistance=200] - The minimum distance between the current and last spawned object.
-    * @param {string} objectType - The type of the object being spawned (e.g., 'Bottles', 'Clouds').
-    * @returns {number} The generated x-coordinate for the object's spawn position.
-    */
+     * Generates a random x-coordinate for spawning the object, ensuring a minimum distance from the last spawn.
+     * @param {number} minX - The minimum x-coordinate for the spawn area.
+     * @param {number} maxX - The maximum x-coordinate for the spawn area.
+     * @param {number} [minDistance=200] - The minimum distance between the current and last spawned object.
+     * @param {string} objectType - The type of the object being spawned (e.g., 'Bottles', 'Clouds').
+     * @returns {number} The generated x-coordinate for the object's spawn position.
+     */
     getRandomSpawnX(minX, maxX, minDistance = 200, objectType) {
         this.initializeLastPositions(objectType);
 
@@ -111,9 +111,9 @@ class MovableObject extends DrawableObject {
     }
 
     /**
-    * Plays the animation for the object using the provided array of images.
-    * @param {string[]} images - An array of image paths for the animation.
-    */
+     * Plays the animation for the object using the provided array of images.
+     * @param {string[]} images - An array of image paths for the animation.
+     */
     playAnimation(images) {
         if (!images || images.length === 0) return;
 
@@ -207,6 +207,7 @@ class MovableObject extends DrawableObject {
     moveLeft() {
         this.x -= this.speed;
     }
+
 
     /**
      * Makes the object jump by setting a vertical speed.

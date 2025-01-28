@@ -20,10 +20,10 @@ class endGameLooseScreenPicture extends DrawableObject {
         this.height = 480;
 
         this.RESTART_GAME_ICON = {
-            x: 310, 
-            y: 380, 
-            width: 50, 
-            height: 50 
+            x: 310,
+            y: 380,
+            width: 50,
+            height: 50
         };
     }
 }

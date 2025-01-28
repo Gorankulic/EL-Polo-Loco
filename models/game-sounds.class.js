@@ -32,17 +32,17 @@ class GameSound {
      * @param {boolean} play - Whether to play or pause all ambient and background sounds.
      */
     toggleAllSounds(play) {
-        if (play) {
-            this.desert_ambient_sound.currentTime = 0;
-            this.background_game_music.currentTime = 0;
-            this.playAmbientSounds();
-        } else {
-            this.pauseAllSounds();
+            if (play) {
+                this.desert_ambient_sound.currentTime = 0;
+                this.background_game_music.currentTime = 0;
+                this.playAmbientSounds();
+            } else {
+                this.pauseAllSounds();
+            }
         }
-    }
-    /**
-     * Plays all ambient and background sounds in the game.
-     */
+        /**
+         * Plays all ambient and background sounds in the game.
+         */
     playAmbientSounds() {
         if (!this.background_game_music.paused || this.background_game_music.currentTime > 0) {
             this.background_game_music.pause();
@@ -135,7 +135,6 @@ class GameSound {
     playCharacterEliminatedSounds() {
         if (world.gameSoundActive) {
             this.pepe_eliminated_sound.play();
-            console.log('pepe sound is playing');
             setTimeout(() => {
                 this.pauseAllSounds();
                 world.gameSoundActive = false;

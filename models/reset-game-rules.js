@@ -16,28 +16,31 @@ class ResetGameRules {
      * Resets the game state and entities to their initial values.
      */
     resetGameChanges() {
-        this.resetGlobalFlags();
-        this.resetCharacter();
-        this.resetGameEntities();
-        this.resetStatusBars();
-        this.resetBackgroundObjects();
-        this.resetCameraPosition();
-        this.resetGameSounds();
-        this.restartGameLoops();
+        const world = this.world;
+        this.resetCharacter(world);
+        this.resetEnemies(world);
+        this.resetEndBoss(world);
+        this.resetStatusBars(world);
+        this.resetBackgroundObjects(world);
+        this.resetCameraPosition(world);
+        this.resetGameSounds(world);
+        this.restartGameLoops(world, this.world2);
+        this.resetGlobalFlags(world);
     }
+
 
     /**
      * Resets global flags that track game state.
      */
     resetGlobalFlags() {
         const world = this.world;
+        world.stopAllAnimations = false;
         world.gameOver = false;
         world.characterIsDead = false;
         world.endBossAttacking = false;
         world.endBossGotHit = false;
         world.endBossIsEliminated = false;
         world.endBossMovesLeft = false;
-        world.stopAllAnimations = false;
         world.pauseSmallChickenSound = false;
     }
 
@@ -50,12 +53,12 @@ class ResetGameRules {
         character.reset();
     }
 
+
     /**
      * Resets all game entities, including collectibles, enemies, and clouds.
      */
     resetGameEntities() {
         this.resetCollectibleItems();
-        this.resetEndBoss();
         this.resetEnemies();
         this.resetClouds();
         this.clearThrowableObjects();
@@ -86,29 +89,41 @@ class ResetGameRules {
     }
 
     /**
-     * Resets the End Boss character to its initial state.
-     */
-    resetEndBoss() {
-        const endboss = this.world.endboss;
-        endboss.reset();
-        this.world.endbossHealthBar.setPercentageForEndBoss(100);
-    }
-
-    /**
      * Resets enemy characters, including chickens and small chickens.
      */
-    resetEnemies() {
-        this.world.level.enemies = [
-            ...createInstances(Chicken, 5),
-            ...createInstances(SmallChickens, 10),
-            new Endboss(this.world),
-        ];
-
-        this.world.level.enemies.forEach(enemy => {
+    resetEnemies(world) {
+        // Clear intervals and reset all existing enemies
+        world.level.enemies.forEach(enemy => {
             enemy.clearAllIntervals();
             enemy.reset();
         });
+
+        // Recreate enemies from scratch
+        world.level.enemies = [
+            ...createInstances(Chicken, 5),
+            ...createInstances(SmallChickens, 10),
+            new Endboss(world),
+        ];
     }
+
+    resetEndBoss(world) {
+        const endboss = world.endboss;
+
+        if (endboss) {
+            endboss.clearAllIntervals(); // Clear any active intervals
+            endboss.reset(); // Reset the Endboss's position, health, and state
+        } else {
+            world.endboss = new Endboss(world); // Create a new Endboss instance
+        }
+
+        // Ensure Endboss starts moving immediately after reset
+        world.endboss.endBossMovesLeft = true;
+        world.endboss.animate();
+
+        // Reset Endboss health bar
+        world.endbossHealthBar.setPercentageForEndBoss(100);
+    }
+
 
     /**
      * Resets cloud objects to their initial state.
@@ -171,7 +186,5 @@ class ResetGameRules {
      */
     restartGameLoops() {
         this.world.world2.run();
-        this.world.draw();
     }
 }
-

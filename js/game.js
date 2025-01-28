@@ -28,12 +28,18 @@ function startGame() {
     startAnimations();
     hideBigHomeButton();
 }
+
+/**
+ * Ends the current game session and returns to the home screen.
+ * Stops game processes and displays the start screen.
+ */
 function returnToHomeSite() {
     world.endGameRoutine();
     showStartScreen();
 
     hideBigHomeButton();
 }
+
 /**
  * Hides the start screen by setting its display style to 'none'.
  */
@@ -42,6 +48,10 @@ function hideStartScreen() {
 
 }
 
+/**
+ * Handles the start button click event.
+ * Initializes a new game if not started, or restarts the game if already running.
+ */
 function handleStartButtonClick() {
     if (!gameStarted) {
         init(); // Start a new game
@@ -53,34 +63,20 @@ function handleStartButtonClick() {
 
 function restartGame() {
     // Clear all global intervals
-    clearAllGlobalIntervals();
 
-    // Remove old world instance
+
     if (window.world) {
         world.scheduleEndGameRoutine();; // Ensure old intervals and sounds are stopped
-        //world = null; // Clear old world reference
     }
 
-    // Reset keyboard and canvas
     keyboard = new Keyboard();
     canvas = document.getElementById('canvas');
 
-    // Create a new world instance
     world = new World(canvas, keyboard);
     window.world = world;
 
-    // Start the game from scratch
     startGame();
 }
-
-
-function clearAllGlobalIntervals() {
-    const highestIntervalId = setInterval(() => { }, 0);
-    for (let i = 0; i <= highestIntervalId; i++) {
-        clearInterval(i);
-    }
-}
-
 
 function showStartScreen() {
     document.getElementById('impressumDatenschutzButton').classList.remove('hidden');
@@ -88,11 +84,13 @@ function showStartScreen() {
     hideBigHomeButton();
 
 }
+
 function showBigHomeButton() {
     const homeButton = document.getElementById('home-restart-button-at-the-end-of-the-game');
     homeButton.classList.remove('hidden'); // Add the 'hidden' class to hide the button
 
 }
+
 function hideBigHomeButton() {
     const homeButton = document.getElementById('home-restart-button-at-the-end-of-the-game');
     homeButton.classList.add('hidden');
@@ -131,7 +129,7 @@ function reloadPage() {
  */
 function startAnimations() {
     world.level.enemies.forEach(enemy => {
-        if (enemy instanceof Chicken || enemy instanceof SmallChickens) {
+        if (enemy instanceof Chicken || enemy instanceof SmallChickens || enemy instanceof Endboss) {
             enemy.animate();
         }
     });
@@ -241,7 +239,7 @@ function closeImpressumPopup() {
 /**
  * Closes the Impressum popup when clicking on the body, except on popup content or the Impressum button.
  */
-document.addEventListener('click', function (event) {
+document.addEventListener('click', function(event) {
     const popup = document.getElementById('impressumPopup');
     const popupContent = document.querySelector('.popup-content');
     const impressumButton = document.getElementById('impressumDatenschutzButton');
