@@ -14,14 +14,14 @@ function init() {
     world = new World(canvas, keyboard);
     window.world = world; // Make the world instance globally accessible
     const character = world.character;
-    startGame();
+    removeStartScreenInfo();
 }
 
 /**
  * Starts the game by hiding the start screen, showing control bars, hiding the Impressum button,
  * and starting animations for the game objects.
  */
-function startGame() {
+function removeStartScreenInfo() {
     hideStartScreen();
     showControlBars();
     hideImpressumButton();
@@ -75,7 +75,7 @@ function restartGame() {
     world = new World(canvas, keyboard);
     window.world = world;
 
-    startGame();
+    removeStartScreenInfo();
 }
 
 function showStartScreen() {
@@ -239,7 +239,7 @@ function closeImpressumPopup() {
 /**
  * Closes the Impressum popup when clicking on the body, except on popup content or the Impressum button.
  */
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
     const popup = document.getElementById('impressumPopup');
     const popupContent = document.querySelector('.popup-content');
     const impressumButton = document.getElementById('impressumDatenschutzButton');

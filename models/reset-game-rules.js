@@ -17,15 +17,16 @@ class ResetGameRules {
      */
     resetGameChanges() {
         const world = this.world;
-        this.resetCharacter(world);
-        this.resetEnemies(world);
-        this.resetEndBoss(world);
-        this.resetStatusBars(world);
-        this.resetBackgroundObjects(world);
-        this.resetCameraPosition(world);
-        this.resetGameSounds(world);
-        this.restartGameLoops(world, this.world2);
-        this.resetGlobalFlags(world);
+        this.resetGlobalFlags();
+        this.resetCharacter();
+        this.resetGameEntities();
+        this.resetEnemies();
+        this.resetEndBoss();
+        this.resetStatusBars();
+        this.resetBackgroundObjects();
+        this.resetCameraPosition();
+        this.resetGameSounds();
+        this.restartGameLoops();
     }
 
 
@@ -91,7 +92,8 @@ class ResetGameRules {
     /**
      * Resets enemy characters, including chickens and small chickens.
      */
-    resetEnemies(world) {
+    resetEnemies() {
+        const world = this.world; // Use the instance's world
         // Clear intervals and reset all existing enemies
         world.level.enemies.forEach(enemy => {
             enemy.clearAllIntervals();
@@ -106,7 +108,9 @@ class ResetGameRules {
         ];
     }
 
-    resetEndBoss(world) {
+
+    resetEndBoss() {
+        const world = this.world;
         const endboss = world.endboss;
 
         if (endboss) {
