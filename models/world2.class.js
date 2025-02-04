@@ -277,8 +277,6 @@ class World2 {
             }
         });
     }
-    ////////////////////baustela nakon pobjede i nakon sto pobacam sve flase napolje, i izgubim od endbosa i onda idem na menu i na play, pojavi mi se endgame menu
-
 
     /**
      * Exits full-screen mode for the game.
@@ -392,26 +390,10 @@ class World2 {
         if (this.world.isCharacterDead()) {
             this.world.gameLostScenario();
         } else if (this.world.isEndBossEliminated()) {
-            this.handleVictory();
+            this.world.handleVictory();
         }
     }
-    /**
-     * Handles victory conditions, stopping animations and playing victory sounds.
-     */
-    handleVictory() {
-        this.world.showEndGameScreen = true; // Show the menu
-        this.disableCharacterActions();
-        this.world.displayVictoryScreen();
-        this.stopCharacterAndEnemies();
-        this.resetCharacterBottleCount();
-        this.handleVictorySounds();
-        this.world.gameSoundActive = false;
-        setTimeout(() => {
-            this.stopGameLoop();
-        }, 2000);
 
-
-    }
 
     /**
      * Stops all game sounds to signify the end of the game.

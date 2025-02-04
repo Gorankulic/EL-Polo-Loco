@@ -62,19 +62,14 @@ function handleStartButtonClick() {
 }
 
 function restartGame() {
-    // Clear all global intervals
-
-
     if (window.world) {
+        world.resetGameLoopAndStopOrientation();
         world.prepareGameforNewStart(); // Ensure old intervals and sounds are stopped
     }
-
     keyboard = new Keyboard();
     canvas = document.getElementById('canvas');
-
     world = new World(canvas, keyboard);
     window.world = world;
-
     removeStartScreenInfo();
 }
 

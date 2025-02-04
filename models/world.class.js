@@ -58,6 +58,7 @@ class World {
         muteButton.addEventListener('click', () => this.toggle_mute_sound()); // Mute sound on click
         unmuteButton.addEventListener('click', () => this.toggle_mute_sound()); // Unmute sound on click
         window.addEventListener('orientationchange', this.checkOrientation.bind(this)); // Adjust for screen rotation
+        this.orientationCheckInterval = null;
         this.checkOrientation(); // Initial orientation check to set warnings if needed
     }
     /**
@@ -179,14 +180,17 @@ class World {
      * Monitors device orientation and displays a warning if in portrait mode.
      */
     checkOrientation() {
-        setInterval(() => {
-            const warning = document.getElementById('orientationWarning');
-            if (window.innerWidth < window.innerHeight) {
-                warning.style.display = 'flex';
-            } else {
-                warning.style.display = 'none';
-            }
+        this.orientationCheckInterval = setInterval(() => {
+            document.getElementById('orientationWarning').style.display =
+                window.innerWidth < window.innerHeight ? 'flex' : 'none';
         }, 1000 / 60);
+    }
+
+    stopOrientationCheck() {
+        if (this.orientationCheckInterval) {
+            clearInterval(this.orientationCheckInterval);
+            this.orientationCheckInterval = null;
+        }
     }
 
     /**
@@ -304,28 +308,68 @@ class World {
     }
 
     /**
-     * Handles game over state, stopping animations and playing game over sounds.
-     */
-    gameLostScenario() {
-        // console.log("gameLostScenario() called. Setting showEndGameScreen to true.");
-        this.showEndGameScreen = true;
-        this.world2.disableCharacterActions();
-        this.displayGameOverScreen();
-        this.world2.stopCharacterAndEnemies();
-        this.world2.resetCharacterBottleCount();
+       * Handles game end scenario (win or lose), stopping animations and sounds.
+       * @param {boolean} isVictory - Determines if it's a victory scenario.
+       */
+    handleGameEnd(isVictory) {
+        if (!this.showEndGameScreen) {
+            this.showEndGameScreen = true;
+        }
+        this.disableCharacterActions();
+        this.stopCharacterAndEnemies();
+        this.resetCharacterBottleCount();
+        this.gameSoundActive = false;
 
-        setTimeout(() => {
-            this.world2.stopAllGameSounds();
-            this.world2.stopGameLoop();
-        }, 2000);
+        if (isVictory) {
+            this.displayGameWonScreen();
+            this.world2.handleVictorySounds();
+            setTimeout(() => {
+                this.resetGameLoopAndStopOrientation();
+            }, 2000);
+        } else {
+            this.displayGameLostScreen();
+            setTimeout(() => {
+                this.resetGameLoopAndStopOrientation();
+            }, 4000);
+        }
+    }
+    resetGameLoopAndStopOrientation() {
+        this.world2.stopAllGameSounds();
+        this.world2.stopGameLoop();
+        this.stopOrientationCheck();
     }
 
+    gameLostScenario() {
+        this.handleGameEnd(false);
+    }
+
+    handleVictory() {
+        this.handleGameEnd(true);
+    }
+
+    disableCharacterActions() {
+        this.world2.disableCharacterActions();
+    }
+
+    stopCharacterAndEnemies() {
+        this.world2.stopCharacterAndEnemies();
+    }
+
+    resetCharacterBottleCount() {
+        this.world2.resetCharacterBottleCount();
+    }
 
     /**
      * Displays the game over screen.
      */
-    displayGameOverScreen() {
+    displayGameLostScreen() {
         this.endGameYouLoose.draw(this.ctx);
+    }
+    /**
+   * Displays the victory screen.
+   */
+    displayGameWonScreen() {
+        this.endGameYouWon.draw(this.ctx);
     }
 
     /**
@@ -335,10 +379,7 @@ class World {
         console.log("prepareGameforNewStart() called. Setting showEndGameScreen to false.");
         hideBigHomeButton();
         this.resetGameRules.resetGameChanges();
-        this.pauseAllGameSoundsAtTheEnd();
-
-        this.gameSounds.stopAndResetAllSounds(); // Completely reset all sounds
-        this.showEndGameScreen = false; // Hide the menu
+        this.showEndGameScreen = false; 
     }
 
 
@@ -349,12 +390,7 @@ class World {
         this.pauseAllSounds();
     }
 
-    /**
-     * Displays the victory screen.
-     */
-    displayVictoryScreen() {
-        this.endGameYouWon.draw(this.ctx);
-    }
+
     /**
      * Requests the next frame to be drawn.
      */
@@ -423,7 +459,7 @@ class World {
     toggleEndGameMenu() {
         //  console.log("toggleEndGameMenu() called. Current showEndGameScreen:", this.showEndGameScreen);
 
-        if (this.showEndGameScreen) {
+        if (this.showEndGameScreen) {//baustela
             console.log("showEndGameScreen is true, calling showBigHomeButton()");
             showBigHomeButton(); // Show the endgame menu
         } else {
