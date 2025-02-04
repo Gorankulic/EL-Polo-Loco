@@ -43,6 +43,7 @@ class ResetGameRules {
         world.endBossIsEliminated = false;
         world.endBossMovesLeft = false;
         world.pauseSmallChickenSound = false;
+        world.showEndGameScreen = false;
     }
 
     /**
@@ -50,9 +51,12 @@ class ResetGameRules {
      */
     resetCharacter() {
         const character = this.world.character;
+        console.log("ResetGameRules: Resetting character. Current energy:", character.energy);
         character.clearAllIntervals();
         character.reset();
+        console.log("ResetGameRules: Character reset completed. Energy:", character.energy);
     }
+
 
 
     /**

@@ -401,6 +401,7 @@ class Character extends MovableObject {
      * Resets the state of the character to its initial values.
      */
     reset() {
+        console.log("Character reset() called. Energy before reset:", this.energy);
         this.characterCanJump = true;
         this.energy = 100;
         this.bottleCount = 0;
@@ -413,6 +414,8 @@ class Character extends MovableObject {
         this.applyGravity();
         this.animate();
         this.handleAnimation();
+        console.log("Character reset() finished. Energy after reset:", this.energy);
     }
+
 
 }

@@ -36,33 +36,33 @@ class World {
      * @param {Object} keyboard - Object representing the current state of keyboard input.
      */
     constructor(canvas, keyboard) {
-            this.canvas = canvas; // Store the canvas element reference
-            this.ctx = canvas.getContext('2d'); // Get 2D rendering context for the canvas
-            this.keyboard = keyboard; // Store the keyboard input state
-            this.throwCooldown = false; // Initialize throw cooldown to prevent rapid throwing
-            const savedSoundState = localStorage.getItem('gameSoundActive');
-            this.gameSoundActive = savedSoundState === null ? true : savedSoundState === 'true';
-            this.gameSounds.toggleAllSounds(this.gameSoundActive); // Apply the saved sound state
-            this.updateMuteIcon(); // Update the mute/unmute icon
-            this.world2 = new World2(this); // Initialize World2 with a placeholder
-            this.collisions = new Collisions(this, this.world2); // Properly initialize Collisions
-            this.resetGameRules = new ResetGameRules(this); // Initialize ResetGameRules
-            this.world2.collisions = this.collisions; // Assign collisions back to World2
-            this.configureWorldForCharacter(); // Link the character to the world instance
-            this.draw(); // Start the initial drawing and game loop
-            this.world2.run(); // Begin game logic processes managed by World2
-            const btn = document.querySelector('.full-screen-button'); // Select fullscreen button
-            btn.addEventListener('click', this.toggleFullScreen.bind(this)); // Toggle fullscreen on button click
-            const muteButton = document.getElementById('muteIcon'); // Select mute icon
-            const unmuteButton = document.getElementById('unmuteIcon'); // Select unmute icon
-            muteButton.addEventListener('click', () => this.toggle_mute_sound()); // Mute sound on click
-            unmuteButton.addEventListener('click', () => this.toggle_mute_sound()); // Unmute sound on click
-            window.addEventListener('orientationchange', this.checkOrientation.bind(this)); // Adjust for screen rotation
-            this.checkOrientation(); // Initial orientation check to set warnings if needed
-        }
-        /**
-         * Primary game rendering loop, responsible for drawing game elements and handling state transitions.
-         */
+        this.canvas = canvas; // Store the canvas element reference
+        this.ctx = canvas.getContext('2d'); // Get 2D rendering context for the canvas
+        this.keyboard = keyboard; // Store the keyboard input state
+        this.throwCooldown = false; // Initialize throw cooldown to prevent rapid throwing
+        const savedSoundState = localStorage.getItem('gameSoundActive');
+        this.gameSoundActive = savedSoundState === null ? true : savedSoundState === 'true';
+        this.gameSounds.toggleAllSounds(this.gameSoundActive); // Apply the saved sound state
+        this.updateMuteIcon(); // Update the mute/unmute icon
+        this.world2 = new World2(this); // Initialize World2 with a placeholder
+        this.collisions = new Collisions(this, this.world2); // Properly initialize Collisions
+        this.resetGameRules = new ResetGameRules(this); // Initialize ResetGameRules
+        this.world2.collisions = this.collisions; // Assign collisions back to World2
+        this.configureWorldForCharacter(); // Link the character to the world instance
+        this.draw(); // Start the initial drawing and game loop
+        this.world2.run(); // Begin game logic processes managed by World2
+        const btn = document.querySelector('.full-screen-button'); // Select fullscreen button
+        btn.addEventListener('click', this.toggleFullScreen.bind(this)); // Toggle fullscreen on button click
+        const muteButton = document.getElementById('muteIcon'); // Select mute icon
+        const unmuteButton = document.getElementById('unmuteIcon'); // Select unmute icon
+        muteButton.addEventListener('click', () => this.toggle_mute_sound()); // Mute sound on click
+        unmuteButton.addEventListener('click', () => this.toggle_mute_sound()); // Unmute sound on click
+        window.addEventListener('orientationchange', this.checkOrientation.bind(this)); // Adjust for screen rotation
+        this.checkOrientation(); // Initial orientation check to set warnings if needed
+    }
+    /**
+     * Primary game rendering loop, responsible for drawing game elements and handling state transitions.
+     */
     draw() {
         this.prepareCanvas();
         this.drawGameElements();
@@ -306,16 +306,20 @@ class World {
     /**
      * Handles game over state, stopping animations and playing game over sounds.
      */
-    handleGameOver() {
-        this.showEndGameScreen = true; // Show the menu
+    gameLostScenario() {
+        // console.log("gameLostScenario() called. Setting showEndGameScreen to true.");
+        this.showEndGameScreen = true;
         this.world2.disableCharacterActions();
         this.displayGameOverScreen();
         this.world2.stopCharacterAndEnemies();
         this.world2.resetCharacterBottleCount();
+
         setTimeout(() => {
             this.world2.stopAllGameSounds();
+            this.world2.stopGameLoop();
         }, 2000);
     }
+
 
     /**
      * Displays the game over screen.
@@ -327,19 +331,21 @@ class World {
     /**
      * Schedules the end game routine and resets game changes after a delay.
      */
-    scheduleEndGameRoutine() {
+    prepareGameforNewStart() {
+        console.log("prepareGameforNewStart() called. Setting showEndGameScreen to false.");
         hideBigHomeButton();
-        this.resetGameRules.resetGameChanges(); //////////////////////
-        this.endGameRoutine();
+        this.resetGameRules.resetGameChanges();
+        this.pauseAllGameSoundsAtTheEnd();
 
         this.gameSounds.stopAndResetAllSounds(); // Completely reset all sounds
-        this.showEndGameScreen = false; // Show the menu
+        this.showEndGameScreen = false; // Hide the menu
     }
+
 
     /**
      * Resets the game state to its initial values after the game ends.
      */
-    endGameRoutine() {
+    pauseAllGameSoundsAtTheEnd() {
         this.pauseAllSounds();
     }
 
@@ -347,11 +353,11 @@ class World {
      * Displays the victory screen.
      */
     displayVictoryScreen() {
-            this.endGameYouWon.draw(this.ctx);
-        }
-        /**
-         * Requests the next frame to be drawn.
-         */
+        this.endGameYouWon.draw(this.ctx);
+    }
+    /**
+     * Requests the next frame to be drawn.
+     */
     requestNextFrame() {
         requestAnimationFrame(() => this.draw());
     }
@@ -412,13 +418,21 @@ class World {
             this.world2.exitFullScreen();
         }
     }
+
+    // In toggleEndGameMenu():
     toggleEndGameMenu() {
-        setInterval(() => {
-            if (this.showEndGameScreen) {
-                showBigHomeButton(); // Show the endgame menu
-            }
-        }, 250);
+        //  console.log("toggleEndGameMenu() called. Current showEndGameScreen:", this.showEndGameScreen);
+
+        if (this.showEndGameScreen) {
+            console.log("showEndGameScreen is true, calling showBigHomeButton()");
+            showBigHomeButton(); // Show the endgame menu
+        } else {
+            console.log("showEndGameScreen is false, calling hideBigHomeButton()");
+            hideBigHomeButton(); // Hide the endgame menu
+        }
     }
+
+
 
     /**
      * Clears all intervals associated with throwable objects.

@@ -34,7 +34,7 @@ function removeStartScreenInfo() {
  * Stops game processes and displays the start screen.
  */
 function returnToHomeSite() {
-    world.endGameRoutine();
+    world.pauseAllGameSoundsAtTheEnd();
     showStartScreen();
 
     hideBigHomeButton();
@@ -66,7 +66,7 @@ function restartGame() {
 
 
     if (window.world) {
-        world.scheduleEndGameRoutine();; // Ensure old intervals and sounds are stopped
+        world.prepareGameforNewStart(); // Ensure old intervals and sounds are stopped
     }
 
     keyboard = new Keyboard();
